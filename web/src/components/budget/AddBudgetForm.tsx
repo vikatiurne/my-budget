@@ -41,6 +41,7 @@ const AddBudgetForm = () => {
         name="budget"
         placeholder="type a sum"
       />
+      <button type="button">Apply</button>
     </form>
   );
 };

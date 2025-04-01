@@ -4,12 +4,16 @@ import axios from "axios";
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
 
 //user
-export const login = async (email: string): Promise<User> => {
-  const res = await axios.post(`${API_URL}/user/login`, { email });
+export const login = async (email: string, password: string): Promise<User> => {
+  const res = await axios.post(`${API_URL}/user/login`, { email, password });
   return res.data;
 };
 export const registration = async (data: User): Promise<User> => {
-  const res = await axios.post(`${API_URL}/user/login`, { data });
+  const res = await axios.post(`${API_URL}/user/registration`, { data });
+  return res.data;
+};
+export const getUser = async (id: string): Promise<User> => {
+  const res = await axios.get(`${API_URL}/user/getUserById/${id}`);
   return res.data;
 };
 
@@ -22,8 +26,8 @@ export const createBudget = async (budgetdata: Budget): Promise<Budget> => {
 };
 export const getBudget = async (
   userId: string,
-  mounth: string,
-  year: string
+  mounth: number,
+  year: number
 ): Promise<Budget> => {
   const res = await axios.get(
     `${API_URL}/budget/getBudget/${userId}?mounth=${mounth}&year=${year}`

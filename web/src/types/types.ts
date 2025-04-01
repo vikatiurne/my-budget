@@ -1,11 +1,12 @@
 export interface User {
   _id: string;
+  name?: string;
   email: string;
   password: string;
 }
 export interface IDate {
-  mounth: string;
-  year: string;
+  mounth: number;
+  year: number;
 }
 
 export interface Budget {
@@ -21,4 +22,8 @@ export interface Expense {
   price: number;
   budget_id: string;
   user_id: string;
+}
+
+export interface ErrorResponse {
+  message: string;
 }

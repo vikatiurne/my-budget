@@ -24,11 +24,13 @@ class BudgetController {
     try {
       const { userId } = req.params;
       const { mounth, year } = req.query;
-      const budget = await budgetService.getBudget(userId, {
-        mounth,
-        year,
-      } as IDate);
-      return res.status(200).json(budget);
+      if (mounth && year) {
+        const budget = await budgetService.getBudget(userId, {
+          mounth: +mounth,
+          year: +year,
+        } as IDate);
+        return res.status(200).json(budget);
+      }
     } catch (error) {
       next(error);
     }

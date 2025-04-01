@@ -1,23 +1,19 @@
-"use client"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React, { useState } from "react";
+import Budget from "@/components/budget/Budget";
+import Container from "@/components/containers/Container";
+import ReactQueryProvider from "@/components/containers/ReactQueryProvider";
+import Expense from "@/components/expenses/Expense";
+import React from "react";
 
 const HomePage = () => {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 50 * 1000,
-          },
-        },
-      })
-  );
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <div>HomePage</div>
-    </QueryClientProvider>
+    <ReactQueryProvider>
+      <Container>
+        <div>
+          <Budget />
+          <Expense />
+        </div>
+      </Container>
+    </ReactQueryProvider>
   );
 };
 
