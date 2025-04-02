@@ -5,14 +5,17 @@ export interface User {
   password: string;
 }
 export interface IDate {
-  mounth: number;
-  year: number;
+  mounth: string;
+  year: string;
 }
-
+export interface Income {
+  incomename: string;
+  sum: number;
+}
 export interface Budget {
   _id?: string;
   budget: number;
-  savings?: number;
+  income: Income[];
   user_id: string;
   date: IDate;
   createdAt?: Date;

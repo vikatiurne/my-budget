@@ -1,4 +1,4 @@
-import { Budget, Expense, IDate, User } from "@/types/types";
+import { Budget, Expense, IDate, Income, User } from "@/types/types";
 import axios from "axios";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
@@ -26,9 +26,9 @@ export const createBudget = async (budgetdata: Budget): Promise<Budget> => {
 };
 export const getBudget = async (
   userId: string,
-  mounth: number,
-  year: number
-): Promise<Budget> => {
+  mounth: string,
+  year: string
+): Promise<Budget[]> => {
   const res = await axios.get(
     `${API_URL}/budget/getBudget/${userId}?mounth=${mounth}&year=${year}`
   );
@@ -37,11 +37,13 @@ export const getBudget = async (
 export const updateBudget = async (
   userId: string,
   date: IDate,
-  income: number
+  income: Income[],
+  budget: number
 ): Promise<Budget> => {
   const res = await axios.put(`${API_URL}/budget/updateBudget/${userId}`, {
     date,
     income,
+    budget,
   });
   return res.data;
 };

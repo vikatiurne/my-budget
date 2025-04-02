@@ -26,10 +26,16 @@ class BudgetController {
       const { mounth, year } = req.query;
       if (mounth && year) {
         const budget = await budgetService.getBudget(userId, {
-          mounth: +mounth,
-          year: +year,
+          mounth: mounth,
+          year: year,
         } as IDate);
-        return res.status(200).json(budget);
+        if (!budget?.length) {
+          return res
+            .status(400)
+            .json({ message: "Budget for this month didn't set!" });
+        } else {
+          return res.status(200).json(budget);
+        }
       }
     } catch (error) {
       next(error);
@@ -62,9 +68,14 @@ class BudgetController {
   ): Promise<Response | void> => {
     try {
       const { userId } = req.params;
-      const { date, income } = req.body;
-      const budget = await budgetService.updateBudget(userId, date, income);
-      return res.status(200).json(budget);
+      const { date, income, budget } = req.body;
+      const updatedbudget = await budgetService.updateBudget(
+        userId,
+        date,
+        income,
+        budget
+      );
+      return res.status(200).json(updatedbudget);
     } catch (error) {
       next(error);
     }

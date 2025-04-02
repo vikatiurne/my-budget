@@ -1,22 +1,30 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IDate {
-  mounth: number;
-  year: number;
+  mounth: string;
+  year: string;
 }
-
+export interface IIncome {
+  incomename: string;
+  sum: number;
+}
 export interface IBudget extends Document {
   budget: number;
-  savings: number;
+  income: IIncome[];
   user_id: mongoose.Types.ObjectId;
   date: IDate;
   createdAt: string;
 }
 
+const IncomeSchema: Schema = new Schema({
+  incomename: { type: String, default: "" },
+  sum: { type: Number, default: 0 },
+});
+
 const BudgetSchema: Schema = new Schema(
   {
     budget: { type: Number, required: true },
-    savings: { type: Number, required: true, default: 0 },
+    income: [IncomeSchema],
     user_id: { type: mongoose.Types.ObjectId, ref: "User", required: true },
     date: { type: { mounth: String, year: String }, required: true },
   },

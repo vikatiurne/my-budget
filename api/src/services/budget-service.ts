@@ -1,32 +1,45 @@
-import Budget, { IBudget, IDate } from "../models/Budget";
+import mongoose from "mongoose";
+import Budget, { IBudget, IDate, IIncome } from "../models/Budget";
 import { ExpenseStats, minMaxAvarage } from "../utils/minMaxAvarage";
+
+const { ObjectId } = mongoose.Types;
 
 class BudgetService {
   addBudget = async (
     budgetdata: IBudget
-  ): Promise<IBudget | null | undefined> => {
+  ): Promise<IBudget[] | null | undefined> => {
     try {
       const newbudget = new Budget(budgetdata);
       await newbudget.save();
-      const currentBudget = await Budget.findById(newbudget._id);
+      const allBudgets = await Budget.find();
+      const currentBudget = allBudgets.filter((b) => {
+        const isUserIdMatch = new ObjectId(budgetdata.user_id).equals(
+          b.user_id
+        );
+        const isMonthMatch = b.date.mounth === budgetdata.date.mounth;
+        const isYearMatch = b.date.year === budgetdata.date.year;
+
+        return isUserIdMatch && isMonthMatch && isYearMatch;
+      });
       return currentBudget;
     } catch (error: any) {
-      throw new Error(`Error creating budget: ${error.message}`);
+      throw error;
     }
   };
 
   getBudget = async (
     userId: string,
     date: IDate
-  ): Promise<IBudget | null | undefined> => {
+  ): Promise<IBudget[] | null | undefined> => {
     try {
       const budget = await Budget.find({
         user_id: userId,
-        date: date,
+        "date.mounth": date.mounth,
+        "date.year": date.year,
       });
-      return budget[0];
+      return budget;
     } catch (error: any) {
-      throw new Error(`Error getting budget: ${error.message}`);
+      throw error;
     }
   };
 
@@ -44,24 +57,46 @@ class BudgetService {
 
       return minMaxAvarage(budgetForPeriod);
     } catch (error: any) {
-      throw new Error(`Error getting budget stats: ${error.message}`);
+      throw error;
     }
   };
 
   updateBudget = async (
     userId: string,
     date: IDate,
-    income: number
-  ): Promise<IBudget | null | undefined> => {
+    income: IIncome[],
+    budget: number
+  ): Promise<IBudget[] | null | undefined> => {
     try {
       const prevBudget = await this.getBudget(userId, date);
-      if (!!prevBudget) {
-        const updatedbudget = prevBudget.budget + income;
-        await Budget.updateOne({ budget: updatedbudget });
+      if (prevBudget) {
+        const checkIncome = prevBudget[0].income.map(
+          (item) => item.incomename === "" && item.sum === 0
+        );
+        if (checkIncome.length > 0) {
+          await Budget.updateOne(
+            {
+              user_id: userId,
+              "date.mounth": date.mounth,
+              "date.year": date.year,
+            },
+            { $push: { income: income }, $set: { budget: budget + income[0].sum } }
+          );
+        } else {
+          await Budget.updateOne(
+            {
+              user_id: userId,
+              "date.mounth": date.mounth,
+              "date.year": date.year,
+            },
+            { income: income, budget: budget + income[0].sum }
+          );
+        }
       }
-      return await this.getBudget(userId, date);
+      const updatedBudget = await this.getBudget(userId, date);
+      return updatedBudget;
     } catch (error: any) {
-      throw new Error(`Error updating budget: ${error.message}`);
+      throw error;
     }
   };
 }
