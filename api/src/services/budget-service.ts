@@ -73,7 +73,7 @@ class BudgetService {
         const checkIncome = prevBudget[0].income.map(
           (item) => item.incomename === "" && item.sum === 0
         );
-        if (checkIncome.length > 0) {
+        if (!checkIncome[0]) {
           await Budget.updateOne(
             {
               user_id: userId,

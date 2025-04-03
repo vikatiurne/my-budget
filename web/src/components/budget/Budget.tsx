@@ -1,16 +1,15 @@
 import React from "react";
 import AddBudgetForm from "./AddBudgetForm";
-import { currentMonthYear } from "@/utils/currentMonthYear";
 import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 import EditBudget from "./EditBudget";
+
 
 interface BudgetProps {
   userId: string;
 }
 
 const Budget: React.FC<BudgetProps> = ({ userId }) => {
-  const currentdate = currentMonthYear();
-  const query = useBudgetQuery(userId, currentdate.mounth, currentdate.year);
+  const query = useBudgetQuery();
 
   const { data, error, isPending } = query;
 

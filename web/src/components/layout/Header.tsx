@@ -12,7 +12,7 @@ const Header: React.FC = () => {
   const [btnName, setBtnName] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
 
-  const { data, isPending } = useAuthQuery(userId);
+  const { data } = useAuthQuery(userId);
 
   const router = useRouter();
 
@@ -47,8 +47,6 @@ const Header: React.FC = () => {
       router.push(btnName === "Sign Up" ? `/signup` : `/signin`);
     }
   };
-
-  if(isPending) return <p>Loading...</p>
 
   return (
     <div className="bg-[#daa520] mb-10">

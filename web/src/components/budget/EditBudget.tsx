@@ -1,9 +1,10 @@
-import { Budget,  Income } from "@/types/types";
+import { Budget, Income } from "@/types/types";
 import { updateBudget } from "@/utils/api";
 import { currentMonthYear } from "@/utils/currentMonthYear";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import IncomesList from "./IncomesList";
 
 interface EditBudgetProps {
   userId: string;
@@ -11,7 +12,6 @@ interface EditBudgetProps {
 }
 
 const EditBudget: React.FC<EditBudgetProps> = ({ userId, sum }) => {
-  console.log(+sum)
   const { register, handleSubmit, reset } = useForm<Income>();
 
   const queryClient = useQueryClient();
@@ -55,7 +55,6 @@ const EditBudget: React.FC<EditBudgetProps> = ({ userId, sum }) => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
     const currentdate = currentMonthYear();
     updateBudgetMutation.mutate({
       date: currentdate,
@@ -76,6 +75,7 @@ const EditBudget: React.FC<EditBudgetProps> = ({ userId, sum }) => {
         <label className="underline" htmlFor="income">
           Additional income:
         </label>
+        <IncomesList />
         <div className="flex gap-4 items-center">
           <input
             className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm "

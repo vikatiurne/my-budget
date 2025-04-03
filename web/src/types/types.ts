@@ -9,6 +9,7 @@ export interface IDate {
   year: string;
 }
 export interface Income {
+  _id?: string;
   incomename: string;
   sum: number;
 }
