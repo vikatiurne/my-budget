@@ -1,4 +1,4 @@
-import { Budget, Expense, IDate, Income, User } from "@/types/types";
+import { Budget, IExpense, IDate, Income, User } from "@/types/types";
 import axios from "axios";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
@@ -40,6 +40,7 @@ export const updateBudget = async (
   income: Income[],
   budget: number
 ): Promise<Budget> => {
+  console.log(userId, date);
   const res = await axios.put(`${API_URL}/budget/updateBudget/${userId}`, {
     date,
     income,
@@ -51,27 +52,31 @@ export const updateBudget = async (
 //expense
 export const getExpenses = async (
   userId: string,
-  budgetId: string
-): Promise<Expense> => {
+  budgetId: string,
+  from: string,
+  till: string,
+  page?: string,
+  limit?: string
+): Promise<IExpense[]> => {
   const res = await axios.get(
-    `${API_URL}/expense/getExpenses/${userId}/budget/${budgetId}`
+    `${API_URL}/expense/getExpenses/${userId}/budget/${budgetId}?from=${from}&&till=${till}&&page=${page}&&limit=${limit}`
   );
   return res.data;
 };
-export const createExpense = async (data: Expense): Promise<Expense> => {
+export const createExpense = async (data: IExpense): Promise<IExpense[]> => {
   const res = await axios.post(`${API_URL}/expense/createExpense`, { data });
   return res.data;
 };
 export const updateExpense = async (
   id: string,
-  data: Expense
-): Promise<Expense> => {
+  data: IExpense
+): Promise<IExpense> => {
   const res = await axios.put(`${API_URL}/expense/updateExpense/${id}`, {
     data,
   });
   return res.data;
 };
-export const deleteExpense = async (id: string): Promise<Expense> => {
+export const deleteExpense = async (id: string): Promise<IExpense> => {
   const res = await axios.delete(`${API_URL}/expense/deleteExpense/${id}`);
   return res.data;
 };

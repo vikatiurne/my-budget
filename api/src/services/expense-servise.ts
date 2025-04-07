@@ -1,17 +1,31 @@
+import Budget from "../models/Budget";
 import Expense, { IExpense } from "../models/Expenses";
 import { ExpenseStats, minMaxAvarage } from "../utils/minMaxAvarage";
 
 class ExpenseService {
   getExpenses = async (
     userId: string,
-    budgetId: string
-  ): Promise<IExpense | null | undefined> => {
+    budgetId: string,
+    page: number,
+    limit: number,
+    from: string,
+    till: string
+  ): Promise<IExpense[] | null | undefined> => {
     try {
+      const skip = page - 1;
       const expenses = await Expense.find({
         user_id: userId,
         budget_id: budgetId,
-      });
-      return expenses[0];
+        createdAt: {
+          $gte: new Date(from),
+          $lt: new Date(till),
+        },
+      })
+        .sort({ createAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .exec();
+      return expenses;
     } catch (error: any) {
       throw new Error(`Error getting expenses: ${error.message}`);
     }
@@ -19,7 +33,7 @@ class ExpenseService {
 
   getMinMaxAvarageExpenseForDay = async (
     userId: string,
-    day: string 
+    day: string
   ): Promise<ExpenseStats | null | undefined> => {
     try {
       let currentDate: string;
@@ -64,11 +78,15 @@ class ExpenseService {
 
   createExpense = async (
     data: IExpense
-  ): Promise<IExpense | null | undefined> => {
+  ): Promise<IExpense[] | null | undefined> => {
     try {
+      await Budget.findByIdAndUpdate(data.budget_id, {
+        $inc: { budget: -data.price },
+      });
       const newexpense = new Expense(data);
       await newexpense.save();
-      return newexpense;
+      const newexpenses = await Expense.find({ budget_id: data.budget_id });
+      return newexpenses;
     } catch (error: any) {
       throw new Error(`Error creating expense: ${error.message}`);
     }

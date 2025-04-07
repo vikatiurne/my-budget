@@ -5,7 +5,7 @@ export interface IExpense extends Document {
   price: number;
   budget_id: mongoose.Types.ObjectId;
   user_id: mongoose.Types.ObjectId;
-  createdAt: string;
+  createdAt: Date;
 }
 
 const ExpenseSchema: Schema = new Schema(

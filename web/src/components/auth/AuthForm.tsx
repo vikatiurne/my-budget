@@ -1,11 +1,8 @@
 "use client";
-import { ErrorResponse, User } from "@/types/types";
-import { login, registration } from "@/utils/api";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import { User } from "@/types/types";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 
 interface AuthFormProps {
@@ -13,39 +10,13 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ typeAuth }) => {
-  const [textErr, setTextErr] = useState<string>("");
-
   const { register, handleSubmit, formState } = useForm<User>();
   const { errors } = formState;
 
-  const router = useRouter();
+  const { textErr, auth, setErr } = useAuthContext();
 
-  const mutation = useMutation({
-    mutationFn: (data: User) =>
-      typeAuth === "signup"
-        ? registration(data)
-        : login(data.email, data.password),
-    onError: (error: AxiosError<ErrorResponse>) => {
-      if (error.response) {
-        setTextErr(
-          `Error ${typeAuth === "signup" ? "registration" : "login"}: ${
-            error.response.data.message
-          }`
-        );
-      } else {
-        setTextErr(
-          `Unknown ${typeAuth === "signup" ? "registration" : "login"} error!`
-        );
-      }
-    },
-    onSuccess: (data) => {
-      localStorage.setItem("__budget_isAuth", data._id);
-      router.push("/");
-    },
-  });
-
-  const onSubmit = async (data: User) => {
-    mutation.mutate(data);
+  const onSubmit = (data: User) => {
+    auth(data);
   };
 
   const styles = {
@@ -59,7 +30,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ typeAuth }) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="p-4 rounded shadow max-w-180 mx-auto"
-      onFocus={() => setTextErr("")}
+      onFocus={() => setErr("")}
     >
       {typeAuth === "signup" && (
         <div className={styles.block}>
@@ -106,7 +77,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ typeAuth }) => {
       >
         {typeAuth === "signup" ? "Sing Up" : "Sing In"}
       </button>
-      <p className="mt-6 text-red-500 text-center">{textErr} </p>
+      <p className="mt-6 mb-4 text-red-500 text-center">{textErr} </p>
       <p>
         Do you have account?{" "}
         <Link

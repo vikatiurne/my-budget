@@ -1,16 +1,19 @@
+"use client";
 import { ErrorResponse, User } from "@/types/types";
 import { login, registration } from "@/utils/api";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createContext, useEffect, useMemo, useState } from "react";
 
 interface AuthContextType {
   isAuth: boolean;
   userId: string;
   textErr: string;
-  auth: (data: User) => void;
+  isLogout: boolean;
+  auth: (data: User) => Promise<void>;
   logout: () => void;
+  setErr: (err: string) => void;
 }
 
 interface AuthProvirerProps {
@@ -29,22 +32,32 @@ export const AuthProvirer: React.FC<AuthProvirerProps> = ({
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>("");
   const [textErr, setTextErr] = useState<string>("");
+  const [isLogout, setIsLogout] = useState<boolean>(false);
 
   const router = useRouter();
+  const params = usePathname();
 
   useEffect(() => {
-    const id = localStorage.getItem("__budget_isAuth");
-    setIsAuth(!!id);
-    if (id) {
-      setUserId(id);
+    if (!isLogout) {
+      const id = localStorage.getItem("__budget_isAuth");
+      if (id) {
+        setIsAuth(true);
+        setUserId(id);
+      } else {
+        setIsAuth(false);
+        setUserId("");
+      }
+    } else {
+      setIsAuth(false);
+      setUserId("");
     }
-  }, []);
+  }, [params, isLogout]);
 
   const authMutation = useMutation({
-    mutationFn: (userdata: User) =>
+    mutationFn: async (userdata: User) =>
       typeAuth === "signup"
-        ? registration(userdata)
-        : login(userdata.email, userdata.password),
+        ? await registration(userdata)
+        : await login(userdata.email, userdata.password),
     onError: (err: AxiosError<ErrorResponse>) => {
       const errPlace = typeAuth === "signup" ? "registration" : "login";
       err.response
@@ -53,27 +66,32 @@ export const AuthProvirer: React.FC<AuthProvirerProps> = ({
     },
     onSuccess: (user) => {
       localStorage.setItem("__budget_isAuth", user._id);
+      setIsAuth(true);
+      setIsLogout(false);
       router.push("/");
     },
   });
 
-  const auth = (userdata: User) => {
-    authMutation.mutate(userdata);
+  const auth = async (userdata: User) => {
+    await authMutation.mutateAsync(userdata);
   };
 
   const logout = () => {
+    setIsLogout(true);
     localStorage.removeItem("__budget_isAuth");
-    setIsAuth(false);
-    setUserId("");
   };
+
+  const setErr = (err: string) => setTextErr(err);
 
   const value = useMemo(
     () => ({
       isAuth,
       userId,
       textErr,
+      isLogout,
       auth,
       logout,
+      setErr,
     }),
     [isAuth, userId, textErr]
   );

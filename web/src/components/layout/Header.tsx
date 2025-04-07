@@ -4,23 +4,20 @@ import Container from "../containers/Container";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuthQuery } from "@/hooks/useAuthQuery";
+import { useAuthContext } from "@/hooks/useAuthContext";
 
 const Header: React.FC = () => {
   const params = usePathname();
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-  const [isLogout, setIsLogout] = useState<boolean>(false);
+
+  const context = useAuthContext();
+
+  const { isAuth, isLogout, userId, logout } = context;
+
   const [btnName, setBtnName] = useState<string>("");
-  const [userId, setUserId] = useState<string>("");
 
   const { data } = useAuthQuery(userId);
 
   const router = useRouter();
-
-  useEffect(() => {
-    const auth = localStorage.getItem("__budget_isAuth");
-    if (auth) setUserId(auth);
-    setIsAuth(!!auth);
-  }, [params, isLogout]);
 
   useEffect(() => {
     if (!isAuth) {
@@ -40,9 +37,7 @@ const Header: React.FC = () => {
 
   const handleClick = () => {
     if (isAuth) {
-      setIsLogout(true);
-      localStorage.removeItem("__budget_isAuth");
-      setIsAuth(false);
+      logout();
     } else {
       router.push(btnName === "Sign Up" ? `/signup` : `/signin`);
     }
@@ -66,10 +61,10 @@ const Header: React.FC = () => {
             {btnName}
           </button>
         )}
-        {params === "/singup" && (
+        {params === "/signup" && (
           <p className="uppercase text-white font-bold">Pegistration Form</p>
         )}
-        {params === "/singin" && (
+        {params === "/signin" && (
           <p className="uppercase text-white font-bold">Login Form</p>
         )}
       </Container>

@@ -14,14 +14,15 @@ export interface Income {
   sum: number;
 }
 export interface Budget {
-  _id?: string;
+  _id: string;
   budget: number;
   income: Income[];
   user_id: string;
   date: IDate;
   createdAt?: Date;
 }
-export interface Expense {
+export interface IExpense {
+  _id: string;
   title: string;
   price: number;
   budget_id: string;

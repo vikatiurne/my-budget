@@ -69,7 +69,7 @@ class BudgetService {
   ): Promise<IBudget[] | null | undefined> => {
     try {
       const prevBudget = await this.getBudget(userId, date);
-      if (prevBudget) {
+      if (prevBudget?.length) {
         const checkIncome = prevBudget[0].income.map(
           (item) => item.incomename === "" && item.sum === 0
         );

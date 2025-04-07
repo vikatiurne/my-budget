@@ -1,5 +1,7 @@
 "use client";
 
+import { useAuthContext } from "@/hooks/useAuthContext";
+
 import { Budget } from "@/types/types";
 import { createBudget } from "@/utils/api";
 import { currentMonthYear } from "@/utils/currentMonthYear";
@@ -8,12 +10,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-interface AddBudgetFormProps {
-  userId: string;
-}
-
-const AddBudgetForm: React.FC<AddBudgetFormProps> = ({ userId }) => {
+const AddBudgetForm: React.FC = () => {
   const { register, handleSubmit } = useForm<Budget>();
+
+  const { userId } = useAuthContext();
 
   const queryClient = useQueryClient();
 
@@ -29,6 +29,7 @@ const AddBudgetForm: React.FC<AddBudgetFormProps> = ({ userId }) => {
           user_id: userId,
           date: currentMonthYear(),
           income: data.income,
+          _id: data._id,
         },
       ];
       queryClient.setQueryData(["bidget"], optimisticBudget);
@@ -51,13 +52,14 @@ const AddBudgetForm: React.FC<AddBudgetFormProps> = ({ userId }) => {
       date: date,
       user_id: userId,
       income: [{ incomename: "", sum: 0 }],
+      _id: data._id,
     });
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex gap-6 justify-center items-end"
+      className="mb-8 flex gap-6 justify-center items-end"
     >
       <div className="flex gap-6 items-end">
         <label className="underline" htmlFor="budget">

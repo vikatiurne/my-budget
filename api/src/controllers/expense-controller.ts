@@ -9,7 +9,26 @@ class ExpenseController {
   ): Promise<Response | void> => {
     try {
       const { userId, budgetId } = req.params;
-      const expense = await expenseServise.getExpenses(userId, budgetId);
+
+      const pageQuery = req.query.page;
+      const limitQuery = req.query.limit;
+      const from = req.query.from;
+      const till = req.query.till;
+
+      const page = pageQuery === "string" ? parseInt(pageQuery) : 1;
+      const limit = limitQuery === "string" ? parseInt(limitQuery) : 200;
+
+      if (typeof from !== "string" || typeof till !== "string")
+        return res.status(400).json({ message: "Invalid date parametr" });
+
+      const expense = await expenseServise.getExpenses(
+        userId,
+        budgetId,
+        page,
+        limit,
+        from,
+        till
+      );
       res.status(200).json(expense);
     } catch (error) {
       next(error);
@@ -63,8 +82,8 @@ class ExpenseController {
   ): Promise<Response | void> => {
     try {
       const { data } = req.body;
-      const expense = await expenseServise.createExpense(data);
-      res.status(201).json(expense);
+      const expenses = await expenseServise.createExpense(data);
+      res.status(201).json(expenses);
     } catch (error) {
       next(error);
     }

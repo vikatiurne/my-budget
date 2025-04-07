@@ -17,7 +17,7 @@ type Data = IExpense[] | IBudget[];
 
 export const minMaxAvarage = (data: Data): ExpenseStats => {
   const expensesStats: Record<string, Stats> = data.reduce((acc, item) => {
-    const date = item.createdAt;
+    const date = item.createdAt.toString();
 
     let price: number = 0;
     price = "price" in item ? item.price : item.budget;
@@ -37,7 +37,7 @@ export const minMaxAvarage = (data: Data): ExpenseStats => {
   }, {} as Record<string, Stats>);
 
   const updatedData = data.map((item) => {
-    const stats = expensesStats[item.createdAt];
+    const stats = expensesStats[item.createdAt.toString()];
     return {
       minExpense: stats.min,
       maxExpense: stats.max,

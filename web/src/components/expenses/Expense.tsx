@@ -1,9 +1,25 @@
-import React from 'react'
+import { useBudgetQuery } from "@/hooks/useBudgetQuery";
+import React, { useEffect, useState } from "react";
+import AddExpenseForm from "./AddExpenseForm";
+import ExpensesList from "./ExpensesList";
 
 const Expense = () => {
-  return (
-    <div>Expense</div>
-  )
-}
+  const [budgetId, setBudgetId] = useState<string>("");
 
-export default Expense
+  const { data } = useBudgetQuery();
+
+  useEffect(() => {
+    if (data) {
+      setBudgetId(data[0]._id);
+    }
+  }, [data]);
+
+  return (
+    <div>
+      <AddExpenseForm budgetId={budgetId} />
+      <ExpensesList/>
+    </div>
+  );
+};
+
+export default Expense;
