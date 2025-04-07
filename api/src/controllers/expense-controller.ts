@@ -109,7 +109,8 @@ class ExpenseController {
   ): Promise<Response | void> => {
     try {
       const { id } = req.params;
-      const expense = await expenseServise.deleteExpense(id);
+      const {sum} = req.body
+      const expense = await expenseServise.deleteExpense(id,sum);
       res.status(200).json(expense);
     } catch (error) {
       next(error);

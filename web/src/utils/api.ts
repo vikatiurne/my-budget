@@ -76,7 +76,12 @@ export const updateExpense = async (
   });
   return res.data;
 };
-export const deleteExpense = async (id: string): Promise<IExpense> => {
-  const res = await axios.delete(`${API_URL}/expense/deleteExpense/${id}`);
+export const deleteExpense = async (
+  id: string,
+  sum: number
+): Promise<IExpense> => {
+  const res = await axios.delete(`${API_URL}/expense/deleteExpense/${id}`, {
+    data: { sum },
+  });
   return res.data;
 };

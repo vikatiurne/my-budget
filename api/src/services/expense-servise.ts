@@ -107,9 +107,15 @@ class ExpenseService {
     }
   };
 
-  deleteExpense = async (id: string): Promise<IExpense | null | undefined> => {
+  deleteExpense = async (
+    id: string,
+    sum: number
+  ): Promise<IExpense | null | undefined> => {
     try {
       const deletedExpense = await Expense.findByIdAndDelete(id);
+      await Budget.findByIdAndUpdate(deletedExpense?.budget_id, {
+        $inc: { budget: sum },
+      });
       return deletedExpense;
     } catch (error: any) {
       throw new Error(`Error updating expense: ${error.message}`);
