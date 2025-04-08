@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useAuthContext } from "./useAuthContext";
 
-const budgetQueryOptions = () => {
+const useBudgetQueryOptions = () => {
   const { userId } = useAuthContext();
   const currentdata = currentMonthYear();
 
@@ -16,4 +16,4 @@ const budgetQueryOptions = () => {
 };
 
 export const useBudgetQuery = () =>
-  useQuery<Budget[], AxiosError<ErrorResponse>>(budgetQueryOptions());
+  useQuery<Budget[], AxiosError<ErrorResponse>>(useBudgetQueryOptions());

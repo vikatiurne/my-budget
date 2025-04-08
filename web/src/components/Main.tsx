@@ -31,7 +31,7 @@ const Main = () => {
         </>
       ) : (
         <p className="text-center text-2xl font-bold">
-          Let's enter or registration to use application
+          Let&apos;s enter or registration to use application
         </p>
       )}
     </Container>
