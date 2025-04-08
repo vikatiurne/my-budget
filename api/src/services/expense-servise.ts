@@ -94,9 +94,15 @@ class ExpenseService {
 
   updateExpense = async (
     id: string,
+    budgetId: string,
     data: IExpense
   ): Promise<IExpense | null | undefined> => {
     try {
+      const prevExpense = await Expense.findById(id);
+      const diference = prevExpense
+        ? prevExpense?.price - data.price
+        : data.price;
+      await Budget.findByIdAndUpdate(budgetId, { $inc: { budget: diference } });
       const updatedExpense = await Expense.findByIdAndUpdate(id, {
         title: data.title,
         price: data.price,

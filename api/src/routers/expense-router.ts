@@ -14,7 +14,7 @@ router.get(
   expenseController.getStatsForPeriod
 );
 router.post("/createExpense", expenseController.createExpense);
-router.put("/updateExpense/:id", expenseController.updateExpense);
+router.put("/updateExpense/:id/:budgetId", expenseController.updateExpense);
 router.delete("/deleteExpense/:id", expenseController.deleteExpense);
 
 export default router;

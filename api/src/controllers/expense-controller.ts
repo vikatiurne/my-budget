@@ -94,9 +94,9 @@ class ExpenseController {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { id } = req.params;
+      const { id, budgetId } = req.params;
       const { data } = req.body;
-      const expense = await expenseServise.updateExpense(id, data);
+      const expense = await expenseServise.updateExpense(id, budgetId, data);
       res.status(200).json(expense);
     } catch (error) {
       next(error);
@@ -109,8 +109,8 @@ class ExpenseController {
   ): Promise<Response | void> => {
     try {
       const { id } = req.params;
-      const {sum} = req.body
-      const expense = await expenseServise.deleteExpense(id,sum);
+      const { sum } = req.body;
+      const expense = await expenseServise.deleteExpense(id, sum);
       res.status(200).json(expense);
     } catch (error) {
       next(error);

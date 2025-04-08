@@ -69,11 +69,15 @@ export const createExpense = async (data: IExpense): Promise<IExpense[]> => {
 };
 export const updateExpense = async (
   id: string,
+  budgetId: string,
   data: IExpense
 ): Promise<IExpense> => {
-  const res = await axios.put(`${API_URL}/expense/updateExpense/${id}`, {
-    data,
-  });
+  const res = await axios.put(
+    `${API_URL}/expense/updateExpense/${id}/${budgetId}`,
+    {
+      data,
+    }
+  );
   return res.data;
 };
 export const deleteExpense = async (
