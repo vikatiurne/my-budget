@@ -13,7 +13,7 @@ const FormContent: React.FC<FormContentProps> = ({ typeForm, register }) => {
     <>
       <div className="flex gap-4 items-center">
         <input
-          className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm "
+          className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
           {...register(typeForm === "title" ? "title" : "incomename", {
             required: "This field is required",
           })}
@@ -25,7 +25,7 @@ const FormContent: React.FC<FormContentProps> = ({ typeForm, register }) => {
           } source...`}
         />
         <input
-          className=" p-2 block w-1/4 border-gray-300 outline-none rounded shadow-sm "
+          className=" p-2 block w-1/4 border-gray-300  outline-none rounded shadow-sm  dark:shadow-amber-50"
           {...register(typeForm === "title" ? "price" : "sum", {
             required: "this field is required",
           })}

@@ -35,7 +35,7 @@ const ExpensesList = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-4 flex-wrap-reverse">
+      <div className="flex items-center gap-4 flex-wrap-reverse mb-6">
         <button
           className="flex gap-2 mb-2 cursor-pointer"
           onClick={showExpensesListHandler}
@@ -69,7 +69,7 @@ const ExpensesList = () => {
           {data.map((exp) => (
             <li
               key={exp._id}
-              className={`mb-2 p-2 flex items-center justify-between shadow ${
+              className={`mb-2 p-2 flex items-center justify-between shadow  dark:shadow-amber-50 ${
                 showList ? "block" : "hidden"
               }`}
             >

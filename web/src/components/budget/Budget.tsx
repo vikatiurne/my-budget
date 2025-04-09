@@ -13,7 +13,7 @@ const Budget: React.FC = () => {
     return <p className="mb-8 text-center">Loading...Get budget...</p>;
   } else {
     return (
-      <div className="border-b-gray-200 border-b-1 mb-6 mt-6">
+      <div className="border-b-gray-200 dark:border-b-gray-50 border-b-1 mb-6 mt-6">
         {data && !error?.response ? (
           <div>
             <h4 className="mb-4 text-2xl">

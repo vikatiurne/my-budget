@@ -56,7 +56,7 @@ const Header: React.FC = () => {
         {params === "/" && (
           <button
             onClick={handleClick}
-            className="px-4 py-1 border-amber-50 rounded shadow bg-amber-50 cursor-pointer hover:bg-amber-100 active:bg-amber-50"
+            className="px-4 py-1 border-amber-50 rounded shadow bg-amber-50 cursor-pointer hover:bg-amber-100 active:bg-amber-50 text-[#856a25] dark:text-black"
           >
             {btnName}
           </button>

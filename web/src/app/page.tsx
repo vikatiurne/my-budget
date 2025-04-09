@@ -7,7 +7,7 @@ const HomePage = () => {
   return (
     <>
       <ReactQueryDevtools initialIsOpen={false} />
-      <Main />;
+      <Main />
     </>
   );
 };

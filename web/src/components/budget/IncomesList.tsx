@@ -41,7 +41,7 @@ const IncomesList = () => {
             <Image
               src={arrow}
               alt="arrow"
-              className={`transition-rotate duration-300 ease-in-out ${
+              className={`transition-rotate duration-300 ease-in-out  dark:fill-amber-50 ${
                 showList ? "transform rotate-180 " : ""
               }`}
             />

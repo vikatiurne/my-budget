@@ -66,7 +66,7 @@ const AddBudgetForm: React.FC = () => {
           Mounthly Budget:
         </label>
         <input
-          className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm "
+          className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
           {...register("budget", { required: "this field is required" })}
           type="number"
           name="budget"
