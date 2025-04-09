@@ -28,7 +28,6 @@ const ExpensesList = () => {
 
   const { data, isPending } = useExpenseQuery(budgetId, startDate, endDate);
 
-
   const showExpensesListHandler = () => setShowList((prev) => !prev);
 
   if (isPending) return <p className="pt-8 text-center text-xl">Loading...</p>;
@@ -50,18 +49,20 @@ const ExpensesList = () => {
           />
         </button>
 
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          handleDateStart={handleDateStart}
-          handleDateEnd={handleDateEnd}
-        />
-        <button
-          onClick={handleResetDate}
-          className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
-        >
-          Reset
-        </button>
+        <div className="flex flex-wrap justify-center items-center gap-4">
+          <DateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            handleDateStart={handleDateStart}
+            handleDateEnd={handleDateEnd}
+          />
+          <button
+            onClick={handleResetDate}
+            className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+          >
+            Reset Reriod
+          </button>
+        </div>
       </div>
 
       {data?.length && data.length > 0 ? (

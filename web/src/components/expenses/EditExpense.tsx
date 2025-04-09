@@ -56,13 +56,13 @@ const EditExpense: React.FC<EditExpenseProps> = ({ expense }) => {
           <form onSubmit={handleSubmit(onSubmit)} className="">
             <div className="flex gap-4 items-center mb-4">
               <input
-                className=" p-2 block w-1/2  border-gray-300 outline-none rounded shadow-sm  bg-yellow-50"
+                className=" p-2 block w-1/2  border-gray-300 outline-none rounded shadow-sm  bg-yellow-50 text-black"
                 placeholder="title an expense sourse.."
                 type="text"
                 {...register("title", { required: "this field is required" })}
               />
               <input
-                className=" p-2 block w-1/2 border-gray-300 outline-none rounded shadow-sm bg-yellow-50"
+                className=" p-2 block w-1/2 border-gray-300 outline-none rounded shadow-sm bg-yellow-50 text-black"
                 type="number"
                 placeholder="type a sum..."
                 {...register("price", { required: "this field is required" })}
