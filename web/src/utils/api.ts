@@ -1,4 +1,12 @@
-import { Budget, IExpense, IDate, Income, User } from "@/types/types";
+import {
+  Budget,
+  IExpense,
+  IDate,
+  Income,
+  User,
+  ITravelCosts,
+  ICalculationInfo,
+} from "@/types/types";
 import axios from "axios";
 
 const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
@@ -87,5 +95,46 @@ export const deleteExpense = async (
   const res = await axios.delete(`${API_URL}/expense/deleteExpense/${id}`, {
     data: { sum },
   });
+  return res.data;
+};
+
+//travel
+export const createTravel = async (
+  data: ITravelCosts
+): Promise<ICalculationInfo[]> => {
+  const res = await axios.post(`${API_URL}/calculation/createCalculation`, {
+    data,
+  });
+  return res.data;
+};
+
+export const getTravelById = async (id: string): Promise<ITravelCosts> => {
+  const res = await axios.get(`${API_URL}/calculation/getCalculation/${id}`);
+  return res.data;
+};
+
+export const getList = async (): Promise<ICalculationInfo[]> => {
+  const res = await axios.get(`${API_URL}/calculation/getAllCalculations`);
+  return res.data;
+};
+
+export const updateTravelCost = async (
+  id: string,
+  data: ITravelCosts
+): Promise<ICalculationInfo> => {
+  const res = await axios.put(
+    `${API_URL}/calculation/updateCalculation/${id}`,
+    { data }
+  );
+  return res.data;
+};
+
+export const deleteTravelCost = async (
+  id: string
+): Promise<ICalculationInfo[]> => {
+  const res = await axios.delete(
+    `${API_URL}/calculation/removeCalculation/${id}`
+  );
+
   return res.data;
 };

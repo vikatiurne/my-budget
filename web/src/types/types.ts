@@ -32,3 +32,29 @@ export interface IExpense {
 export interface ErrorResponse {
   message: string;
 }
+
+export interface ITransport {
+  typeofTransport: string;
+  price: number;
+}
+
+export interface IAccommodation {
+  nameHotel: string;
+  price: number|null;
+}
+
+export interface ITravelCosts extends Document {
+  _id: string;
+  title: string;
+  accommodation: IAccommodation[];
+  transport: ITransport[];
+  extra?: number;
+  total: number;
+  budget_id?: string;
+  user_id?: string;
+}
+
+export interface ICalculationInfo {
+  title: string;
+  total: number;
+}

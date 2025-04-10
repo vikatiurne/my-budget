@@ -9,6 +9,7 @@ import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 
 import Expense from "./expenses/Expense";
 
+
 const Main = () => {
   const [budgetId, setBudgetId] = useState<string>("");
 
@@ -24,6 +25,7 @@ const Main = () => {
 
   return (
     <Container>
+
       {isAuth ? (
         <>
           <Budget />
