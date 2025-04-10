@@ -8,7 +8,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 
 import Expense from "./expenses/Expense";
-
+import FullCostsTravel from "./travel/FullCostsTravel";
 
 const Main = () => {
   const [budgetId, setBudgetId] = useState<string>("");
@@ -25,17 +25,18 @@ const Main = () => {
 
   return (
     <Container>
-
-      {isAuth ? (
+      <FullCostsTravel />
+      {isAuth && (
         <>
           <Budget />
           {budgetId ? <Expense /> : null}
         </>
-      ) : (
-        <p className="text-center text-2xl font-bold">
-          Let&apos;s enter or registration to use application
-        </p>
       )}
+      {/* // : (
+      //   <p className="text-center text-2xl font-bold">
+      //     Let&apos;s enter or registration to use application
+      //   </p>
+      // )} */}
     </Container>
   );
 };

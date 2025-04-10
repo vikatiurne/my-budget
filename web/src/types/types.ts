@@ -35,7 +35,7 @@ export interface ErrorResponse {
 
 export interface ITransport {
   typeofTransport: string;
-  price: number;
+  price: number|null;
 }
 
 export interface IAccommodation {
@@ -43,12 +43,12 @@ export interface IAccommodation {
   price: number|null;
 }
 
-export interface ITravelCosts extends Document {
+export interface ITravelCosts {
   _id: string;
   title: string;
   accommodation: IAccommodation[];
   transport: ITransport[];
-  extra?: number;
+  extra?: number|null;
   total: number;
   budget_id?: string;
   user_id?: string;
