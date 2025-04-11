@@ -8,7 +8,7 @@ interface IOption {
 interface IField {
   name: string;
   value: string;
-  onChange: (value: string) => void;
+  onChange: (value: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlur: () => void;
 }
 
