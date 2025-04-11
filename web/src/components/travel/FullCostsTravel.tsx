@@ -22,6 +22,7 @@ const FullCostsTravel = () => {
 
   return (
     <FormProvider {...methods}>
+      <h1 className="mb-8 text-3xl font-black text-center"> Calculate trip budget</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <AccommodationForm />
         <RoadForm />

@@ -9,7 +9,6 @@ interface ArrayFormProps {
 }
 
 const ArrayForm: React.FC<ArrayFormProps> = ({
-  idx,
   fieldName,
   fieldPrice,
 }) => {

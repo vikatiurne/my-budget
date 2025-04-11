@@ -7,8 +7,8 @@ interface IOption {
 
 interface IField {
   name: string;
-  value: any;
-  onChange: (value: any) => void;
+  value: string;
+  onChange: (value: string) => void;
   onBlur: () => void;
 }
 
