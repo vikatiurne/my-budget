@@ -35,12 +35,28 @@ export interface ErrorResponse {
 
 export interface ITransport {
   typeofTransport: string;
-  price: number|null;
+  price: number | null;
 }
 
 export interface IAccommodation {
   nameHotel: string;
-  price: number|null;
+  price: number | null;
+}
+export interface IRoadTax {
+  country: string;
+  price: number | null;
+}
+export interface ISightseeing {
+  landmark: string;
+  price: number | null;
+}
+export interface IFoodOptions {
+  eateries: string;
+  price: number | null;
+}
+export interface IActivities {
+  typeofActivities: string;
+  price: number | null;
 }
 
 export interface ITravelCosts {
@@ -48,7 +64,13 @@ export interface ITravelCosts {
   title: string;
   accommodation: IAccommodation[];
   transport: ITransport[];
-  extra?: number|null;
+  greencard?: number;
+  healthInsuranse?: number;
+  roadTax?: IRoadTax[];
+  sightseeing?: ISightseeing[];
+  foodOptions?: IFoodOptions;
+  activities?: IActivities;
+  extra?: number | null;
   total: number;
   budget_id?: string;
   user_id?: string;

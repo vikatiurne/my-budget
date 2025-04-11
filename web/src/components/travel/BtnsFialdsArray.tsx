@@ -1,22 +1,19 @@
-import { ITransport, IAccommodation } from "@/types/types";
 import React from "react";
 
 interface BtnsFialdsArrayProps {
   idx: number;
-  fields: (ITransport | IAccommodation)[];
   append: () => void;
   remove: () => void;
 }
 
 const BtnsFialdsArray: React.FC<BtnsFialdsArrayProps> = ({
   idx,
-  fields,
   append,
   remove,
 }) => {
   return (
     <>
-      {idx + 1 === fields.length ? (
+      {idx === 0 ? (
         <button
           className="p-2 w-6 shadow-md rounded-b-full bg-[#daa520] text-white  text-sm cursor-pointer"
           type="button"

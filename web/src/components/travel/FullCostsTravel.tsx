@@ -4,13 +4,19 @@ import { FormProvider, useForm } from "react-hook-form";
 import AccommodationForm from "./AccommodationForm";
 import RoadForm from "./RoadForm";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import InsuranseForm from "./InsuranseForm";
+import RoadTaxForm from "./RoadTaxForm";
+import SightseeingForm from "./SightseeingForm";
+import FoodForm from "./FoodForm";
+import SeasonalActivities from "./SeasonalActivities";
+import ExtraForm from "./ExtraForm";
 
 const FullCostsTravel = () => {
   const { isAuth } = useAuthContext();
   const methods = useForm<ITravelCosts>({
     defaultValues: { extra: null },
   });
-  const { register, handleSubmit, reset } = methods;
+  const {  handleSubmit } = methods;
 
   const onSubmit = () => {};
 
@@ -19,13 +25,12 @@ const FullCostsTravel = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <AccommodationForm />
         <RoadForm />
-        <label htmlFor="other">Other expenses</label>
-        <input
-          className="p-2 block  border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
-          type="number"
-          placeholder="type a sum..."
-          {...register("extra")}
-        />
+        <InsuranseForm />
+        <RoadTaxForm />
+        <SightseeingForm />
+        <FoodForm />
+        <SeasonalActivities />
+        <ExtraForm />
         {!!isAuth && <button type="submit">Save Budget</button>}
       </form>
     </FormProvider>
