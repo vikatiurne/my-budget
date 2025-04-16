@@ -78,7 +78,7 @@ const FullCostsTravel = () => {
   const { handleSubmit } = methods;
 
   const onSubmit = (data: ITravelCosts) => {
-    const obj = getDataTravelCost(data);
+    // const obj = getDataTravelCost(data);
     if (!data.title) {
       return;
     } else {

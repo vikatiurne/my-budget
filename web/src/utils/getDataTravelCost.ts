@@ -15,7 +15,7 @@ const calculateTotalCost = <T extends NeedsProps>(
   const propsArr = (data ?? []).map((item) => {
     const needsProps: Array<keyof NeedsProps> = ["price", "qtypeople"];
     const needs: Partial<NeedsProps> = {};
-    for (let k of needsProps) {
+    for (const k of needsProps) {
       if (item.hasOwnProperty(k)) needs[k] = item[k] ?? "";
     }
 
