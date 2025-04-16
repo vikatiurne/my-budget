@@ -1,11 +1,23 @@
-import { ITransport } from "@/types/types";
+import { ITransport, ITravelCosts } from "@/types/types";
 import React, { useEffect, useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import BtnsFialdsArray from "./BtnsFialdsArray";
 import CustomSelect from "../UI/CustomSelect";
 import InputPrice from "../UI/InputPrice";
+import { FcCalculator } from "react-icons/fc";
+import TitleTravelBlock from "../UI/TitleTravelBlock";
 
-const RoadForm = () => {
+interface RoadFormProps {
+  fuelPrice: () => void;
+  showForm: boolean;
+  formActive: () => void;
+}
+
+const RoadForm: React.FC<RoadFormProps> = ({
+  fuelPrice,
+  showForm,
+  formActive,
+}) => {
   const options = [
     { value: "car", label: "Car" },
     { value: "train", label: "Train" },
@@ -15,7 +27,10 @@ const RoadForm = () => {
     { value: "rent", label: "Rent Car" },
   ];
 
-  const { control } = useForm<{ transport: ITransport[] }>();
+  const { control, register } = useFormContext<{
+    transport: ITransport[]
+  }>();
+ const trMethods = useFormContext<ITravelCosts>();
 
   const [selestedTransportValues, setSelestedTransportValues] = useState<
     string[]
@@ -27,11 +42,16 @@ const RoadForm = () => {
   });
 
   useEffect(() => {
-    if (fields.length === 0) {
+    if (showForm) {
       append({ typeofTransport: "", price: null });
+    }
+  }, [append, showForm]);
+
+  useEffect(() => {
+    if (selestedTransportValues.length === 0) {
       setSelestedTransportValues([...selestedTransportValues, ""]);
     }
-  }, [append, fields.length]);
+  }, [append, selestedTransportValues.length]);
 
   const handleRemote = (idx: number) => {
     remove(idx);
@@ -53,46 +73,80 @@ const RoadForm = () => {
 
     if (!selectedTrancportValue) return null;
 
-    if (selectedTrancportValue !== "car") {
-      return <InputPrice fieldName={`transport.${idx}.price`} />;
-    } else {
-      return <p>car</p>;
-    }
+    const components = [];
+
+    if (selectedTrancportValue === "car")
+      components.push(
+        <button key="fuelCalculator" onClick={() => fuelPrice()}>
+          <FcCalculator className="w-8 h-8 cursor-pointer" />
+        </button>
+      );
+
+    components.unshift(
+      <InputPrice
+        key={`transport-${idx}-price`}
+        fieldName={`transport.${idx}.price`}
+        placeholder="price..."
+        register={register}
+        isRequired={true}
+      />
+    );
+    return <>{components}</>;
   };
 
   return (
-    <div className="mb-6 ">
-      <h4 className="mb-4 text-xl text-[#daa520]">Modes of transportation</h4>
-      {fields.map((item, idx) => (
-        <div key={item.id} className="flex gap-4 mb-4 flex-wrap items-center">
-          <label htmlFor={`name-${idx}`} className="text-sm font-bold">
-            Transport №{idx + 1}
-          </label>
-          <Controller
-            name={`transport.${idx}.typeofTransport`}
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <CustomSelect
-                field={field}
-                options={options}
-                handleChange={(e) => handleTransportChange(idx, e)}
+    showForm && (
+      <div className="mb-6 ">
+        <TitleTravelBlock
+          title="Modes of transportation"
+          blockName="transport"
+          formActive={formActive}
+          setSelected={() => setSelestedTransportValues([])}
+        />
+
+        {fields.map((item, idx) => (
+          <div key={item.id} className="flex gap-4 mb-4 flex-wrap items-center">
+            <label
+              htmlFor={`name-${idx}`}
+              className="text-sm font-bold text-gray-600"
+            >
+              Transport №{idx + 1}
+            </label>
+
+            <div className="flex gap-2 md:gap-4 items-center">
+              <Controller
+                name={`transport.${idx}.typeofTransport`}
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <CustomSelect
+                    field={field}
+                    options={options}
+                    handleChange={(e) => handleTransportChange(idx, e)}
+                  />
+                )}
               />
-            )}
-          />
 
-          {getContentForSelectedTransport(idx)}
+              {getContentForSelectedTransport(idx)}
 
-          <div className="flex gap-2 items-center ">
-            <BtnsFialdsArray
-              idx={idx}
-              append={() => append({ typeofTransport: "", price: null })}
-              remove={() => handleRemote(idx)}
-            />
+              <div className="flex gap-2 items-center ">
+                <BtnsFialdsArray
+                  idx={idx}
+                  append={() =>
+                    append({ typeofTransport: "", price: null })
+                  }
+                  remove={() => handleRemote(idx)}
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+        <input type="checkbox" {...trMethods.register("twosides")} />
+        <label htmlFor="twosides" className="text-md ml-2 text-gray-600">
+          include return trip
+        </label>
+      </div>
+    )
   );
 };
 

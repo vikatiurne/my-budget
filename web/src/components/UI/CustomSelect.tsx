@@ -30,7 +30,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         field.onChange(e);
         handleChange(e);
       }}
-      className="shadow w-36 appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      className="shadow w-36 appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  dark:shadow-amber-50  dark:text-white"
     >
       <option value="">-- Select --</option>
       {options.map((item, i) => (

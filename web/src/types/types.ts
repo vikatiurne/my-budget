@@ -35,28 +35,35 @@ export interface ErrorResponse {
 
 export interface ITransport {
   typeofTransport: string;
-  price: number | null;
+  price: string | null;
 }
 
 export interface IAccommodation {
   nameHotel: string;
-  price: number | null;
+  price: string | null;
+  qtypeople: string;
+}
+export interface IGreenCard {
+  price: string | null;
+  qtypeople: string;
 }
 export interface IRoadTax {
   country: string;
-  price: number | null;
+  price: string | null;
+  qtypeople: string;
 }
 export interface ISightseeing {
   landmark: string;
-  price: number | null;
+  price: string | null;
 }
 export interface IFoodOptions {
   eateries: string;
-  price: number | null;
+  price: string | null;
 }
 export interface IActivities {
   typeofActivities: string;
-  price: number | null;
+  price: string | null;
+  qty: string;
 }
 
 export interface ITravelCosts {
@@ -64,16 +71,43 @@ export interface ITravelCosts {
   title: string;
   accommodation: IAccommodation[];
   transport: ITransport[];
-  greencard?: number;
-  healthInsuranse?: number;
-  roadTax?: IRoadTax[];
+  greencard?: string;
+  qtypeople?: string;
+  healthInsurance?: string;
+  payroad?: IRoadTax[];
   sightseeing?: ISightseeing[];
-  foodOptions?: IFoodOptions;
-  activities?: IActivities;
-  extra?: number | null;
+  foodOptions?: IFoodOptions[];
+  activities?: string;
+  price?: string;
+  qty?: string;
+  twosides: boolean;
+  extra?: string;
   total: number;
   budget_id?: string;
   user_id?: string;
+}
+
+export interface ITravel {
+  title: string;
+  budget_id?: string;
+  user_id?: string;
+  accommodationCost: number;
+  transportCost: number;
+  greencardCost: number;
+  healthInsuranceCost: number;
+  roadTaxCost: number;
+  sightseeingCost: number;
+  foodCost: number;
+  activitiesCost: number;
+  extra: number;
+  total: number;
+}
+
+export interface IMetrics {
+  distance: number;
+  mileage: number;
+  price: number;
+  qtypeople: number;
 }
 
 export interface ICalculationInfo {

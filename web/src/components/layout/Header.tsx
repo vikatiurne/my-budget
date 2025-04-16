@@ -44,7 +44,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#daa520] mb-10">
+    <div className="bg-[#daa520] mb-4 md:mb-10">
       <Container style="flex justify-between items-center">
         <Link href={"/"} className="uppercase text-white font-bold">
           My budget

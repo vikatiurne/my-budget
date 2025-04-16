@@ -1,22 +1,35 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
-interface InputPriceProps {
-  fieldName: string;
+interface InputPriceProps<T extends FieldValues> {
+  fieldName: Path<T>;
+  placeholder: string;
+  register: UseFormRegister<T>;
+  typeField?: string;
+  isRequired?: boolean;
 }
 
-const InputPrice: React.FC<InputPriceProps> = ({ fieldName }) => {
-    const { register } = useForm();
-    
+const InputPrice = <T extends FieldValues>({
+  typeField,
+  fieldName,
+  placeholder,
+  isRequired = false,
+  register,
+}: InputPriceProps<T>) => {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-2 items-center">
       <input
-        className="p-2 block w-20 border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
+        className={`p-2 block ${
+          !typeField ? "w-20" : "max-w-32"
+        } "border-gray-300" outline-none rounded shadow-sm  dark:shadow-amber-50 bg-white text-black`}
         type="number"
-        placeholder="price..."
-        {...register(fieldName)}
+        step="0.01"
+        placeholder={placeholder}
+        {...register(fieldName, {
+          required: isRequired ? "this field is required" : false,
+        })}
       />
-      <p>₴</p>
+      <p>{!typeField ? "₴" : typeField}</p>
     </div>
   );
 };

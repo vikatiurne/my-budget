@@ -58,19 +58,6 @@ class TravelCostServise {
     }
   };
 
-  updateTravelCost = async (
-    id: string,
-    datatravel: ITravelCosts
-  ): Promise<CalculationInfo[] | null | undefined> => {
-    try {
-      await TravelCost.findByIdAndUpdate(id, datatravel);
-      const newdata = await this.getListCalculation();
-      return newdata;
-    } catch (error: any) {
-      throw error;
-    }
-  };
-
   deleteCalculationById = async (
     id: string
   ): Promise<CalculationInfo[] | null | undefined> => {
@@ -84,4 +71,4 @@ class TravelCostServise {
   };
 }
 
-export default new TravelCostServise()
+export default new TravelCostServise();

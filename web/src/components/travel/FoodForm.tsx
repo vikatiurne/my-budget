@@ -1,11 +1,17 @@
 import { IFoodOptions } from "@/types/types";
 import React, { useEffect, useState } from "react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import BtnsFialdsArray from "./BtnsFialdsArray";
 import CustomSelect from "../UI/CustomSelect";
 import InputPrice from "../UI/InputPrice";
+import TitleTravelBlock from "../UI/TitleTravelBlock";
 
-const FoodForm = () => {
+interface FoodFormProps {
+  showForm: boolean;
+  formActive: () => void;
+}
+
+const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
   const options = [
     { value: "inside", label: "Inside" },
     { value: "outside", label: "Outside" },
@@ -13,16 +19,22 @@ const FoodForm = () => {
 
   const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
 
-  const { control } = useForm<{ food: IFoodOptions[] }>();
+  const { control, register } = useFormContext<{
+    foodOptions: IFoodOptions[];
+  }>();
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "food",
+    name: "foodOptions",
   });
 
   useEffect(() => {
-    if (fields.length === 0) append({ eateries: "", price: null });
-    setSelectedPlaces([...selectedPlaces, ""]);
+    if (fields.length === 0) {
+      append({ eateries: "", price: null });
+      setSelectedPlaces([]);
+    } else {
+      setSelectedPlaces([...selectedPlaces, ""]);
+    }
   }, [append, fields.length]);
 
   const handleChangeEattingPlace = (
@@ -41,40 +53,55 @@ const FoodForm = () => {
   };
 
   return (
-    <div className="mb-6">
-      <h4 className="mb-4 text-xl text-[#daa520]">Food</h4>
-      {fields.map((item, idx) => (
-        <div key={item.id} className="flex gap-4 mb-4 flex-wrap items-center">
-          <label htmlFor={`name-${idx}`} className="text-sm font-bold">
-            Place for eatting №{idx + 1}
-          </label>
-          <Controller
-            name={`food.${idx}.eateries`}
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <CustomSelect
-                options={options}
-                field={field}
-                handleChange={(e) => {
-                  handleChangeEattingPlace(idx, e);
-                }}
+    showForm && (
+      <div className="mb-6">
+        <TitleTravelBlock
+          blockName="foodOptions"
+          title="Food"
+          formActive={formActive}
+          setSelected={() => setSelectedPlaces([])}
+        />
+        {fields.map((item, idx) => (
+          <div key={item.id} className="flex gap-4 mb-4 flex-wrap items-center">
+            <label
+              htmlFor={`name-${idx}`}
+              className="text-sm font-bold text-gray-600"
+            >
+              Place for eatting №{idx + 1}
+            </label>
+            <div className="flex gap-2 md:gap-4 items-center">
+              <Controller
+                name={`foodOptions.${idx}.eateries`}
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <CustomSelect
+                    options={options}
+                    field={field}
+                    handleChange={(e) => {
+                      handleChangeEattingPlace(idx, e);
+                    }}
+                  />
+                )}
               />
-            )}
-          />
+              {selectedPlaces[idx] !== "" && (
+                <InputPrice
+                  fieldName={`foodOptions.${idx}.price`}
+                  placeholder="price.."
+                  register={register}
+                />
+              )}
 
-          {selectedPlaces[idx] !== "" && (
-            <InputPrice fieldName={`food.${idx}.price`} />
-          )}
-
-          <BtnsFialdsArray
-            idx={idx}
-            append={() => append({ eateries: "", price: null })}
-            remove={() => handleRemoveEattingPlace(idx)}
-          />
-        </div>
-      ))}
-    </div>
+              <BtnsFialdsArray
+                idx={idx}
+                append={() => append({ eateries: "", price: null })}
+                remove={() => handleRemoveEattingPlace(idx)}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    )
   );
 };
 

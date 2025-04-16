@@ -43,21 +43,6 @@ class TravelCostController {
     }
   };
 
-  updateTravelCost = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<Response | void> => {
-    try {
-      const { id } = req.params;
-      const { data } = req.body;
-      const list = await travelcostServise.updateTravelCost(id, data);
-      return res.status(200).json(list);
-    } catch (error) {
-      next(error);
-    }
-  };
-
   deleteCalculationById = async (
     req: Request,
     res: Response,
@@ -73,4 +58,4 @@ class TravelCostController {
   };
 }
 
-export default new TravelCostController()
+export default new TravelCostController();

@@ -1,12 +1,31 @@
 import React from "react";
 import InputPrice from "../UI/InputPrice";
+import { useFormContext } from "react-hook-form";
+import { ITravelCosts } from "@/types/types";
+import TitleTravelBlock from "../UI/TitleTravelBlock";
 
-const ExtraForm = () => {
+interface ExtraFormProps {
+  showForm: boolean;
+  formActive: () => void;
+}
+
+const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
+  const { register } = useFormContext<ITravelCosts>();
+
   return (
-    <div className="mb-6">
-      <h4 className="mb-4 text-xl text-[#daa520]">Unaccounted expenses</h4>
-      <InputPrice fieldName="extra" />
-    </div>
+    showForm && (
+      <div className="mb-6">
+        <TitleTravelBlock
+          title="Unaccounted expenses"
+          formActive={formActive}
+        />
+        <InputPrice
+          fieldName="extra"
+          placeholder="price..."
+          register={register}
+        />
+      </div>
+    )
   );
 };
 
