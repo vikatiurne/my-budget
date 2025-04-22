@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL_LOCAL!, process.env.CLIENT_URL_PUBLIC!],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Autorization"],
   })
@@ -25,6 +25,6 @@ app.use(express.json());
 
 app.use("/api", router);
 
-app.use(errorHandler)
+app.use(errorHandler);
 
-app.listen(PORT, ()=>console.log(`Server started on PORT: ${PORT}`))
+app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
