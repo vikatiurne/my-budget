@@ -41,8 +41,8 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
       </div>
       {!showExpenses ? (
         <>
-          <EditBudget sum={data[0].budget} />
-          <IncomesList />
+          <EditBudget sum={data[0].budget} budgetData={data[0]} />
+          <IncomesList budgetId={data[0]._id } />
         </>
       ) : (
         <p>пусто</p>

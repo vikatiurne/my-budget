@@ -98,11 +98,11 @@ class BudgetController {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { userId } = req.params;
-      const { date, income, budget } = req.body;
+      const { userId, budgetId } = req.params;
+      const { income, budget } = req.body;
       const updatedbudget = await budgetService.updateBudget(
         userId,
-        date,
+        budgetId,
         income,
         budget
       );

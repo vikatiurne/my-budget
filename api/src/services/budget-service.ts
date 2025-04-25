@@ -95,12 +95,13 @@ class BudgetService {
 
   updateBudget = async (
     userId: string,
-    date: IDate,
+    budgetId: string,
+    // date: IDate,
     income: IIncome[],
     budget: number
   ): Promise<IBudget[] | null | undefined> => {
     try {
-      const prevBudget = await this.getBudget(userId, date);
+      const prevBudget = await this.getBudgetById(userId, budgetId);
       if (prevBudget?.length) {
         const checkIncome = prevBudget[0].income.map(
           (item) => item.incomename === "" && item.sum === 0
@@ -109,8 +110,9 @@ class BudgetService {
           await Budget.updateOne(
             {
               user_id: userId,
-              "date.mounth": date.mounth,
-              "date.year": date.year,
+              _id: budgetId,
+              // "date.mounth": date.mounth,
+              // "date.year": date.year,
             },
             {
               $push: { income: income },
@@ -121,14 +123,15 @@ class BudgetService {
           await Budget.updateOne(
             {
               user_id: userId,
-              "date.mounth": date.mounth,
-              "date.year": date.year,
+              _id: budgetId,
+              // "date.mounth": date.mounth,
+              // "date.year": date.year,
             },
             { income: income, budget: budget + income[0].sum }
           );
         }
       }
-      const updatedBudget = await this.getBudget(userId, date);
+      const updatedBudget = await this.getBudgetById(userId, budgetId);
       return updatedBudget;
     } catch (error: any) {
       throw error;

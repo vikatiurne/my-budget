@@ -1,14 +1,18 @@
 "use client";
-import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import arrow from "../../../public/arrow.svg";
+import { useQueryBudgetById } from "@/hooks/useQueryBudgetById";
 
-const IncomesList = () => {
+interface IncomesListProps{
+  budgetId:string
+}
+
+const IncomesList:React.FC<IncomesListProps> = ({budgetId}) => {
   const [totalIncome, setTotalIncome] = useState<number>(0);
-  const [showList, setShowList] = useState<boolean>(false);
+  const [showList, setShowList] = useState<boolean>(true);
 
-  const query = useBudgetQuery();
+  const query = useQueryBudgetById(budgetId);
 
   const { data, isPending } = query;
 

@@ -11,9 +11,10 @@ import AuthProviderWrapper from "@/hoc/AuthProviderWrapper";
 
 interface EditBudgetProps {
   sum: number;
+  budgetData: IBudget;
 }
 
-const EditBudget: React.FC<EditBudgetProps> = ({ sum }) => {
+const EditBudget: React.FC<EditBudgetProps> = ({ sum, budgetData }) => {
   const { register, handleSubmit, reset } = useForm<Income | IExpense>();
 
   const { userId } = useAuthContext();
@@ -21,13 +22,15 @@ const EditBudget: React.FC<EditBudgetProps> = ({ sum }) => {
   const queryClient = useQueryClient();
 
   const updateBudgetMutation = useMutation({
-    mutationFn: (budgetdata: IBudget) =>
-      updateBudget(
+    mutationFn: (budgetdata: IBudget) => {
+      console.log(budgetdata);
+      return updateBudget(
         budgetdata.user_id,
-        budgetdata.date,
+        budgetdata._id,
         budgetdata.income,
         budgetdata.budget
-      ),
+      );
+    },
     onMutate: async (data: IBudget) => {
       await queryClient.cancelQueries({ queryKey: ["budget"] });
 
@@ -61,12 +64,13 @@ const EditBudget: React.FC<EditBudgetProps> = ({ sum }) => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const currentdate = currentMonthYear();
     updateBudgetMutation.mutate({
-      name: data.name,
+      name: budgetData.name,
+      // _id: budgetData._id,
       date: currentdate,
       income: [{ incomename: data.incomename, sum: +data.sum }],
       user_id: userId,
       budget: sum,
-      _id: data._id,
+      _id: budgetData._id,
     });
     reset();
   };

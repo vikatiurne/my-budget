@@ -1,7 +1,7 @@
 import {
-  Budget,
+  IBudget,
   IExpense,
-  IDate,
+  // IDate,
   Income,
   User,
   ITravelCosts,
@@ -26,7 +26,7 @@ export const getUser = async (id: string): Promise<User> => {
 };
 
 //budget
-export const createBudget = async (budgetdata: Budget): Promise<Budget> => {
+export const createBudget = async (budgetdata: IBudget): Promise<IBudget> => {
   const res = await axios.post(`${API_URL}/budget/createBudget`, {
     budgetdata,
   });
@@ -36,7 +36,7 @@ export const getBudget = async (
   userId: string,
   mounth: string,
   year: string
-): Promise<Budget[]> => {
+): Promise<IBudget[]> => {
   const res = await axios.get(
     `${API_URL}/budget/getBudget/${userId}?mounth=${mounth}&year=${year}`
   );
@@ -45,28 +45,27 @@ export const getBudget = async (
 export const getBudgetById = async (
   userId: string,
   budgetId: string
-): Promise<Budget[]> => {
+): Promise<IBudget[]> => {
   const res = await axios.get(
     `${API_URL}/budget/getBudgetById/${userId}/${budgetId}`
   );
   return res.data;
 };
-export const getBudgets = async (userId: string): Promise<Budget[]> => {
+export const getBudgets = async (userId: string): Promise<IBudget[]> => {
   const res = await axios.get(`${API_URL}/budget/getAllBudgets/${userId}`);
   return res.data;
 };
 export const updateBudget = async (
   userId: string,
-  date: IDate,
+  budgetId: string,
+  // date: IDate,
   income: Income[],
   budget: number,
-  budgetId?: string
-): Promise<Budget> => {
-  console.log(userId, date);
+): Promise<IBudget> => {
+  console.log(budgetId)
   const res = await axios.put(
     `${API_URL}/budget/updateBudget/${userId}/${budgetId}`,
     {
-      date,
       income,
       budget,
     }
