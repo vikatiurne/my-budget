@@ -28,9 +28,9 @@ const RoadForm: React.FC<RoadFormProps> = ({
   ];
 
   const { control, register } = useFormContext<{
-    transport: ITransport[]
+    transport: ITransport[];
   }>();
- const trMethods = useFormContext<ITravelCosts>();
+  const trMethods = useFormContext<ITravelCosts>();
 
   const [selestedTransportValues, setSelestedTransportValues] = useState<
     string[]
@@ -132,9 +132,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
               <div className="flex gap-2 items-center ">
                 <BtnsFialdsArray
                   idx={idx}
-                  append={() =>
-                    append({ typeofTransport: "", price: null })
-                  }
+                  append={() => append({ typeofTransport: "", price: null })}
                   remove={() => handleRemote(idx)}
                 />
               </div>

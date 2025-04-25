@@ -16,6 +16,21 @@ class BudgetController {
       next(error);
     }
   };
+
+  getAllBudgets = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      const { userId } = req.params;
+      const budgets = await budgetService.getAllBudgets(userId);
+      return res.status(200).json(budgets);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   getBudget = async (
     req: Request,
     res: Response,
@@ -24,6 +39,7 @@ class BudgetController {
     try {
       const { userId } = req.params;
       const { mounth, year } = req.query;
+
       if (mounth && year) {
         const budget = await budgetService.getBudget(userId, {
           mounth: mounth,
@@ -41,6 +57,21 @@ class BudgetController {
       next(error);
     }
   };
+
+  getBudgetById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      const { userId, budgetId } = req.params;
+      const budgets = await budgetService.getBudgetById(userId, budgetId);
+      return res.status(200).json(budgets);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   getStatsForPeriod = async (
     req: Request,
     res: Response,

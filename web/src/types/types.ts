@@ -13,8 +13,9 @@ export interface Income {
   incomename: string;
   sum: number;
 }
-export interface Budget {
+export interface IBudget {
   _id: string;
+  name: string;
   budget: number;
   income: Income[];
   user_id: string;
@@ -67,7 +68,7 @@ export interface IActivities {
 }
 
 export interface ITravelCosts {
-  _id: string;
+  _id?: string;
   title: string;
   accommodation: IAccommodation[];
   transport: ITransport[];

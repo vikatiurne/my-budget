@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import ReactQueryProvider from "@/components/containers/ReactQueryProvider";
 import AuthProviderWrapper from "@/hoc/AuthProviderWrapper";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

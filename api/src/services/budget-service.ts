@@ -11,17 +11,23 @@ class BudgetService {
     try {
       const newbudget = new Budget(budgetdata);
       await newbudget.save();
-      const allBudgets = await Budget.find();
-      const currentBudget = allBudgets.filter((b) => {
-        const isUserIdMatch = new ObjectId(budgetdata.user_id).equals(
-          b.user_id
-        );
-        const isMonthMatch = b.date.mounth === budgetdata.date.mounth;
-        const isYearMatch = b.date.year === budgetdata.date.year;
+      if (!budgetdata.name) {
+        const allBudgets = await Budget.find();
 
-        return isUserIdMatch && isMonthMatch && isYearMatch;
-      });
-      return currentBudget;
+        const currentBudget = allBudgets.filter((b) => {
+          const isUserIdMatch = new ObjectId(budgetdata.user_id).equals(
+            b.user_id
+          );
+          const isMonthMatch = b.date.mounth === budgetdata.date.mounth;
+          const isYearMatch = b.date.year === budgetdata.date.year;
+
+          return isUserIdMatch && isMonthMatch && isYearMatch;
+        });
+        return currentBudget;
+      } else {
+        const budget = await Budget.find({ name: budgetdata.name });
+        return budget;
+      }
     } catch (error: any) {
       throw error;
     }
@@ -43,6 +49,17 @@ class BudgetService {
     }
   };
 
+  getAllBudgets = async (
+    userId: string
+  ): Promise<IBudget[] | null | undefined> => {
+    try {
+      const budgets = await Budget.find({ user_id: userId });
+      return budgets;
+    } catch (error: any) {
+      throw error;
+    }
+  };
+
   getMinMaxAvarageBudget = async (
     userId: string,
     from: string,
@@ -56,6 +73,21 @@ class BudgetService {
       });
 
       return minMaxAvarage(budgetForPeriod);
+    } catch (error: any) {
+      throw error;
+    }
+  };
+
+  getBudgetById = async (
+    userId: string,
+    budgetId: string
+  ): Promise<IBudget[] | null | undefined> => {
+    try {
+      const budget = await Budget.find({
+        user_id: userId,
+        _id: budgetId,
+      });
+      return budget;
     } catch (error: any) {
       throw error;
     }
@@ -80,7 +112,10 @@ class BudgetService {
               "date.mounth": date.mounth,
               "date.year": date.year,
             },
-            { $push: { income: income }, $set: { budget: budget + income[0].sum } }
+            {
+              $push: { income: income },
+              $set: { budget: budget + income[0].sum },
+            }
           );
         } else {
           await Budget.updateOne(

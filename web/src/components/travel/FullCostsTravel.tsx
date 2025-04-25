@@ -1,8 +1,8 @@
-import { ITravelCosts } from "@/types/types";
+import { Budget, ITravelCosts } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import AccommodationForm from "./AccommodationForm";
-import { useAuthContext } from "@/hooks/useAuthContext";
+
 import CarInfo from "./CarInfo";
 import RoadForm from "./RoadForm";
 
@@ -20,8 +20,13 @@ import { FaRoad } from "react-icons/fa";
 import { IoFastFoodOutline } from "react-icons/io5";
 import { LuListPlus } from "react-icons/lu";
 import InsuranceForm from "./InsuranceForm";
-import { getDataTravelCost } from "@/utils/getDataTravelCost";
+
 import Popap from "../UI/Popap";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createBudget } from "@/utils/api";
+import { currentMonthYear } from "@/utils/currentMonthYear";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import { getDataTravelCost } from "@/utils/getDataTravelCost";
 
 const styles = {
   icon: "p-1 w-10 h-10 border rounded",
@@ -77,12 +82,53 @@ const FullCostsTravel = () => {
 
   const { handleSubmit } = methods;
 
+  const queryClient = useQueryClient();
+
+  const { userId } = useAuthContext();
+
+  const budgetMutation = useMutation({
+    mutationFn: (budgetdata: Budget) => createBudget(budgetdata),
+    onMutate: async (data: Budget) => {
+      await queryClient.cancelQueries({ queryKey: ["budget"] });
+      const prevBudget: Budget[] = queryClient.getQueryData(["budget"]) ?? [];
+      const optimisticBudget: Budget[] = [
+        ...prevBudget,
+        {
+          name: data.name,
+          budget: data.budget,
+          user_id: userId,
+          date: currentMonthYear(),
+          income: data.income,
+          _id: data._id,
+        },
+      ];
+      queryClient.setQueryData(["bidget"], optimisticBudget);
+      return { prevBudget };
+    },
+    onError: (err, newBudget, context) => {
+      queryClient.setQueryData(["budget"], context?.prevBudget);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["budget"],
+      });
+    },
+  });
+
   const onSubmit = (data: ITravelCosts) => {
-    // const obj = getDataTravelCost(data);
     if (!data.title) {
       return;
     } else {
-      console.log("saving");
+      const obj = getDataTravelCost(data);
+      const date = currentMonthYear();
+      budgetMutation.mutate({
+        name: obj.title,
+        budget: obj.total,
+        date: date,
+        user_id: userId,
+        income: [{ incomename: "", sum: 0 }],
+        _id: data._id ? data._id : "",
+      });
     }
   };
 

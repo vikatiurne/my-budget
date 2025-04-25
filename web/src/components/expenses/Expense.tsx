@@ -17,7 +17,7 @@ const Expense = () => {
   return (
     <div>
       <AddExpenseForm budgetId={budgetId} />
-      <ExpensesList/>
+      <ExpensesList />
     </div>
   );
 };

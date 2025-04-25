@@ -42,18 +42,35 @@ export const getBudget = async (
   );
   return res.data;
 };
+export const getBudgetById = async (
+  userId: string,
+  budgetId: string
+): Promise<Budget[]> => {
+  const res = await axios.get(
+    `${API_URL}/budget/getBudgetById/${userId}/${budgetId}`
+  );
+  return res.data;
+};
+export const getBudgets = async (userId: string): Promise<Budget[]> => {
+  const res = await axios.get(`${API_URL}/budget/getAllBudgets/${userId}`);
+  return res.data;
+};
 export const updateBudget = async (
   userId: string,
   date: IDate,
   income: Income[],
-  budget: number
+  budget: number,
+  budgetId?: string
 ): Promise<Budget> => {
   console.log(userId, date);
-  const res = await axios.put(`${API_URL}/budget/updateBudget/${userId}`, {
-    date,
-    income,
-    budget,
-  });
+  const res = await axios.put(
+    `${API_URL}/budget/updateBudget/${userId}/${budgetId}`,
+    {
+      date,
+      income,
+      budget,
+    }
+  );
   return res.data;
 };
 

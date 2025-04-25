@@ -56,12 +56,7 @@ const IncomesList = () => {
               </li>
             ))}
           </ul>
-          <p>
-            Total income: {totalIncome} ₴{" "}
-            <span className="text-gray-300">
-              (start budget: {data[0].budget - totalIncome} ₴)
-            </span>
-          </p>
+          <p>Total income: {totalIncome} ₴</p>
         </div>
       )
     );

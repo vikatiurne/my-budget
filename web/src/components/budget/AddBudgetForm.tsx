@@ -2,7 +2,7 @@
 
 import { useAuthContext } from "@/hooks/useAuthContext";
 
-import { Budget } from "@/types/types";
+import { IBudget } from "@/types/types";
 import { createBudget } from "@/utils/api";
 import { currentMonthYear } from "@/utils/currentMonthYear";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -11,20 +11,21 @@ import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 const AddBudgetForm: React.FC = () => {
-  const { register, handleSubmit } = useForm<Budget>();
+  const { register, handleSubmit } = useForm<IBudget>();
 
   const { userId } = useAuthContext();
 
   const queryClient = useQueryClient();
 
   const budgetMutation = useMutation({
-    mutationFn: (budgetdata: Budget) => createBudget(budgetdata),
-    onMutate: async (data: Budget) => {
+    mutationFn: (budgetdata: IBudget) => createBudget(budgetdata),
+    onMutate: async (data: IBudget) => {
       await queryClient.cancelQueries({ queryKey: ["budget"] });
-      const prevBudget: Budget[] = queryClient.getQueryData(["budget"]) ?? [];
-      const optimisticBudget: Budget[] = [
+      const prevBudget: IBudget[] = queryClient.getQueryData(["budget"]) ?? [];
+      const optimisticBudget: IBudget[] = [
         ...prevBudget,
         {
+          name: data.name,
           budget: data.budget,
           user_id: userId,
           date: currentMonthYear(),
@@ -48,6 +49,7 @@ const AddBudgetForm: React.FC = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const date = currentMonthYear();
     budgetMutation.mutate({
+      name: `monthly budget:${date.mounth}_${date.year}`,
       budget: data.budget,
       date: date,
       user_id: userId,

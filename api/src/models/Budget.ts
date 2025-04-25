@@ -9,6 +9,7 @@ export interface IIncome {
   sum: number;
 }
 export interface IBudget extends Document {
+  name: string;
   budget: number;
   income: IIncome[];
   user_id: mongoose.Types.ObjectId;
@@ -23,6 +24,7 @@ const IncomeSchema: Schema = new Schema({
 
 const BudgetSchema: Schema = new Schema(
   {
+    name: { type: String, required: true, unique: true },
     budget: { type: Number, required: true },
     income: [IncomeSchema],
     user_id: { type: mongoose.Types.ObjectId, ref: "User", required: true },

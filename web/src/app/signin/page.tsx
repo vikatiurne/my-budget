@@ -1,8 +1,8 @@
-import Container from "@/components/containers/Container";
+import Container from "@/app/components/containers/Container";
 import React from "react";
-import AuthForm from "@/components/auth/AuthForm";
-import ReactQueryProvider from "@/components/containers/ReactQueryProvider";
-import ProtectedRouter from "@/hoc/ProtectedRouter";
+import AuthForm from "@/app/components/auth/AuthForm";
+import ReactQueryProvider from "@/app/components/containers/ReactQueryProvider";
+import ProtectedRouter from "@/app/hoc/ProtectedRouter";
 
 const SignInPage: React.FC = () => {
   return (

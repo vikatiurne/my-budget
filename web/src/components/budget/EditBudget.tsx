@@ -1,12 +1,13 @@
 import React from "react";
-import { Budget, IExpense, Income } from "@/types/types";
+import { IBudget, IExpense, Income } from "@/types/types";
 import { updateBudget } from "@/utils/api";
 import { currentMonthYear } from "@/utils/currentMonthYear";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+
 import { useAuthContext } from "@/hooks/useAuthContext";
 import FormContent from "../UI/FormContent";
-
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import AuthProviderWrapper from "@/hoc/AuthProviderWrapper";
 
 interface EditBudgetProps {
   sum: number;
@@ -20,21 +21,21 @@ const EditBudget: React.FC<EditBudgetProps> = ({ sum }) => {
   const queryClient = useQueryClient();
 
   const updateBudgetMutation = useMutation({
-    mutationFn: (budgetdata: Budget) =>
+    mutationFn: (budgetdata: IBudget) =>
       updateBudget(
         budgetdata.user_id,
         budgetdata.date,
         budgetdata.income,
         budgetdata.budget
       ),
-    onMutate: async (data: Budget) => {
+    onMutate: async (data: IBudget) => {
       await queryClient.cancelQueries({ queryKey: ["budget"] });
 
-      const prevBudget = queryClient.getQueryData<Budget[]>(["budget"]) ?? [];
+      const prevBudget = queryClient.getQueryData<IBudget[]>(["budget"]) ?? [];
 
       const newBudgetValue = sum + data.budget;
 
-      const optimisticBudget: Budget[] = prevBudget.map((b) => {
+      const optimisticBudget: IBudget[] = prevBudget.map((b) => {
         if (
           b.user_id === userId &&
           b.date.mounth === data.date.mounth &&
@@ -60,6 +61,7 @@ const EditBudget: React.FC<EditBudgetProps> = ({ sum }) => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const currentdate = currentMonthYear();
     updateBudgetMutation.mutate({
+      name: data.name,
       date: currentdate,
       income: [{ incomename: data.incomename, sum: +data.sum }],
       user_id: userId,
@@ -70,12 +72,14 @@ const EditBudget: React.FC<EditBudgetProps> = ({ sum }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="mb-6 flex flex-col gap-4  items-start"
-    >
-      <FormContent typeForm="incomename" register={register} />
-    </form>
+    <AuthProviderWrapper>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mb-6 flex flex-col gap-4  items-start"
+      >
+        <FormContent typeForm="incomename" register={register} />
+      </form>
+    </AuthProviderWrapper>
   );
 };
 

@@ -1,8 +1,9 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: "export",
-  images:{unoptimized:true}
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: ["www.themealdb.com"],
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

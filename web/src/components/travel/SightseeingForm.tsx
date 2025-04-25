@@ -25,37 +25,39 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
     if (fields.length === 0) append({ landmark: "", price: null });
   }, [append, fields.length]);
 
-  return (showForm &&
-    <div className="mb-6">
-      <TitleTravelBlock
-        title="Sightseeing"
-        blockName="sightseeing"
-        formActive={formActive}
-      />
+  return (
+    showForm && (
+      <div className="mb-6">
+        <TitleTravelBlock
+          title="Sightseeing"
+          blockName="sightseeing"
+          formActive={formActive}
+        />
 
-      {fields.map((item, idx) => (
-        <div key={item.id} className="flex gap-4 mb-4 flex-wrap items-center">
-          <label
-            htmlFor={`name-${idx}`}
-            className="text-sm font-bold text-gray-600"
-          >
-            Landmark №{idx + 1}:
-          </label>
-          <div className="flex gap-2 md:gap-4 items-center">
-            <ArrayForm
-              idx={idx}
-              fieldName={`sightseeing.${idx}.landmark`}
-              fieldPrice={`sightseeing.${idx}.price`}
-            />
-            <BtnsFialdsArray
-              idx={idx}
-              append={() => append({ landmark: "", price: null })}
-              remove={() => remove(idx)}
-            />
+        {fields.map((item, idx) => (
+          <div key={item.id} className="flex gap-4 mb-4 flex-wrap items-center">
+            <label
+              htmlFor={`name-${idx}`}
+              className="text-sm font-bold text-gray-600"
+            >
+              Landmark №{idx + 1}:
+            </label>
+            <div className="flex gap-2 md:gap-4 items-center">
+              <ArrayForm
+                idx={idx}
+                fieldName={`sightseeing.${idx}.landmark`}
+                fieldPrice={`sightseeing.${idx}.price`}
+              />
+              <BtnsFialdsArray
+                idx={idx}
+                append={() => append({ landmark: "", price: null })}
+                remove={() => remove(idx)}
+              />
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    )
   );
 };
 

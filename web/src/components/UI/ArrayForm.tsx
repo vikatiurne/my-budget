@@ -29,8 +29,8 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
   return (
     <div className="flex flex-wrap gap-2">
       <input
-        className={`flex-1 p-2 block w-[13rem]  "border-gray-300"
-        outline-none rounded shadow-sm  dark:shadow-amber-50`}
+        className="flex-1 p-2 block w-[13rem]  border-gray-300
+        outline-none rounded shadow-sm  dark:shadow-amber-50"
         type="text"
         placeholder="name..."
         {...register(fieldName, { required: "field is required" })}
