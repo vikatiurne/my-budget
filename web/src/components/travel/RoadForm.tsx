@@ -51,7 +51,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
     if (selestedTransportValues.length === 0) {
       setSelestedTransportValues([...selestedTransportValues, ""]);
     }
-  }, [append, selestedTransportValues.length,selestedTransportValues]);
+  }, [append, selestedTransportValues.length]);
 
   const handleRemote = (idx: number) => {
     remove(idx);

@@ -61,6 +61,12 @@ export const updateBudget = async (
   });
   return res.data;
 };
+export const deleteBudget = async (
+  budgetId: string
+): Promise<IBudgetUpdate> => {
+  const res = await axios.delete(`${API_URL}/budget/deleteBudget/${budgetId}`);
+  return res.data;
+};
 
 //incomes
 export const getIncomes = async (budgetId: string): Promise<Income[]> => {

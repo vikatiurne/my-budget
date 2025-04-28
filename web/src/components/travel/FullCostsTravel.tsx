@@ -89,8 +89,8 @@ const FullCostsTravel = () => {
   const budgetMutation = useMutation({
     mutationFn: (budgetdata: IBudget) => createBudget(budgetdata),
     onMutate: async (data: IBudget) => {
-      await queryClient.cancelQueries({ queryKey: ["budget"] });
-      const prevBudget: IBudget[] = queryClient.getQueryData(["budget"]) ?? [];
+      await queryClient.cancelQueries({ queryKey: ["budgets"] });
+      const prevBudget: IBudget[] = queryClient.getQueryData(["budgets"]) ?? [];
       const optimisticBudget: IBudget[] = [
         ...prevBudget,
         {
@@ -100,15 +100,15 @@ const FullCostsTravel = () => {
           date: currentMonthYear(),
         },
       ];
-      queryClient.setQueryData(["budget"], optimisticBudget);
+      queryClient.setQueryData(["budgets"], optimisticBudget);
       return { prevBudget };
     },
     onError: (err, newBudget, context) => {
-      queryClient.setQueryData(["budget"], context?.prevBudget);
+      queryClient.setQueryData(["budgets"], context?.prevBudget);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ["budget"],
+        queryKey: ["budgets"],
       });
     },
   });

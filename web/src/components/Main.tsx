@@ -38,7 +38,7 @@ const Main = () => {
           </>
         )}
       </div>
-      {showBudgetList && <BudgetsList />}
+      {showBudgetList && isAuth && <BudgetsList />}
       {showCalculate && <FullCostsTravel />}
     </Container>
   );

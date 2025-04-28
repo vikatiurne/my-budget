@@ -22,8 +22,8 @@ class BudgetService {
     userId: string,
     date: IDate
   ): Promise<IBudget[] | null | undefined> => {
-    console.log(date)
-    console.log(userId)
+    console.log(date);
+    console.log(userId);
     try {
       const budget = await Budget.find({
         user_id: userId,
@@ -87,6 +87,17 @@ class BudgetService {
         { new: true }
       );
       return updatedBudget;
+    } catch (error: any) {
+      throw error;
+    }
+  };
+
+  deleteBudget = async (
+    budgetId: string
+  ): Promise<IBudget | null | undefined> => {
+    try {
+      const deleted = await Budget.findByIdAndDelete(budgetId, { new: true });
+      return deleted;
     } catch (error: any) {
       throw error;
     }

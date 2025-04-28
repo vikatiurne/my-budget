@@ -10,5 +10,6 @@ router.get("/getAllBudgets/:userId", budgetController.getAllBudgets);
 router.get("/getStatsBudget/:userId", budgetController.getStatsForPeriod);
 router.post("/createBudget", budgetController.addBudget);
 router.put("/updateBudget/:budgetId", budgetController.updateBudget);
+router.delete("/deleteBudget/:budgetId", budgetController.deleteBudget);
 
 export default router;

@@ -106,6 +106,20 @@ class BudgetController {
       next(error);
     }
   };
+
+  deleteBudget = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      const { budgetId } = req.params;
+      const deleted = await budgetService.deleteBudget(budgetId);
+      return res.status(204).json(deleted);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default new BudgetController();
