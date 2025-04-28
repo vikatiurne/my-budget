@@ -2,16 +2,22 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
 import { IExpense, Income } from "@/types/types";
+import { FaCheck } from "react-icons/fa";
 
 interface FormContentProps {
   typeForm: string;
+  includeField?: boolean;
   register: UseFormRegister<Income | IExpense>;
 }
 
-const FormContent: React.FC<FormContentProps> = ({ typeForm, register }) => {
+const FormContent: React.FC<FormContentProps> = ({
+  typeForm,
+  register,
+  includeField = true,
+}) => {
   return (
-    <>
-      <div className="flex gap-4 items-center">
+    <div className="flex gap-4 items-center">
+      {includeField && (
         <input
           className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
           {...register("title", {
@@ -22,23 +28,25 @@ const FormContent: React.FC<FormContentProps> = ({ typeForm, register }) => {
           name="title"
           placeholder={`type the ${typeForm} source...`}
         />
-        <input
-          className=" p-2 block w-1/4 border-gray-300  outline-none rounded shadow-sm  dark:shadow-amber-50"
-          {...register("price", {
-            required: "this field is required",
-          })}
-          type="number"
-          name="price"
-          placeholder="type a sum..."
-        />
-      </div>
+      )}
+      <input
+        className={`p-2 block ${
+          !includeField ? "w-1/2" : "w-1/4"
+        } border-gray-300  outline-none rounded shadow-sm  dark:shadow-amber-50`}
+        {...register("price", {
+          required: "this field is required",
+        })}
+        type="number"
+        name="price"
+        placeholder="sum..."
+      />
       <button
-        className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+        className="py-3 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
         type="submit"
       >
-        Add {typeForm}
+        <FaCheck />
       </button>
-    </>
+    </div>
   );
 };
 

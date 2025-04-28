@@ -1,6 +1,6 @@
 import { useAllBudgetQuery } from "@/hooks/useAllBudgetsQuery";
 import React from "react";
-import remove from "../../../public/remove.svg";
+import remove from "../../../public/images/remove.svg";
 import Image from "next/image";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteBudget } from "@/utils/api";
@@ -54,7 +54,7 @@ const BudgetsList = () => {
             key={item._id}
             className="text-center"
           >
-            <li className="w-[35rem] mx-auto pl-4 flex items-center justify-between  p-2 bordeb-b-gray-100 hover:bg-gray-100 cursor-pointer">
+            <li className="w-[21rem] sm:w-[35rem] mx-auto pl-4 flex items-center justify-between  p-2 bordeb-b-gray-100 hover:bg-gray-100 cursor-pointer">
               <div className="flex gap-2">
                 <p className="list-item">{item.name}</p>
                 <p>-</p>

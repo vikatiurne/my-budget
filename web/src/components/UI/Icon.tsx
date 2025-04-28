@@ -8,7 +8,7 @@ interface IconProps {
 
 const Icon: React.FC<IconProps> = ({ children, name, onClick }) => {
   return (
-    <button onClick={onClick} className="flex flex-col items-center">
+    <button onClick={onClick} className="flex flex-col items-center cursor-pointer">
       {children}
 
       <p className="text-sm">{name}</p>

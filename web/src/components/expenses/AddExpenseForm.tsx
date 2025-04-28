@@ -9,9 +9,15 @@ import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
 
 interface AddExpenseFormProps {
   budgetId: string;
+  includeField: boolean;
+  category: string;
 }
 
-const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
+const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
+  budgetId,
+  includeField,
+  category
+}) => {
   const { register, handleSubmit, reset } = useForm<IExpense | Income>();
 
   const queryClient = useQueryClient();
@@ -56,7 +62,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     addExpenseMutation.mutate({
-      title: data.title,
+      title: category,
       price: data.price,
       budget_id: budgetId,
       user_id: userId,
@@ -70,7 +76,11 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="mb-8 flex flex-col gap-4  items-center"
     >
-      <FormContent typeForm="expense" register={register} />
+      <FormContent
+        typeForm="expense"
+        register={register}
+        includeField={includeField}
+      />
     </form>
   );
 };

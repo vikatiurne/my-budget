@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import arrow from "../../../public/arrow.svg";
+import arrow from "../../../public/images/arrow.svg";
 import { IBudgetUpdate } from "@/types/types";
 import { useIncomeQuery } from "@/hooks/useIncomeQuery";
 
@@ -16,7 +16,6 @@ const IncomesList: React.FC<IncomesListProps> = ({ budgetData }) => {
   const query = useIncomeQuery(budgetData._id);
 
   const { data, isPending } = query;
-
 
   useEffect(() => {
     if (data) {

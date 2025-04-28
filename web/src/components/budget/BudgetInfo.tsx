@@ -1,11 +1,13 @@
-"use client"
+"use client";
 import { ErrorResponse, IBudgetUpdate } from "@/types/types";
 import { AxiosError } from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import IncomesList from "../incomes/IncomesList";
 import AddBudgetForm from "./AddBudgetForm";
 import AddIncome from "../incomes/AddIncome";
+import CategoryExpenses from "../expenses/CategoryExpenses";
+import ExpensesList from "../expenses/ExpensesList";
 
 interface BudgetInfoProps {
   data: IBudgetUpdate | null;
@@ -14,6 +16,17 @@ interface BudgetInfoProps {
 
 const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
   const [showExpenses, setShowExpenses] = useState<boolean>(true);
+  const [budgetName, setBudgetName] = useState<string | null>(null);
+
+  console.log(data);
+
+  useEffect(() => {
+    if (data) {
+      data?.name.includes("monthly")
+        ? setBudgetName("Monthly budget")
+        : setBudgetName(data.name);
+    }
+  }, [data]);
 
   if (error) {
     return (
@@ -27,8 +40,8 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
     return (
       <>
         <div>
-          <h4 className="mb-4 text-2xl text-center">
-            Mounthly Budget: {data.budget} ₴
+          <h4 className="mb-4 text-2xl text-center capitalize">
+            {budgetName} : {data.budget} ₴
           </h4>
           <div className="mb-6 flex justify-around items-center gap-4">
             <button
@@ -55,7 +68,10 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
             <IncomesList budgetData={data} />
           </>
         ) : (
-          <p>пусто</p>
+          <>
+            <CategoryExpenses budget={data} />
+            <ExpensesList />
+          </>
         )}
       </>
     );

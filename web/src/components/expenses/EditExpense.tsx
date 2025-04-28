@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import edit from "../../../public/edit.svg";
+import edit from "../../../public/images/edit.svg";
 import { IExpense } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateExpense } from "@/utils/api";

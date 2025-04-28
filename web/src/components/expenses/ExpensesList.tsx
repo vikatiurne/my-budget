@@ -1,6 +1,6 @@
 import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 import { useExpenseQuery } from "@/hooks/useExpenseQuery";
-import arrow from "../../../public/arrow.svg";
+import arrow from "../../../public/images/arrow.svg";
 import Image from "next/image";
 import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
@@ -27,6 +27,8 @@ const ExpensesList = () => {
   const budgetId = queryBudget.data ? queryBudget.data[0]._id : "";
 
   const { data, isPending } = useExpenseQuery(budgetId, startDate, endDate);
+
+  console.log(budgetId)
 
   const showExpensesListHandler = () => setShowList((prev) => !prev);
 
@@ -74,7 +76,7 @@ const ExpensesList = () => {
                 showList ? "block" : "hidden"
               }`}
             >
-              <ExpenseItem exp={exp} />{" "}
+              <ExpenseItem exp={exp} />
             </li>
           ))}
         </ul>
