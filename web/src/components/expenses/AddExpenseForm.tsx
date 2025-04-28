@@ -4,7 +4,6 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import FormContent from "../UI/FormContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createExpense } from "@/utils/api";
-import { useAuthContext } from "@/hooks/useAuthContext";
 import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
 
 interface AddExpenseFormProps {
@@ -16,7 +15,7 @@ interface AddExpenseFormProps {
 const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
   budgetId,
   includeField,
-  category
+  category,
 }) => {
   const { register, handleSubmit, reset } = useForm<IExpense | Income>();
 
@@ -26,7 +25,6 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
   const from = new Date(period.start);
   const till = period.end;
 
-  const { userId } = useAuthContext();
 
   const addExpenseMutation = useMutation({
     mutationFn: (expensedata: IExpense) => createExpense(expensedata),
@@ -36,8 +34,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
       });
 
       const prevExpenses: IExpense[] =
-        queryClient.getQueryData(["expense", userId, budgetId, from, till]) ??
-        [];
+        queryClient.getQueryData(["expense", budgetId, from, till]) ?? [];
 
       const optimisticExpense: IExpense[] = [
         ...prevExpenses,
@@ -45,7 +42,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
       ];
 
       queryClient.setQueryData(
-        ["expense", userId, budgetId, from, till],
+        ["expense", budgetId, from, till],
         optimisticExpense
       );
 
@@ -55,7 +52,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
       queryClient.setQueryData(["expense"], context?.prevExpenses);
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(["expense", userId, budgetId, from, till], data);
+      queryClient.setQueryData(["expense", budgetId, from, till], data);
       queryClient.invalidateQueries({ queryKey: ["budget"] });
     },
   });
@@ -65,7 +62,6 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
       title: category,
       price: data.price,
       budget_id: budgetId,
-      user_id: userId,
       _id: data._id,
     });
     reset();

@@ -26,7 +26,6 @@ const DeleteExpense: React.FC<DeleteExpenseProps> = ({ expense }) => {
       const prevExpense =
         queryClient.getQueryData<IExpense[]>([
           "expense",
-          expense.user_id,
           expense.budget_id,
           from,
           till,

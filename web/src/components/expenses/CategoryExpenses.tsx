@@ -53,10 +53,15 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
   };
 
   useEffect(() => {
-    selectedCategory === "other"
-      ? setIncludeField(true)
-      : setIncludeField(false);
+    if (selectedCategory === "other") {
+      setIncludeField(true);
+    } else {
+      setIncludeField(false);
+    }
   }, [selectedCategory]);
+
+  const categoryValue =
+    selectedCategory === "other" ? "other" : selectedCategory;
 
   return (
     <section>
@@ -252,7 +257,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
         <AddExpenseForm
           budgetId={budget._id}
           includeField={includeField}
-          category={selectedCategory === "other" ? "other" : selectedCategory}
+          category={categoryValue}
         />
       )}
     </section>

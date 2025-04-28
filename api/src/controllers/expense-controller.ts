@@ -8,8 +8,7 @@ class ExpenseController {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { userId, budgetId } = req.params;
-
+      const {  budgetId } = req.params;
       const pageQuery = req.query.page;
       const limitQuery = req.query.limit;
       const from = req.query.from;
@@ -22,7 +21,6 @@ class ExpenseController {
         return res.status(400).json({ message: "Invalid date parametr" });
 
       const expense = await expenseServise.getExpenses(
-        userId,
         budgetId,
         page,
         limit,

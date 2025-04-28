@@ -31,7 +31,6 @@ export interface IExpense {
   title: string;
   price: number;
   budget_id: string;
-  user_id: string;
 }
 
 export interface ErrorResponse {

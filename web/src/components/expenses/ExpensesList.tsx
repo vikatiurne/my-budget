@@ -1,4 +1,3 @@
-import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 import { useExpenseQuery } from "@/hooks/useExpenseQuery";
 import arrow from "../../../public/images/arrow.svg";
 import Image from "next/image";
@@ -6,8 +5,13 @@ import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
 import DateRangePicker from "../UI/DateRangePicker";
 import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
+import { IBudgetUpdate } from "@/types/types";
 
-const ExpensesList = () => {
+interface ExpensesListProps {
+  budget: IBudgetUpdate;
+}
+
+const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
   const [showList, setShowList] = useState<boolean>(true);
 
   const period = defaultDatePeriod();
@@ -23,12 +27,7 @@ const ExpensesList = () => {
     setEndDate(period.end);
   };
 
-  const queryBudget = useBudgetQuery();
-  const budgetId = queryBudget.data ? queryBudget.data[0]._id : "";
-
-  const { data, isPending } = useExpenseQuery(budgetId, startDate, endDate);
-
-  console.log(budgetId)
+  const { data, isPending } = useExpenseQuery(budget._id, startDate, endDate);
 
   const showExpensesListHandler = () => setShowList((prev) => !prev);
 

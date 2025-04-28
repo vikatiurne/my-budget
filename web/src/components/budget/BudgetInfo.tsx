@@ -18,13 +18,13 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
   const [showExpenses, setShowExpenses] = useState<boolean>(true);
   const [budgetName, setBudgetName] = useState<string | null>(null);
 
-  console.log(data);
-
   useEffect(() => {
     if (data) {
-      data?.name.includes("monthly")
-        ? setBudgetName("Monthly budget")
-        : setBudgetName(data.name);
+      if (data?.name.includes("monthly")) {
+        setBudgetName("Monthly budget");
+      } else {
+        setBudgetName(data.name);
+      }
     }
   }, [data]);
 
@@ -70,7 +70,7 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
         ) : (
           <>
             <CategoryExpenses budget={data} />
-            <ExpensesList />
+            <ExpensesList budget={data}/>
           </>
         )}
       </>

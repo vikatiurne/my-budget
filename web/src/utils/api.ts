@@ -88,15 +88,15 @@ export const updateIncome = async (incomedata: Income): Promise<Income[]> => {
 
 //expense
 export const getExpenses = async (
-  userId: string,
   budgetId: string,
   from: string,
   till: string,
   page?: string,
   limit?: string
 ): Promise<IExpense[]> => {
+  console.log(budgetId);
   const res = await axios.get(
-    `${API_URL}/expense/getExpenses/${userId}/budget/${budgetId}?from=${from}&&till=${till}&&page=${page}&&limit=${limit}`
+    `${API_URL}/expense/getExpenses/${budgetId}?from=${from}&&till=${till}&&page=${page}&&limit=${limit}`
   );
   return res.data;
 };
