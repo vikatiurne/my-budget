@@ -1,19 +1,16 @@
-import { IBudget, ErrorResponse } from "@/types/types";
+import { ErrorResponse, IBudgetUpdate } from "@/types/types";
 import { getBudgetById } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useAuthContext } from "./useAuthContext";
 
 const useQueryBudgetByIdOptions = (budgetId: string) => {
-  const { userId } = useAuthContext();
-
   return {
-    queryKey: ["budgetById", userId, budgetId],
-    queryFn: () => getBudgetById(userId, budgetId),
+    queryKey: ["budgetById", budgetId],
+    queryFn: () => getBudgetById(budgetId),
   };
 };
 
 export const useQueryBudgetById = (budgetId: string) =>
-  useQuery<IBudget[], AxiosError<ErrorResponse>>(
+  useQuery<IBudgetUpdate, AxiosError<ErrorResponse>>(
     useQueryBudgetByIdOptions(budgetId)
   );

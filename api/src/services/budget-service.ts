@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Budget, { IBudget, IDate, IIncome } from "../models/Budget";
+import Budget, { IBudget, IDate } from "../models/Budget";
 import { ExpenseStats, minMaxAvarage } from "../utils/minMaxAvarage";
 
 const { ObjectId } = mongoose.Types;
@@ -11,23 +11,8 @@ class BudgetService {
     try {
       const newbudget = new Budget(budgetdata);
       await newbudget.save();
-      if (!budgetdata.name) {
-        const allBudgets = await Budget.find();
-
-        const currentBudget = allBudgets.filter((b) => {
-          const isUserIdMatch = new ObjectId(budgetdata.user_id).equals(
-            b.user_id
-          );
-          const isMonthMatch = b.date.mounth === budgetdata.date.mounth;
-          const isYearMatch = b.date.year === budgetdata.date.year;
-
-          return isUserIdMatch && isMonthMatch && isYearMatch;
-        });
-        return currentBudget;
-      } else {
-        const budget = await Budget.find({ name: budgetdata.name });
-        return budget;
-      }
+      const allbudgets = this.getAllBudgets(budgetdata.user_id.toString());
+      return allbudgets;
     } catch (error: any) {
       throw error;
     }
@@ -37,6 +22,8 @@ class BudgetService {
     userId: string,
     date: IDate
   ): Promise<IBudget[] | null | undefined> => {
+    console.log(date)
+    console.log(userId)
     try {
       const budget = await Budget.find({
         user_id: userId,
@@ -79,14 +66,10 @@ class BudgetService {
   };
 
   getBudgetById = async (
-    userId: string,
     budgetId: string
-  ): Promise<IBudget[] | null | undefined> => {
+  ): Promise<IBudget | null | undefined> => {
     try {
-      const budget = await Budget.find({
-        user_id: userId,
-        _id: budgetId,
-      });
+      const budget = await Budget.findById(budgetId);
       return budget;
     } catch (error: any) {
       throw error;
@@ -94,44 +77,15 @@ class BudgetService {
   };
 
   updateBudget = async (
-    userId: string,
     budgetId: string,
-    // date: IDate,
-    income: IIncome[],
-    budget: number
-  ): Promise<IBudget[] | null | undefined> => {
+    income: number
+  ): Promise<IBudget | null | undefined> => {
     try {
-      const prevBudget = await this.getBudgetById(userId, budgetId);
-      if (prevBudget?.length) {
-        const checkIncome = prevBudget[0].income.map(
-          (item) => item.incomename === "" && item.sum === 0
-        );
-        if (!checkIncome[0]) {
-          await Budget.updateOne(
-            {
-              user_id: userId,
-              _id: budgetId,
-              // "date.mounth": date.mounth,
-              // "date.year": date.year,
-            },
-            {
-              $push: { income: income },
-              $set: { budget: budget + income[0].sum },
-            }
-          );
-        } else {
-          await Budget.updateOne(
-            {
-              user_id: userId,
-              _id: budgetId,
-              // "date.mounth": date.mounth,
-              // "date.year": date.year,
-            },
-            { income: income, budget: budget + income[0].sum }
-          );
-        }
-      }
-      const updatedBudget = await this.getBudgetById(userId, budgetId);
+      const updatedBudget = await Budget.findByIdAndUpdate(
+        budgetId,
+        { $inc: { budget: income } },
+        { new: true }
+      );
       return updatedBudget;
     } catch (error: any) {
       throw error;

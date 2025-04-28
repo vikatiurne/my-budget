@@ -1,7 +1,7 @@
 import { getBudgets } from "@/utils/api";
 import { useAuthContext } from "./useAuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { IBudget, ErrorResponse } from "@/types/types";
+import { ErrorResponse, IBudgetUpdate } from "@/types/types";
 import { AxiosError } from "axios";
 
 const allBudgetsQueryOptions = () => {
@@ -14,4 +14,4 @@ const allBudgetsQueryOptions = () => {
 };
 
 export const useAllBudgetQuery = () =>
-  useQuery<IBudget[], AxiosError<ErrorResponse>>(allBudgetsQueryOptions());
+  useQuery<IBudgetUpdate[], AxiosError<ErrorResponse>>(allBudgetsQueryOptions());

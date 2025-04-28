@@ -10,8 +10,8 @@ class BudgetController {
   ): Promise<Response | void> => {
     try {
       const { budgetdata } = req.body;
-      const budget = await budgetService.addBudget(budgetdata);
-      return res.status(201).json(budget);
+      const budgets = await budgetService.addBudget(budgetdata);
+      return res.status(201).json(budgets);
     } catch (error) {
       next(error);
     }
@@ -64,9 +64,9 @@ class BudgetController {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { userId, budgetId } = req.params;
-      const budgets = await budgetService.getBudgetById(userId, budgetId);
-      return res.status(200).json(budgets);
+      const { budgetId } = req.params;
+      const budget = await budgetService.getBudgetById(budgetId);
+      return res.status(200).json(budget);
     } catch (error) {
       next(error);
     }
@@ -98,14 +98,9 @@ class BudgetController {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { userId, budgetId } = req.params;
-      const { income, budget } = req.body;
-      const updatedbudget = await budgetService.updateBudget(
-        userId,
-        budgetId,
-        income,
-        budget
-      );
+      const { budgetId } = req.params;
+      const { income } = req.body;
+      const updatedbudget = await budgetService.updateBudget(budgetId, income);
       return res.status(200).json(updatedbudget);
     } catch (error) {
       next(error);

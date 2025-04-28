@@ -4,7 +4,7 @@ import { UseFormRegister } from "react-hook-form";
 import { IExpense, Income } from "@/types/types";
 
 interface FormContentProps {
-  typeForm: "title" | "incomename";
+  typeForm: string;
   register: UseFormRegister<Income | IExpense>;
 }
 
@@ -14,23 +14,21 @@ const FormContent: React.FC<FormContentProps> = ({ typeForm, register }) => {
       <div className="flex gap-4 items-center">
         <input
           className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
-          {...register(typeForm === "title" ? "title" : "incomename", {
+          {...register("title", {
             required: "This field is required",
           })}
           type="text"
           autoComplete="true"
-          name={typeForm}
-          placeholder={`type  ${
-            typeForm === "title" ? "an expense" : "a income"
-          } source...`}
+          name="title"
+          placeholder={`type the ${typeForm} source...`}
         />
         <input
           className=" p-2 block w-1/4 border-gray-300  outline-none rounded shadow-sm  dark:shadow-amber-50"
-          {...register(typeForm === "title" ? "price" : "sum", {
+          {...register("price", {
             required: "this field is required",
           })}
           type="number"
-          name={typeForm === "title" ? "price" : "sum"}
+          name="price"
           placeholder="type a sum..."
         />
       </div>
@@ -38,7 +36,7 @@ const FormContent: React.FC<FormContentProps> = ({ typeForm, register }) => {
         className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
         type="submit"
       >
-        {typeForm === "title" ? "Add Expense" : "Add income"}
+        Add {typeForm}
       </button>
     </>
   );

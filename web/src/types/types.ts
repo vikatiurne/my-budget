@@ -10,17 +10,21 @@ export interface IDate {
 }
 export interface Income {
   _id?: string;
-  incomename: string;
-  sum: number;
+  budget_id: string;
+  title: string;
+  price: number;
 }
 export interface IBudget {
-  _id: string;
   name: string;
   budget: number;
-  income: Income[];
   user_id: string;
   date: IDate;
   createdAt?: Date;
+}
+
+export interface IBudgetUpdate extends IBudget {
+  _id: string;
+  incomesum: number;
 }
 export interface IExpense {
   _id: string;

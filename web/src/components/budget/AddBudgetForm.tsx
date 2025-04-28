@@ -1,12 +1,9 @@
 "use client";
-
 import { useAuthContext } from "@/hooks/useAuthContext";
-
 import { IBudget } from "@/types/types";
 import { createBudget } from "@/utils/api";
 import { currentMonthYear } from "@/utils/currentMonthYear";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import React from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
@@ -29,11 +26,9 @@ const AddBudgetForm: React.FC = () => {
           budget: data.budget,
           user_id: userId,
           date: currentMonthYear(),
-          income: data.income,
-          _id: data._id,
         },
       ];
-      queryClient.setQueryData(["bidget"], optimisticBudget);
+      queryClient.setQueryData(["budget"], optimisticBudget);
       return { prevBudget };
     },
     onError: (err, newBudget, context) => {
@@ -53,8 +48,6 @@ const AddBudgetForm: React.FC = () => {
       budget: data.budget,
       date: date,
       user_id: userId,
-      income: [{ incomename: "", sum: 0 }],
-      _id: data._id,
     });
   };
 

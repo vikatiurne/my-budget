@@ -70,7 +70,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="mb-8 flex flex-col gap-4  items-center"
     >
-      <FormContent typeForm="title" register={register} />
+      <FormContent typeForm="expense" register={register} />
     </form>
   );
 };

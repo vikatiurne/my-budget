@@ -1,15 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Container from "./containers/Container";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 import FullCostsTravel from "./travel/FullCostsTravel";
 import Link from "next/link";
 import BudgetsList from "./budget/BudgetsList";
 
 const Main = () => {
   const [showCalculate, setShowCalculate] = useState<boolean>(true);
-  const [showBudgetList, setShowBudgetList] = useState<boolean>(false);
+  const [showBudgetList, setShowBudgetList] = useState<boolean>(true);
 
   const { isAuth } = useAuthContext();
 

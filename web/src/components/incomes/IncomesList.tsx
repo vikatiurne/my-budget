@@ -2,27 +2,25 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import arrow from "../../../public/arrow.svg";
-import { useQueryBudgetById } from "@/hooks/useQueryBudgetById";
+import { IBudgetUpdate } from "@/types/types";
+import { useIncomeQuery } from "@/hooks/useIncomeQuery";
 
-interface IncomesListProps{
-  budgetId:string
+interface IncomesListProps {
+  budgetData: IBudgetUpdate;
 }
 
-const IncomesList:React.FC<IncomesListProps> = ({budgetId}) => {
+const IncomesList: React.FC<IncomesListProps> = ({ budgetData }) => {
   const [totalIncome, setTotalIncome] = useState<number>(0);
   const [showList, setShowList] = useState<boolean>(true);
 
-  const query = useQueryBudgetById(budgetId);
+  const query = useIncomeQuery(budgetData._id);
 
   const { data, isPending } = query;
 
+
   useEffect(() => {
     if (data) {
-      const total = data[0].income.reduce((acc, item) => {
-        acc = item.sum + acc;
-        return acc;
-      }, 0);
-
+      const total = data?.reduce((acc, item) => acc + item.price, 0);
       setTotalIncome(total);
     }
   }, [data]);
@@ -53,10 +51,10 @@ const IncomesList:React.FC<IncomesListProps> = ({budgetId}) => {
           <ul
             className={`list-disc pl-5 mb-2 ${showList ? "block" : "hidden"}`}
           >
-            {data[0].income.map((item) => (
+            {data.map((item) => (
               <li className="list-disc flex gap-4 text-gray-500" key={item._id}>
-                <p>{item.incomename}</p>
-                <p>{item.sum}₴</p>
+                <p>{item.title}</p>
+                <p>{item.price}₴</p>
               </li>
             ))}
           </ul>

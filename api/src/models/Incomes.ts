@@ -1,13 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface IExpense extends Document {
+export interface IIncome extends Document {
   title: string;
   price: number;
   budget_id: mongoose.Types.ObjectId;
   createdAt: Date;
 }
 
-const ExpenseSchema: Schema = new Schema(
+const IncomeSchema: Schema = new Schema(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
@@ -16,6 +16,6 @@ const ExpenseSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-const Expense = mongoose.model<IExpense>("Expense", ExpenseSchema);
+const Income = mongoose.model<IIncome>("Income", IncomeSchema);
 
-export default Expense;
+export default Income;

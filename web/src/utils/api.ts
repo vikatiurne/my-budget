@@ -1,11 +1,11 @@
 import {
   IBudget,
   IExpense,
-  // IDate,
-  Income,
   User,
   ITravelCosts,
   ICalculationInfo,
+  IBudgetUpdate,
+  Income,
 } from "@/types/types";
 import axios from "axios";
 
@@ -26,7 +26,7 @@ export const getUser = async (id: string): Promise<User> => {
 };
 
 //budget
-export const createBudget = async (budgetdata: IBudget): Promise<IBudget> => {
+export const createBudget = async (budgetdata: IBudget): Promise<IBudget[]> => {
   const res = await axios.post(`${API_URL}/budget/createBudget`, {
     budgetdata,
   });
@@ -36,40 +36,47 @@ export const getBudget = async (
   userId: string,
   mounth: string,
   year: string
-): Promise<IBudget[]> => {
+): Promise<IBudgetUpdate[]> => {
   const res = await axios.get(
     `${API_URL}/budget/getBudget/${userId}?mounth=${mounth}&year=${year}`
   );
   return res.data;
 };
 export const getBudgetById = async (
-  userId: string,
   budgetId: string
-): Promise<IBudget[]> => {
-  const res = await axios.get(
-    `${API_URL}/budget/getBudgetById/${userId}/${budgetId}`
-  );
+): Promise<IBudgetUpdate> => {
+  const res = await axios.get(`${API_URL}/budget/getBudgetById/${budgetId}`);
   return res.data;
 };
-export const getBudgets = async (userId: string): Promise<IBudget[]> => {
+export const getBudgets = async (userId: string): Promise<IBudgetUpdate[]> => {
   const res = await axios.get(`${API_URL}/budget/getAllBudgets/${userId}`);
   return res.data;
 };
 export const updateBudget = async (
-  userId: string,
   budgetId: string,
-  // date: IDate,
-  income: Income[],
-  budget: number,
-): Promise<IBudget> => {
-  console.log(budgetId)
-  const res = await axios.put(
-    `${API_URL}/budget/updateBudget/${userId}/${budgetId}`,
-    {
-      income,
-      budget,
-    }
-  );
+  income: number
+): Promise<IBudgetUpdate> => {
+  const res = await axios.put(`${API_URL}/budget/updateBudget/${budgetId}`, {
+    income,
+  });
+  return res.data;
+};
+
+//incomes
+export const getIncomes = async (budgetId: string): Promise<Income[]> => {
+  const res = await axios.get(`${API_URL}/income/getIncomes/${budgetId}`);
+  return res.data;
+};
+
+export const createIncome = async (incomedata: Income): Promise<Income[]> => {
+  const res = await axios.post(`${API_URL}/income/createIncome`, {
+    incomedata,
+  });
+  return res.data;
+};
+
+export const updateIncome = async (incomedata: Income): Promise<Income[]> => {
+  const res = await axios.put(`${API_URL}/income/updateIncome`, { incomedata });
   return res.data;
 };
 

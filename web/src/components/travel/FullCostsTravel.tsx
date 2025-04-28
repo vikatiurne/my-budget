@@ -1,4 +1,4 @@
-import { Budget, ITravelCosts } from "@/types/types";
+import { IBudget, ITravelCosts } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import AccommodationForm from "./AccommodationForm";
@@ -80,29 +80,27 @@ const FullCostsTravel = () => {
 
   const methods = useForm<ITravelCosts>();
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
 
   const queryClient = useQueryClient();
 
   const { userId } = useAuthContext();
 
   const budgetMutation = useMutation({
-    mutationFn: (budgetdata: Budget) => createBudget(budgetdata),
-    onMutate: async (data: Budget) => {
+    mutationFn: (budgetdata: IBudget) => createBudget(budgetdata),
+    onMutate: async (data: IBudget) => {
       await queryClient.cancelQueries({ queryKey: ["budget"] });
-      const prevBudget: Budget[] = queryClient.getQueryData(["budget"]) ?? [];
-      const optimisticBudget: Budget[] = [
+      const prevBudget: IBudget[] = queryClient.getQueryData(["budget"]) ?? [];
+      const optimisticBudget: IBudget[] = [
         ...prevBudget,
         {
           name: data.name,
           budget: data.budget,
           user_id: userId,
           date: currentMonthYear(),
-          income: data.income,
-          _id: data._id,
         },
       ];
-      queryClient.setQueryData(["bidget"], optimisticBudget);
+      queryClient.setQueryData(["budget"], optimisticBudget);
       return { prevBudget };
     },
     onError: (err, newBudget, context) => {
@@ -126,16 +124,23 @@ const FullCostsTravel = () => {
         budget: obj.total,
         date: date,
         user_id: userId,
-        income: [{ incomename: "", sum: 0 }],
-        _id: data._id ? data._id : "",
       });
     }
+    setActivePopap(false);
+    setIsFuelPriceForm(false);
+    setShowAccomondationForm(false);
+    setShowFoodForm(false);
+    setShowInsuranceForm(false);
+    setShowRoadForm(false);
+    setShowRoadTaxForm(false);
+    setShowActivitiesForm(false);
+    setShowSightseeingForm(false);
+    setShowExtraForm(false);
+    reset();
   };
 
   const onBudgetCalculate = (data: ITravelCosts) => {
-    console.log("calculation");
     const obj = getDataTravelCost(data);
-    console.log(obj);
     setTotalPrice(obj.total);
   };
 

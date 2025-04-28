@@ -12,6 +12,8 @@ const BudgetId: React.FC<BudgetIdProps> = ({ budgetId }) => {
 
   const { data, error, isPending } = queryBudget;
 
+  console.log("data from id:",data)
+
   if (isPending) {
     return <p className="mb-8 text-center">Loading...Get budget...</p>;
   } else {
