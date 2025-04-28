@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { IBudgetUpdate, IExpense, Income } from "@/types/types";
 import { createIncome, updateBudget } from "@/utils/api";
@@ -57,7 +58,7 @@ const AddIncome: React.FC<AddIncomeProps> = ({ sum, budgetData }) => {
     onError: (err, newBubget, context) => {
       queryClient.setQueryData(["budget"], context?.prevBudget);
     },
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["budget"],
       });

@@ -1,3 +1,4 @@
+"use client"
 import { useQueryBudgetById } from "@/hooks/useQueryBudgetById";
 import React from "react";
 import Container from "../containers/Container";

@@ -1,3 +1,4 @@
+"use client"
 import { ErrorResponse, IBudgetUpdate } from "@/types/types";
 import { AxiosError } from "axios";
 import React, { useState } from "react";

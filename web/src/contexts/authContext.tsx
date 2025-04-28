@@ -93,7 +93,7 @@ export const AuthProvirer: React.FC<AuthProvirerProps> = ({
       logout,
       setErr,
     }),
-    [isAuth, userId, textErr, auth, isLogout]
+    [isAuth, userId, textErr, isLogout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

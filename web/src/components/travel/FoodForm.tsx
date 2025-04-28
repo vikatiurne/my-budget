@@ -35,7 +35,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
     } else {
       setSelectedPlaces([...selectedPlaces, ""]);
     }
-  }, [append, fields.length]);
+  }, [append, fields.length, selectedPlaces]);
 
   const handleChangeEattingPlace = (
     idx: number,

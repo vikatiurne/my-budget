@@ -102,7 +102,7 @@ export const getDataTravelCost = (data: ITravelCosts): ITravel => {
     foodCost,
     activitiesCost,
     extra,
-    total:total.toFixed(2),
+    total: +total.toFixed(2),
   };
 
   return travelCostObj;
