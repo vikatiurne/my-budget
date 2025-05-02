@@ -15,6 +15,7 @@ const CarInfo: React.FC<CarInfoProps> = ({ active, setActive }) => {
   const { handleSubmit, register } = useForm<IMetrics>();
 
   const handleCostCalculation = (data: IMetrics) => {
+    console.log(data);
     const price = ((+data.distance * +data.mileage) / 100) * +data.price;
     setFuelPrice(+price.toFixed(2) / data.qtypeople);
   };

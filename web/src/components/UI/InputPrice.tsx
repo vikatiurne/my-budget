@@ -7,15 +7,22 @@ interface InputPriceProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   typeField?: string;
   isRequired?: boolean;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>, idx?: number) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 const InputPrice = <T extends FieldValues>({
   typeField,
+  value,
   fieldName,
   placeholder,
   isRequired = false,
   register,
+  onChange,
+  onBlur,
 }: InputPriceProps<T>) => {
+
   return (
     <div className="flex gap-2 items-center">
       <input
@@ -28,6 +35,9 @@ const InputPrice = <T extends FieldValues>({
         {...register(fieldName, {
           required: isRequired ? "this field is required" : false,
         })}
+        {...(value !== undefined ? { value } : {})}
+        {...(onChange ? { onChange } : {})}
+        {...(onBlur ? { onBlur } : {})}
       />
       <p>{!typeField ? "₴" : typeField}</p>
     </div>

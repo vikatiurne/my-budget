@@ -1,21 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputPrice from "./InputPrice";
 import { useFormContext } from "react-hook-form";
+import { TotalValueField } from "@/types/types";
 
 interface InputTravelProps {
   labelText: string;
   fieldName: string;
   split?: string;
+  onTotalValField: (val: TotalValueField) => void;
 }
 
 const InputTravel: React.FC<InputTravelProps> = ({
   labelText,
   fieldName,
   split,
+  onTotalValField,
 }) => {
   const [splitExp, setSplitExp] = useState<boolean | undefined>(!split);
+  const [localPrice, setLocalPrice] = useState<string | undefined>("");
+  const [localQty, setLocalQty] = useState<string>("1");
 
-  const { register } = useFormContext();
+  const { register, setValue } = useFormContext();
+
+  useEffect(() => {
+    if (localPrice && localQty)
+      onTotalValField({
+        field: fieldName,
+        totalField: (+localPrice / +localQty).toString(),
+      });
+  }, [localPrice, localQty, splitExp]);
+
+  console.log(localPrice);
+
+  const toggleSplit = () => {
+    if (splitExp) {
+      setLocalQty("1");
+      setValue("qtypeople", "1");
+    }
+    setSplitExp((prev) => !prev);
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setLocalPrice(e.target.value);
+
+  const handleBlurPrice = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValue(fieldName, e.target.value);
+
+  const handleQtyChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setLocalQty(e.target.value);
+
+  const handleBlurQty = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setValue("qtypeople", e.target.value);
 
   return (
     <div className="flex gap-4 items-center mb-4">
@@ -26,6 +61,9 @@ const InputTravel: React.FC<InputTravelProps> = ({
         fieldName={fieldName}
         placeholder="price..."
         register={register}
+        value={localPrice}
+        onChange={(e) => handlePriceChange(e)}
+        onBlur={handleBlurPrice}
       />
       {splitExp && split && (
         <InputPrice
@@ -33,11 +71,14 @@ const InputTravel: React.FC<InputTravelProps> = ({
           placeholder="qty"
           typeField=" "
           register={register}
+          value={localQty ?? ""}
+          onChange={(e) => handleQtyChange(e)}
+          onBlur={handleBlurQty}
         />
       )}
       {split && (
         <button
-          onClick={() => setSplitExp((prev) => !prev)}
+          onClick={toggleSplit}
           className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
         >
           {!splitExp ? "split by" : "cancel"}

@@ -1,4 +1,4 @@
-import { ITransport, ITravelCosts } from "@/types/types";
+import { ITransport, ITravelCosts, TotalValueField } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import BtnsFialdsArray from "./BtnsFialdsArray";
@@ -27,14 +27,18 @@ const RoadForm: React.FC<RoadFormProps> = ({
     { value: "rent", label: "Rent Car" },
   ];
 
-  const { control, register } = useFormContext<{
+  const { control, register, setValue } = useFormContext<{
     transport: ITransport[];
   }>();
   const trMethods = useFormContext<ITravelCosts>();
 
   const [selestedTransportValues, setSelestedTransportValues] = useState<
-    string[]
+    TotalValueField[]
   >([]);
+  const [selestedNames, setSelestedNames] = useState<string[]>([]);
+  const [total, setTotal] = useState<string>("");
+  const [showDetail, setShowDetail] = useState<boolean>(true);
+  const [isToSides, setIsToSides] = useState<boolean>(true);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -48,10 +52,16 @@ const RoadForm: React.FC<RoadFormProps> = ({
   }, [append, showForm]);
 
   useEffect(() => {
-    if (selestedTransportValues.length === 0) {
-      setSelestedTransportValues([...selestedTransportValues, ""]);
-    }
-  }, [append, selestedTransportValues.length]);
+    const sumforfield = selestedTransportValues
+      .filter((item) => item.totalField !== null && item.totalField !== "")
+      .reduce(
+        (acc: number, item: TotalValueField) => acc + parseInt(item.totalField),
+
+        0
+      );
+    const sumtosideds = isToSides ? sumforfield * 2 : sumforfield;
+    setTotal(sumtosideds.toString());
+  }, [selestedTransportValues, isToSides]);
 
   const handleRemote = (idx: number) => {
     remove(idx);
@@ -64,23 +74,53 @@ const RoadForm: React.FC<RoadFormProps> = ({
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const updatedValues = [...selestedTransportValues];
-    updatedValues[idx] = selestedTransportValues.length ? e.target.value : "";
+    updatedValues[idx] = { field: e.target.name, totalField: "" };
     setSelestedTransportValues(updatedValues);
+
+    const updatedName = [...selestedNames];
+    updatedName[idx] = e.target.value;
+    setSelestedNames(updatedName);
+  };
+
+  const handleShowDetails = () => setShowDetail((prev) => !prev);
+
+  const handlePriceChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    idx: number
+  ) => {
+    const updatedValues = [...selestedTransportValues];
+    if (updatedValues[idx]) {
+      updatedValues[idx].totalField = e.target.value;
+      setSelestedTransportValues(updatedValues);
+    }
+  };
+
+  const handleBlurPrice = (idx: number) => {
+    setValue(`transport.${idx}.price`, selestedTransportValues[idx].totalField);
+  };
+
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsToSides(e.target.checked);
   };
 
   const getContentForSelectedTransport = (idx: number) => {
-    const selectedTrancportValue = selestedTransportValues[idx];
+    const currentTransport = selestedTransportValues[idx];
 
-    if (!selectedTrancportValue) return null;
+    if (!currentTransport) return null;
+
+    const selectedTransportValue = selestedNames[idx];
+
+    if (!selectedTransportValue) return null;
 
     const components = [];
 
-    if (selectedTrancportValue === "car")
+    if (selectedTransportValue === "car")
       components.push(
         <button key="fuelCalculator" onClick={() => fuelPrice()}>
           <FcCalculator className="w-8 h-8 cursor-pointer" />
         </button>
       );
+
 
     components.unshift(
       <InputPrice
@@ -89,6 +129,9 @@ const RoadForm: React.FC<RoadFormProps> = ({
         placeholder="price..."
         register={register}
         isRequired={true}
+        value={currentTransport.totalField ? currentTransport.totalField : "0"}
+        onChange={(e) => handlePriceChange(e, idx)}
+        onBlur={() => handleBlurPrice(idx)}
       />
     );
     return <>{components}</>;
@@ -98,51 +141,66 @@ const RoadForm: React.FC<RoadFormProps> = ({
     showForm && (
       <div className="mb-6 ">
         <TitleTravelBlock
-          title="Modes of transportation"
+          title={`Modes of transportation - ${total} ₴`}
           blockName="transport"
           formActive={formActive}
           setSelected={() => setSelestedTransportValues([])}
+          setShowDetails={handleShowDetails}
         />
 
-        {fields.map((item, idx) => (
-          <div key={item.id} className="flex gap-4 mb-4 flex-wrap items-center">
-            <label
-              htmlFor={`name-${idx}`}
-              className="text-sm font-bold text-gray-600"
-            >
-              Transport №{idx + 1}
-            </label>
+        {showDetail && (
+          <>
+            {fields.map((item, idx) => (
+              <div
+                key={item.id}
+                className="flex gap-4 mb-4 flex-wrap items-center"
+              >
+                <label
+                  htmlFor={`name-${idx}`}
+                  className="text-sm font-bold text-gray-600"
+                >
+                  Transport №{idx + 1}
+                </label>
 
-            <div className="flex gap-2 md:gap-4 items-center">
-              <Controller
-                name={`transport.${idx}.typeofTransport`}
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <CustomSelect
-                    field={field}
-                    options={options}
-                    handleChange={(e) => handleTransportChange(idx, e)}
+                <div className="flex gap-2 md:gap-4 items-center">
+                  <Controller
+                    name={`transport.${idx}.typeofTransport`}
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <CustomSelect
+                        field={field}
+                        options={options}
+                        handleChange={(e) => handleTransportChange(idx, e)}
+                      />
+                    )}
                   />
-                )}
-              />
 
-              {getContentForSelectedTransport(idx)}
+                  {getContentForSelectedTransport(idx)}
 
-              <div className="flex gap-2 items-center ">
-                <BtnsFialdsArray
-                  idx={idx}
-                  append={() => append({ typeofTransport: "", price: null })}
-                  remove={() => handleRemote(idx)}
-                />
+                  <div className="flex gap-2 items-center ">
+                    <BtnsFialdsArray
+                      idx={idx}
+                      append={() =>
+                        append({ typeofTransport: "", price: null })
+                      }
+                      remove={() => handleRemote(idx)}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
-        <input type="checkbox" {...trMethods.register("twosides")} />
-        <label htmlFor="twosides" className="text-md ml-2 text-gray-600">
-          include return trip
-        </label>
+            ))}
+            <input
+              type="checkbox"
+              {...trMethods.register("twosides")}
+              checked={isToSides}
+              onChange={(e) => handleCheckbox(e)}
+            />
+            <label htmlFor="twosides" className="text-md ml-2 text-gray-600">
+              include return trip
+            </label>
+          </>
+        )}
       </div>
     )
   );

@@ -118,3 +118,8 @@ export interface ICalculationInfo {
   title: string;
   total: number;
 }
+
+export interface TotalValueField {
+  field: string;
+  totalField: string;
+}
