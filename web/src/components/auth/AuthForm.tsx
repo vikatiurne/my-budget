@@ -1,4 +1,5 @@
 "use client";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { User } from "@/types/types";
 import Link from "next/link";
@@ -26,6 +27,8 @@ const AuthForm: React.FC<AuthFormProps> = ({ typeAuth }) => {
     error: "text-red-500 text-sm text-center",
   };
 
+  const {ta,tb,tm} = useAppTranslation()
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -35,13 +38,13 @@ const AuthForm: React.FC<AuthFormProps> = ({ typeAuth }) => {
       {typeAuth === "signup" && (
         <div className={styles.block}>
           <label className={`${styles.label} mt-0`} htmlFor="name">
-            Enter your name:
+            {ta("enterName")}
           </label>
           <input
             className={styles.input}
             type="text"
-            placeholder="Your name..."
-            {...register("name", { required: "this field is required" })}
+            placeholder={ta("placeholderName")}
+            {...register("name", { required: tm("required") })}
           />
           <p className={styles.error}>{errors.name?.message}</p>
         </div>
@@ -49,25 +52,25 @@ const AuthForm: React.FC<AuthFormProps> = ({ typeAuth }) => {
 
       <div className={styles.block}>
         <label className={styles.label} htmlFor="email">
-          Enter your e-mail
+          {ta("enterEmail")}
         </label>
         <input
           className={styles.input}
           type="email"
-          placeholder="Your e-mail..."
-          {...register("email", { required: "this field is required" })}
+          placeholder={ta("placeholderEmail")}
+          {...register("email", { required: tm("required") })}
         />
         <p className={styles.error}>{errors.email?.message}</p>
       </div>
       <div className={styles.block}>
         <label htmlFor="password" className={styles.label}>
-          Enter your password
+          {ta("enterPass")}
         </label>
         <input
           className={styles.input}
           type="password"
-          placeholder="Your password..."
-          {...register("password", { required: "this field is required" })}
+          placeholder={ta("placeholderPass")}
+          {...register("password", { required: tm("required") })}
         />
         <p className={styles.error}>{errors.password?.message}</p>
       </div>
@@ -75,16 +78,18 @@ const AuthForm: React.FC<AuthFormProps> = ({ typeAuth }) => {
         className="block mx-auto mt-10 py-2 px-4 rounded bg-[#daa520] text-white cursor-pointer hover:bg-amber-100 hover:text-gray-900 active:bg-amber-50"
         type="submit"
       >
-        {typeAuth === "signup" ? "Sing Up" : "Sing In"}
+        {typeAuth === "signup" ? tb("signUp") : tb("signIn")}
       </button>
       <p className="mt-6 mb-4 text-red-500 text-center">{textErr} </p>
       <p>
-        Do you have account?{" "}
+        {ta("haveAccount")}
         <Link
           href={typeAuth === "signup" ? "/signin" : "/signup"}
           className="text-blue-500 cursor-pointer underline"
         >
-          <span>{typeAuth === "signup" ? "sing in" : "sing up"}</span>
+          <span >
+            {typeAuth === "signup" ? tb("signIn") : tb("signUp")}
+          </span>
         </Link>
       </p>
     </form>

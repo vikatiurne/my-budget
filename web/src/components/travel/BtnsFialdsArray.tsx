@@ -1,3 +1,4 @@
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 import React from "react";
 
 interface BtnsFialdsArrayProps {
@@ -11,6 +12,9 @@ const BtnsFialdsArray: React.FC<BtnsFialdsArrayProps> = ({
   append,
   remove,
 }) => {
+
+   const { tb } = useAppTranslation();
+
   return (
     <>
       {idx === 0 ? (
@@ -18,14 +22,14 @@ const BtnsFialdsArray: React.FC<BtnsFialdsArrayProps> = ({
           className="p-2 w-6 shadow-md rounded-b-full bg-[#daa520] text-white  text-sm cursor-pointer"
           type="button"
           onClick={append}
-          title="add"
+          title={tb("add")}
         >
           +
         </button>
       ) : (
         <button
           type="button"
-          title="delete"
+          title={tb("delete")}
           onClick={remove}
           className="p-2 w-6 shadow-md rounded-t-full bg-[#816f42] text-white font-bold text-sm cursor-pointer"
         >

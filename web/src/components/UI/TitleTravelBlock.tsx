@@ -1,3 +1,4 @@
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { CiCircleRemove } from "react-icons/ci";
@@ -35,6 +36,7 @@ const TitleTravelBlock: React.FC<TitleTravelBlockProps> = ({
     setRotateArrow((prev) => !prev);
     setShowDetails();
   };
+   const {tb } = useAppTranslation();
 
   return (
     <button
@@ -46,7 +48,7 @@ const TitleTravelBlock: React.FC<TitleTravelBlockProps> = ({
       <CiCircleRemove
         className="w-6 h-6 cursor-pointer"
         onClick={(e) => handleClick(e)}
-        title="remove block"
+        title={tb("removeTitle")}
       />
       <MdOutlineArrowDropDown
         className={`absolute w-9 h-9 left-1/2  fill-gray-200  ${

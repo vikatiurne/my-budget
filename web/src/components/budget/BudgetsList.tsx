@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteBudget } from "@/utils/api";
 import { IBudgetUpdate } from "@/types/types";
 import { useRouter } from "next/navigation";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 const BudgetsList = () => {
   const query = useAllBudgetQuery();
@@ -42,12 +43,14 @@ const BudgetsList = () => {
     deleteBudgetMutation.mutate(budgetId);
   };
 
+   const {tm,tbg} = useAppTranslation()
+
   if (isPending) {
-    return <p className="mb-8 text-center">Loading...Get budgets list...</p>;
+    return <p className="mb-8 text-center">{tm("loading")}{tm("getBudgetList")}</p>;
   } else {
     return (
       <ul className="mb-4 col-start-2 list-disc text-center">
-        <h6 className="mb-2 text-xl font-bold underline">Your budgets list:</h6>
+        <h6 className="mb-2 text-xl font-bold underline">{tbg("budgetList")}</h6>
         {data?.map((item) => (
           <button
             onClick={() => router.push(`/budget/${item._id}`)}

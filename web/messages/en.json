@@ -1,0 +1,146 @@
+{  
+  "Header": {  
+    "myBudget": "My Budget",  
+    "registration": "Registration Form",  
+    "login": "Login Form" 
+    
+  }, 
+  "Auth":{
+    "placeholderName":"Your name...",
+    "placeholderEmail":"Your e-mail...",
+    "placeholderPass":"Your password...",
+    "enterName":"Enter your name",
+    "enterEmail":"Enter your e-mail",
+    "enterPass":"Enter your password",
+    "haveAccount": "Do you have account?"
+  } ,
+  "Budget":{
+    "monthlyBudget":"Mounthly Budget:",
+    "budgetList":"Your budgets list:"
+  },
+  "Expense":{
+    "prodacts":"prodacts",
+    "restaurant":"restaurant",
+    "connect":"connect",
+    "education":"education",
+    "clothes":"clothes",
+    "car":"car",
+    "transport":"transport",
+    "beauty":"beauty",
+    "sport":"sport",
+    "alcohol":"alcohol",
+    "cigarettes":"cigarettes",
+    "health":"health",
+    "pills":"pills",
+    "pets":"pets",
+    "repair":"repair",
+    "housegoods":"housegoods",
+    "entertainment":"entertainment",
+    "gifts":"gifts",
+    "travelling":"travelling",
+    "furniture":"furniture",
+    "charity":"charity",
+    "savings":"savings",
+    "other":"other",
+    "children":"children",
+    "editExpense":"Edit Expense"
+  },
+  "Incomes":{
+    "additional":"Additional income:",
+    "total":"Total income:"
+  },
+  "Travel":{
+    "accomodation":"Accomodation",
+    "distance":"Distance",
+    "mileage":"Mileage",
+    "fuelPrice":"Fuel Price",
+    "quantityPeople":"Quantity people",
+    "calculate":"Calculate",
+    "unaccountedExpenses":"Unaccounted expenses",
+    "food":"Food",
+    "inside":"Inside",
+    "outside":"Outside",
+    "placeForEatting":"Place for eatting",
+    "calculateFuel":"Calculate fuel expense",
+    "CalculateTripBudget":"Calculate trip budget",
+    "hotels":"hotels",
+    "transport":"transport",
+    "insurance":"insurance",
+    "roadTax":"road tax",
+    "landmark":"landmark",
+    "foodIcon":"food",
+    "activities":"activity",
+    "other":"other",
+    "totalPrice":"Total Price:",
+    "writeBudgetName":"Write down the name of budget you need to save",
+    "skiLift":"Ski lift",
+    "beachAccess":"Beach access",
+    "seasonalActivity":"Seasonal activity",
+    "sightseeing":"Sightseeing"
+  },
+
+"Insurances":{
+    "insurances":"Insurances",
+    "greenCard":"Green Card",
+    "health":"Health Insurance"
+},
+"Road":{
+    "modesTransportation":"Modes of transportation",
+    "transport":"Transport",
+    "car":"Car",
+    "train":"Train",
+    "fly":"Fly",
+    "bus":"Bus",
+    "chip":"Chip",
+    "rentCar":"Rent Car",
+    "includeReturnTrip":"include return trip",
+    "roadTax":"Road Tax",
+    "country":"Country"
+   
+},
+"Inputs":{
+    "sum":"type a sum...",
+    "price":"price...",
+    "name":"name...",
+    "qty":"qty",
+    "km":"km",
+    "litrs":"litrs",
+    "litr/100km":"litr/100km",
+    "days":"days",
+    "expenseSourse":"title an expense sourse..",
+    "incomesSourse":"title an incomes sourse..",
+    "budgetName":"budget name...",
+    "select":"Select",
+    "title":"title"
+},
+  "Buttons": {  
+    "signUp": "Sign Up",  
+    "signIn": "Sign In",  
+    "logout": "Log out" ,
+    "apply":" Apply",
+    "add": "Add",  
+    "save": "Save", 
+    "saveBudget" :"Save Budget",
+    "cancel": "Cancel",
+    "removeTitle":"remove block",  
+    "delete": "Delete"  ,
+    "splitBy":"split by",
+    "calculate":"Calculate",
+    "incomes":"Incomes",
+    "expenses":"Expenses",
+    "yuorExpensesForPeriod":"Your expenses for the period:",
+    "resetPeriod":"Reset Reriod",
+    "budgetCalculation":"the budget calculation for the trip",
+    "show":"Show",
+    "hide":"Hide",
+    "budgetsList":"Budgets List",
+    "monthlyBudget":"Monthly Budget"
+  },  
+  "Messages": {  
+    "loading" : "Loading...",
+    "getBudget" : "Get budget...",
+    "getBudgetList" : "Get budgets list...",
+    "required":"This field is required",
+    "noBudget":"Budget for this month didn't set!"
+  }
+}  

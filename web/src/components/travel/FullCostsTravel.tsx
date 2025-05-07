@@ -27,7 +27,7 @@ import { createBudget } from "@/utils/api";
 import { currentMonthYear } from "@/utils/currentMonthYear";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { getDataTravelCost } from "@/utils/getDataTravelCost";
-
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 const styles = {
   icon: "p-1 w-10 h-10 border rounded",
@@ -147,45 +147,45 @@ const FullCostsTravel = () => {
 
   const showFuelPriceForm = () => setIsFuelPriceForm(true);
 
+  const { tt, tm, ti, tb } = useAppTranslation();
+
   return (
     <div className="mb-8 mx-auto p-4 shadow rounded max-w-[49rem]">
       {isFuelPriceForm && (
-        <div>
-          <h1 className="mb-8 text-3xl font-black text-center">
-            Calculate fuel expense
-          </h1>
-          <CarInfo
-            active={isFuelPriceForm}
-            setActive={() => setIsFuelPriceForm(false)}
-          />
-        </div>
+        <CarInfo
+          active={isFuelPriceForm}
+          setActive={() => setIsFuelPriceForm(false)}
+        />
       )}
       <h1 className="mb-8 text-3xl font-black text-center">
-        Calculate trip budget
+        {tt("CalculateTripBudget")}
       </h1>
       <div className="mb-6 flex flex-wrap gap-6 justify-center">
-        <Icon onClick={() => setShowAccomondationForm(true)} name="hotels">
+        <Icon
+          onClick={() => setShowAccomondationForm(true)}
+          name={tt("hotels")}
+        >
           <FaHotel className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowRoadForm(true)} name="transport">
+        <Icon onClick={() => setShowRoadForm(true)} name={tt("transport")}>
           <MdDirectionsTransit className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowInsuranceForm(true)} name="insurance">
+        <Icon onClick={() => setShowInsuranceForm(true)} name={tt("insurance")}>
           <AiOutlineInsurance className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowRoadTaxForm(true)} name="road tax">
+        <Icon onClick={() => setShowRoadTaxForm(true)} name={tt("roadTax")}>
           <FaRoad className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowSightseeingForm(true)} name="landmark">
+        <Icon onClick={() => setShowSightseeingForm(true)} name={tt("landmark")}>
           <FaLandmarkDome className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowFoodForm(true)} name="food">
+        <Icon onClick={() => setShowFoodForm(true)} name={tt("food")}>
           <IoFastFoodOutline className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowActivitiesForm(true)} name="activities">
+        <Icon onClick={() => setShowActivitiesForm(true)} name={tt("activities")}>
           <MdOutlineSportsHandball className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowExtraForm(true)} name="other">
+        <Icon onClick={() => setShowExtraForm(true)} name={tt("other")}>
           <LuListPlus className={styles.icon} />
         </Icon>
       </div>
@@ -227,7 +227,7 @@ const FullCostsTravel = () => {
 
           {!!totalPrice && (
             <p className="mb-4 text-end text-xl font-black">
-              Total Price: <span>{totalPrice} ₴</span>
+              {tt("totalPrice")} <span>{totalPrice} ₴</span>
             </p>
           )}
 
@@ -238,7 +238,7 @@ const FullCostsTravel = () => {
                 type="button"
                 className=" block py-2 px-4 shadow-md rounded bg-green-500 text-white uppercase text-sm cursor-pointer"
               >
-                Save Budget
+                {tb("saveBudget")}
               </button>
             )}
             {isSelectFields && (
@@ -247,7 +247,7 @@ const FullCostsTravel = () => {
                 onClick={methods.handleSubmit(onBudgetCalculate)}
                 className=" block  py-2 px-4 shadow-md rounded bg-blue-400 text-white uppercase text-sm cursor-pointer"
               >
-                Calculate
+                {tt("calculate")}
               </button>
             )}
           </div>
@@ -255,15 +255,15 @@ const FullCostsTravel = () => {
             <Popap active={activePopap} setActive={() => setActivePopap(false)}>
               <div>
                 <h6 className="mx-auto mb-4 w-72 text-xl text-center text-yellow-50">
-                  Write down the name of budget you need to save
+                  {tt("writeBudgetName")}
                 </h6>
                 <input
                   className="mx-auto mb-4 p-2 block w-56 border-gray-300 outline-none rounded shadow-sm bg-amber-50 dark:shadow-amber-50"
                   type="text"
                   autoComplete="true"
-                  placeholder="budget name..."
+                  placeholder={ti("budgetName")}
                   {...methods.register("title", {
-                    required: "this field is required",
+                    required: tm("required"),
                   })}
                 />
                 <div className="flex gap-4 justify-center">
@@ -272,13 +272,13 @@ const FullCostsTravel = () => {
                     onClick={() => setActivePopap(false)}
                     className="mb-2 block py-2 px-2 shadow-md rounded bg-gray-500 text-white uppercase text-sm cursor-pointer"
                   >
-                    Cancel
+                    {tb("cancel")}
                   </button>
                   <button
                     type="submit"
                     className="mb-2 block py-2 px-4 shadow-md rounded bg-blue-500 text-white uppercase text-sm cursor-pointer"
                   >
-                    Save
+                    {tb("save")}
                   </button>
                 </div>
               </div>

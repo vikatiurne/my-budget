@@ -4,6 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import ArrayForm from "../UI/ArrayForm";
 import BtnsFialdsArray from "./BtnsFialdsArray";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface SightseeingFormProps {
   showForm: boolean;
@@ -52,11 +53,13 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
 
   const handleShowDetails = () => setShowDetail((prev) => !prev);
 
+   const { tt } = useAppTranslation();
+
   return (
     showForm && (
       <div className="mb-6">
         <TitleTravelBlock
-          title={`Sightseeing - ${total} ₴`}
+          title={`${tt("sightseeing")} - ${total} ₴`}
           blockName="sightseeing"
           formActive={formActive}
           setSelected={() => setTotalValField([])}
@@ -71,9 +74,9 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
             >
               <label
                 htmlFor={`name-${idx}`}
-                className="text-sm font-bold text-gray-600"
+                className="text-sm font-bold text-gray-600 capitalize"
               >
-                Landmark №{idx + 1}:
+                {tt("landmark")} №{idx + 1}:
               </label>
               <div className="flex gap-2 md:gap-4 items-center">
                 <ArrayForm

@@ -5,6 +5,7 @@ import Container from "../containers/Container";
 import BudgetInfo from "./BudgetInfo";
 import { currentMonthYear } from "@/utils/currentMonthYear";
 import { IBudgetUpdate } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 const MonthlyBudget: React.FC = () => {
   const [monthlybudgetdata, setMonthlybudgetdata] = useState<
@@ -27,8 +28,10 @@ const MonthlyBudget: React.FC = () => {
     }
   }, [data]);
 
+  const {tm}=useAppTranslation()
+
   if (isPending) {
-    return <p className="mb-8 text-center">Loading...Get budget...</p>;
+    return <p className="mb-8 text-center">{tm("loading")}{tm("getBudget")}</p>;
   } else {
     return (
       <Container>

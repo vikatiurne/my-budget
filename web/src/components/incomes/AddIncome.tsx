@@ -9,6 +9,7 @@ import { useAuthContext } from "@/hooks/useAuthContext";
 import FormContent from "../UI/FormContent";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import AuthProviderWrapper from "@/hoc/AuthProviderWrapper";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface AddIncomeProps {
   sum: number;
@@ -88,13 +89,15 @@ const AddIncome: React.FC<AddIncomeProps> = ({ sum, budgetData }) => {
     reset();
   };
 
+    const {ti} = useAppTranslation()
+
   return (
     <AuthProviderWrapper>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mb-6 flex flex-col gap-4 items-start"
       >
-        <FormContent typeForm="income" register={register} />
+        <FormContent typeForm={ti("incomesSourse")} register={register} />
       </form>
     </AuthProviderWrapper>
   );

@@ -5,6 +5,7 @@ import BtnsFialdsArray from "./BtnsFialdsArray";
 import CustomSelect from "../UI/CustomSelect";
 import InputPrice from "../UI/InputPrice";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface FoodFormProps {
   showForm: boolean;
@@ -12,9 +13,11 @@ interface FoodFormProps {
 }
 
 const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
+  const { tt,ti } = useAppTranslation();
+  
   const options = [
-    { value: "inside", label: "Inside" },
-    { value: "outside", label: "Outside" },
+    { value: "inside", label: tt("inside") },
+    { value: "outside", label: tt("outside") },
   ];
 
   const [showDetail, setShowDetail] = useState<boolean>(true);
@@ -87,7 +90,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
       <div className="mb-6">
         <TitleTravelBlock
           blockName="foodOptions"
-          title={`Food - ${total} ₴`}
+          title={`${tt("food")} - ${total} ₴`}
           formActive={formActive}
           setSelected={() => setSelectedPlaces([])}
           setShowDetails={handleShowDetails}
@@ -102,7 +105,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
                 htmlFor={`name-${idx}`}
                 className="text-sm font-bold text-gray-600"
               >
-                Place for eatting №{idx + 1}
+                {tt("placeForEatting")} №{idx + 1}
               </label>
               <div className="flex gap-2 md:gap-4 items-center">
                 <Controller
@@ -122,7 +125,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
                 {selectedPlaces[idx] && selectedPlaces[idx].field !== "" && (
                   <InputPrice
                     fieldName={`foodOptions.${idx}.price`}
-                    placeholder="price.."
+                    placeholder={ti("price")}
                     register={register}
                     onBlur={() => handleBlurPrice(idx)}
                     value={selectedPlaces[idx].totalField}

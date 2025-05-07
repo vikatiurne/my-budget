@@ -1,0 +1,148 @@
+{  
+  "Header": {  
+    "myBudget": "Бюджет",  
+    "registration": "Реєстрація",  
+    "login": "Авторизація" 
+    
+  }, 
+  "Auth":{
+    "placeholderName":"Ваше ім'я...",
+    "placeholderEmail":"Ваш e-mail...",
+    "placeholderPass":"Ваш пароль...",
+    "enterName":"Введіть ваше ім'я",
+    "enterEmail":"Введіть ваш e-mail",
+    "enterPass":"Введіть ваш пароль",
+    "haveAccount": "Вже зареєстровані?"
+  } ,
+  "Budget":{
+    "monthlyBudget":"Бюджет на місяць:",
+    "budgetList":"Список бюджетів:"
+  },
+  "Expense":{
+    "prodacts":"продукти",
+    "restaurant":"заклади",
+    "connect":"зв'язок",
+    "education":"освіта",
+    "clothes":"одяг",
+    "car":"авто",
+    "transport":"транспорт",
+    "beauty":"краса",
+    "sport":"спорт",
+    "alcohol":"алкоголь",
+    "cigarettes":"тютюн",
+    "health":"здоров'є",
+    "pills":"медикаменти",
+    "pets":"тварини",
+    "repair":"ремонт",
+    "housegoods":"товари",
+    "entertainment":"розваги",
+    "gifts":"подарунки",
+    "travelling":"подорожі",
+    "furniture":"меблі",
+    "charity":"благодійність",
+    "savings":"заощадження",
+    "other":"інше",
+    "children":"діти",
+    "editExpense":"Редагувати витрати"
+  },
+  "Incomes":{
+    "additional":"Додаткові доходи:",
+    "total":"Сума доходів:"
+  },
+  "Travel":{
+    "accomodation":"Розміщення",
+    "distance":"Відстань",
+    "mileage":"Витрата палива",
+    "fuelPrice":"Ціна палива",
+    "quantityPeople":"Кількість людей",
+    "calculate":"Розрахувати",
+    "unaccountedExpenses":"Невраховані витрати",
+    "food":"їжа",
+    "inside":"вдома",
+    "outside":"у закладах",
+    "placeForEatting":"Місце харчування",
+    "calculateFuel":"Розрахувати витрати палива",
+    "CalculateTripBudget":"Розрахувати бюджет подорожі",
+    "hotels":"готелі",
+    "transport":"транспорт",
+    "insurance":"страхування",
+    "roadTax":"дорожні збори",
+    "landmark":"віхи",
+    "foodIcon":"їжа",
+    "activities":"активність",
+    "other":"інше",
+    "totalPrice":"Загальна вартість:",
+    "writeBudgetName":"Запишіть назву бюджету, який потрібно зберегти",
+    "skiLift":"Підйомник на гору",
+    "beachAccess":"Доступ до пляжу",
+    "seasonalActivity":"Сезонні активності",
+    "sightseeing":"Пам'ятки"
+  },
+
+"Insurances":{
+    "insurances":"Страхування",
+    "greenCard":"Зелена Карта",
+    "health":"Стахування Життя"
+},
+"Road":{
+    "modesTransportation":"Вид транспорту",
+    "transport":"Транспорт",
+    "car":"Авто",
+    "train":"Потяг",
+    "fly":"Літак",
+    "bus":"Автобус",
+    "chip":"Корабель",
+    "rentCar":"Арендоване Авто",
+    "includeReturnTrip":"включити зворотню поїздку",
+    "roadTax":"Дорожні збори",
+    "country":"Країна"
+   
+},
+"Inputs":{
+    "sum":"введіть суму...",
+    "price":"вартість...",
+    "name":"назва...",
+    "qty":"кількість",
+    "km":"км",
+    "litrs":"літрів",
+    "litr/100km":"літрів/100км",
+    "days":"днів",
+    "expenseSourse":"назва джерела витрат..",
+    "incomesSourse":"назва джерела доходу..",
+    "budgetName":"назва бюждету...",
+    "select":"Оберіть",
+    "title":"назва",
+       "type":"введіть",
+    "source":"джерело доходу"
+},
+  "Buttons": {  
+    "signUp": "Зареєструватися",  
+    "signIn": "Увійти",  
+    "logout": "Вийти" ,
+    "apply":" Застосувати",
+    "add": "Додати",  
+    "save": "Зберегти", 
+    "saveBudget" :"Зберегти Бюджет",
+    "cancel": "Відміна",  
+    "delete": "Видалити"  ,
+    "removeTitle":"видалити блок",
+    "splitBy":"поділити на",
+    "calculate":"Розрахувати",
+    "incomes":"Доходи",
+    "expenses":"Витрати",
+    "yuorExpensesForPeriod":"Витрати за період:",
+    "resetPeriod":"Скинути Період",
+    "budgetCalculation":"розрахунок бюджету поїздки",
+    "show":"Показати",
+    "hide":"Приховати",
+    "budgetsList":"Список бюджетів",
+    "monthlyBudget":"Бюджет на місяць"
+  },  
+  "Messages": {  
+    "loading" : "Завантаження...",
+    "getBudget" : "Отримую бюждет...",
+    "getBudgetList" : "Отримую список бюждетів...",
+    "required":"поле обов'язкове для заповнення",
+    "noBudget":"Бюджет на цей місяць не встановлен!"
+  }
+}  

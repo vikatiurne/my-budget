@@ -41,7 +41,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             showPopperArrow={false}
             minDate={startDate ?? undefined}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#daa520] max-w-[12rem] w-full"
-            placeholderText="Выберите дату"
             dateFormat="dd/MM/yyyy"
           />
         </div>

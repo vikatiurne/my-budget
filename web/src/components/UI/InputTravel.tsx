@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import InputPrice from "./InputPrice";
 import { useFormContext } from "react-hook-form";
 import { TotalValueField } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface InputTravelProps {
   labelText: string;
@@ -30,7 +31,6 @@ const InputTravel: React.FC<InputTravelProps> = ({
       });
   }, [localPrice, localQty, splitExp]);
 
-  console.log(localPrice);
 
   const toggleSplit = () => {
     if (splitExp) {
@@ -52,6 +52,8 @@ const InputTravel: React.FC<InputTravelProps> = ({
   const handleBlurQty = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue("qtypeople", e.target.value);
 
+   const { ti,tb } = useAppTranslation();
+
   return (
     <div className="flex gap-4 items-center mb-4">
       <label className="text-sm font-bold w-36" htmlFor={fieldName}>
@@ -59,7 +61,7 @@ const InputTravel: React.FC<InputTravelProps> = ({
       </label>
       <InputPrice
         fieldName={fieldName}
-        placeholder="price..."
+        placeholder={ti("price")}
         register={register}
         value={localPrice}
         onChange={(e) => handlePriceChange(e)}
@@ -68,7 +70,7 @@ const InputTravel: React.FC<InputTravelProps> = ({
       {splitExp && split && (
         <InputPrice
           fieldName="qtypeople"
-          placeholder="qty"
+          placeholder={ti("qty")}
           typeField=" "
           register={register}
           value={localQty ?? ""}
@@ -81,7 +83,7 @@ const InputTravel: React.FC<InputTravelProps> = ({
           onClick={toggleSplit}
           className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
         >
-          {!splitExp ? "split by" : "cancel"}
+          {!splitExp ? tb("splitBy") : tb("cancel")}
         </button>
       )}
     </div>

@@ -1,4 +1,5 @@
 "use client";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { IBudget } from "@/types/types";
 import { createBudget } from "@/utils/api";
@@ -51,6 +52,8 @@ const AddBudgetForm: React.FC = () => {
     });
   };
 
+  const { tbg,tm,ti,tb } = useAppTranslation();
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -58,21 +61,21 @@ const AddBudgetForm: React.FC = () => {
     >
       <div className="flex gap-6 items-end">
         <label className="underline" htmlFor="budget">
-          Mounthly Budget:
+          {tbg("monthlyBudget")}
         </label>
         <input
           className="flex-1 w-full block p-2 border-gray-300 outline-none rounded shadow-sm dark:shadow-amber-50"
-          {...register("budget", { required: "this field is required" })}
+          {...register("budget", { required: tm("required") })}
           type="number"
           name="budget"
-          placeholder="type a sum..."
+          placeholder={ti("sum")}
         />
       </div>
       <button
         className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
         type="submit"
       >
-        Apply
+        {tb("apply")}
       </button>
     </form>
   );

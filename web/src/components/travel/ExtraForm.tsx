@@ -3,6 +3,7 @@ import InputPrice from "../UI/InputPrice";
 import { useFormContext } from "react-hook-form";
 import { ITravelCosts } from "@/types/types";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface ExtraFormProps {
   showForm: boolean;
@@ -19,11 +20,13 @@ const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
 
   const handleBlurPrice = () => setValue("extra", localPrice);
 
+   const { ti,tt } = useAppTranslation();
+
   return (
     showForm && (
       <div className="mb-6">
         <TitleTravelBlock
-          title={`Unaccounted expenses - ${!localPrice ? 0 : localPrice} ₴`}
+          title={`${tt("unaccountedExpenses")} - ${!localPrice ? 0 : localPrice} ₴`}
           formActive={formActive}
           setShowDetails={handleShowDetails}
           setSelected={() => setValue("extra", "")}
@@ -31,7 +34,7 @@ const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
         {showDetail && (
           <InputPrice
             fieldName="extra"
-            placeholder="price..."
+            placeholder={ti("price")}
             register={register}
             onBlur={handleBlurPrice}
             value={localPrice}

@@ -4,6 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import BtnsFialdsArray from "./BtnsFialdsArray";
 import ArrayForm from "../UI/ArrayForm";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface AccommodationFormProps {
   showForm: boolean;
@@ -55,11 +56,13 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
 
   const handleShowDetails = () => setShowDetail((prev) => !prev);
 
+   const { tt } = useAppTranslation();
+
   return (
     showForm && (
       <div className="mb-6 ">
         <TitleTravelBlock
-          title={`Accomodations - ${total} ₴`}
+          title={`${tt("accomodation")} - ${total} ₴`}
           blockName="accommodation"
           formActive={formActive}
           setShowDetails={handleShowDetails}
@@ -76,7 +79,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
                 htmlFor={`name-${idx}`}
                 className="text-sm font-bold text-gray-600"
               >
-                Accomodation №{idx + 1}:
+                {tt("accomodation")} №{idx + 1}:
               </label>
               <div className="flex gap-2 md:gap-4 items-center">
                 <ArrayForm

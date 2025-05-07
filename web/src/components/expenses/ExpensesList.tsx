@@ -6,6 +6,7 @@ import ExpenseItem from "./ExpenseItem";
 import DateRangePicker from "../UI/DateRangePicker";
 import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
 import { IBudgetUpdate } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface ExpensesListProps {
   budget: IBudgetUpdate;
@@ -31,7 +32,9 @@ const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
 
   const showExpensesListHandler = () => setShowList((prev) => !prev);
 
-  if (isPending) return <p className="pt-8 text-center text-xl">Loading...</p>;
+    const {tm,tb} = useAppTranslation()
+
+  if (isPending) return <p className="pt-8 text-center text-xl">{tm("loading")}</p>;
 
   return (
     <div>
@@ -40,7 +43,7 @@ const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
           className="flex gap-2 mb-2 cursor-pointer"
           onClick={showExpensesListHandler}
         >
-          <p className="underline">Your expenses for the period:</p>
+          <p className="underline">{tb("yuorExpensesForPeriod")}</p>
           <Image
             src={arrow}
             alt="arrow"
@@ -61,7 +64,7 @@ const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
             onClick={handleResetDate}
             className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
           >
-            Reset Reriod
+            {tb("resetPeriod")}
           </button>
         </div>
       </div>

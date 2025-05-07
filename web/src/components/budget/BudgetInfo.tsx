@@ -8,6 +8,7 @@ import AddBudgetForm from "./AddBudgetForm";
 import AddIncome from "../incomes/AddIncome";
 import CategoryExpenses from "../expenses/CategoryExpenses";
 import ExpensesList from "../expenses/ExpensesList";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface BudgetInfoProps {
   data: IBudgetUpdate | null;
@@ -18,10 +19,12 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
   const [showExpenses, setShowExpenses] = useState<boolean>(true);
   const [budgetName, setBudgetName] = useState<string | null>(null);
 
+  const { tbg, tm, tb } = useAppTranslation();
+
   useEffect(() => {
     if (data) {
       if (data?.name.includes("monthly")) {
-        setBudgetName("Monthly budget");
+        setBudgetName(tbg("monthlyBudget"));
       } else {
         setBudgetName(data.name);
       }
@@ -31,7 +34,8 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
   if (error) {
     return (
       <>
-        <p className="mb-8 text-center">{error?.response?.data?.message}</p>
+        <p className="mb-8 text-center">{tm("noBudget")}</p>
+        {/* <p className="mb-8 text-center">{error?.response?.data?.message}</p> */}
         <AddBudgetForm />
       </>
     );
@@ -40,7 +44,7 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
     return (
       <>
         <div>
-          <h4 className="mb-4 text-2xl text-center capitalize">
+          <h4 className="mb-4 text-2xl text-center">
             {budgetName} : {data.budget} ₴
           </h4>
           <div className="mb-6 flex justify-around items-center gap-4">
@@ -50,7 +54,7 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
                 !showExpenses && "underline"
               }`}
             >
-              Incomes
+              {tb("incomes")}
             </button>
             <button
               onClick={() => setShowExpenses(true)}
@@ -58,7 +62,7 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
                 showExpenses && "underline"
               }`}
             >
-              Expenses
+              {tb("expenses")}
             </button>
           </div>
         </div>
@@ -70,7 +74,7 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
         ) : (
           <>
             <CategoryExpenses budget={data} />
-            <ExpensesList budget={data}/>
+            <ExpensesList budget={data} />
           </>
         )}
       </>

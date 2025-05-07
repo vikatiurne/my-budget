@@ -5,8 +5,9 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuthQuery } from "@/hooks/useAuthQuery";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
-const Header: React.FC = () => {
+const Header = ({ locale }: { locale: string }) => {
   const params = usePathname();
 
   const context = useAuthContext();
@@ -14,24 +15,31 @@ const Header: React.FC = () => {
   const { isAuth, isLogout, userId, logout } = context;
 
   const [btnName, setBtnName] = useState<string>("");
+  const [btn, setBtn] = useState<string>("signUp");
 
   const { data } = useAuthQuery(userId);
 
   const router = useRouter();
 
+
+  const {tb,th} = useAppTranslation()
+ 
+
   useEffect(() => {
     if (!isAuth) {
-      setBtnName("Sign Up");
+      setBtnName(tb("signUp"));
     } else {
-      setBtnName(isLogout ? "Sign In" : "Log out");
+      setBtnName(isLogout ? tb("signIn") : tb("logout"));
     }
   }, [isAuth, isLogout]);
 
   useEffect(() => {
     if (!isAuth) {
-      setBtnName("Sign Up");
+      setBtnName(tb("signUp"));
+      setBtn("signUp")
     } else {
-      setBtnName(isLogout ? "Sign In" : "Log out");
+      setBtnName(isLogout ? tb("signIn") : tb("logout"));
+      setBtn(isLogout ? "signIn":"logout");
     }
   }, [isAuth, isLogout]);
 
@@ -39,34 +47,48 @@ const Header: React.FC = () => {
     if (isAuth) {
       logout();
     } else {
-      router.push(btnName === "Sign Up" ? `/signup` : `/signin`);
+      router.push(btnName === tb("signUp") ? "/signup" : "/signin");
     }
+  };
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLocale = e.target.value;
+    const path = params.split("/").slice(2).join("/");
+    router.push(`/${newLocale}/${path}`);
   };
 
   return (
     <div className="bg-[#daa520] mb-4 md:mb-10">
       <Container style="flex justify-between items-center">
-        <Link href={"/"} className="uppercase text-white font-bold">
-          My budget
+        <Link href={`/${locale}`} className="uppercase text-white font-bold">
+          {th("myBudget")}
         </Link>
         {isAuth ? (
           <p className="uppercase text-white font-bold">{data?.name}</p>
         ) : null}
 
-        {params === "/" && (
+        {params === `/${locale}` && (
           <button
             onClick={handleClick}
             className="px-4 py-1 border-amber-50 rounded shadow bg-amber-50 cursor-pointer hover:bg-amber-100 active:bg-amber-50 text-[#856a25] dark:text-black"
           >
-            {btnName}
+            {tb(`${btn}`)}
           </button>
         )}
-        {params === "/signup" && (
-          <p className="uppercase text-white font-bold">Pegistration Form</p>
+        {params === `/${locale}/signup` && (
+          <p className="uppercase text-white font-bold">{th("registration")}</p>
         )}
-        {params === "/signin" && (
-          <p className="uppercase text-white font-bold">Login Form</p>
+        {params === `/${locale}/signin` && (
+          <p className="uppercase text-white font-bold">{th("login")}</p>
         )}
+        <select
+          value={locale}
+          onChange={handleLanguageChange}
+          className="rounded-md px-4 py-2 bg-transparent hover:outline-none focus:outline-none"
+        >
+          <option value="en">En</option>
+          <option value="uk">Uk</option>
+        </select>
       </Container>
     </div>
   );

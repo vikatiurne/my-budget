@@ -3,6 +3,7 @@ import React from "react";
 import { UseFormRegister } from "react-hook-form";
 import { IExpense, Income } from "@/types/types";
 import { FaCheck } from "react-icons/fa";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface FormContentProps {
   typeForm: string;
@@ -15,18 +16,20 @@ const FormContent: React.FC<FormContentProps> = ({
   register,
   includeField = true,
 }) => {
+  const { ti, tm } = useAppTranslation();
+
   return (
     <div className="flex gap-4 items-center">
       {includeField && (
         <input
           className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
           {...register("title", {
-            required: "This field is required",
+            required: tm("required"),
           })}
           type="text"
           autoComplete="true"
           name="title"
-          placeholder={`type the ${typeForm} source...`}
+          placeholder={typeForm}
         />
       )}
       <input
@@ -34,11 +37,11 @@ const FormContent: React.FC<FormContentProps> = ({
           !includeField ? "w-1/2" : "w-1/4"
         } border-gray-300  outline-none rounded shadow-sm  dark:shadow-amber-50`}
         {...register("price", {
-          required: "this field is required",
+          required: tm("required"),
         })}
         type="number"
         name="price"
-        placeholder="sum..."
+        placeholder={ti("sum")}
       />
       <button
         className="py-3 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"

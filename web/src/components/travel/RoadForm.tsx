@@ -6,6 +6,7 @@ import CustomSelect from "../UI/CustomSelect";
 import InputPrice from "../UI/InputPrice";
 import { FcCalculator } from "react-icons/fc";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface RoadFormProps {
   fuelPrice: () => void;
@@ -18,13 +19,16 @@ const RoadForm: React.FC<RoadFormProps> = ({
   showForm,
   formActive,
 }) => {
+
+   const { tr,ti } = useAppTranslation();
+
   const options = [
-    { value: "car", label: "Car" },
-    { value: "train", label: "Train" },
-    { value: "fly", label: "Fly" },
-    { value: "bus", label: "Bus" },
-    { value: "chip", label: "Chip" },
-    { value: "rent", label: "Rent Car" },
+    { value: "car", label: tr("car") },
+    { value: "train", label: tr("train") },
+    { value: "fly", label: tr("fly") },
+    { value: "bus", label: tr("bus") },
+    { value: "chip", label: tr("chip") },
+    { value: "rent", label: tr("rentCar") },
   ];
 
   const { control, register, setValue } = useFormContext<{
@@ -124,9 +128,9 @@ const RoadForm: React.FC<RoadFormProps> = ({
 
     components.unshift(
       <InputPrice
-        key={`transport-${idx}-price`}
+        key={`${tr("transport")}-${idx}-price`}
         fieldName={`transport.${idx}.price`}
-        placeholder="price..."
+        placeholder={ti("price")}
         register={register}
         isRequired={true}
         value={currentTransport.totalField ? currentTransport.totalField : "0"}
@@ -141,7 +145,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
     showForm && (
       <div className="mb-6 ">
         <TitleTravelBlock
-          title={`Modes of transportation - ${total} ₴`}
+          title={`${tr("modesTransportation")} - ${total} ₴`}
           blockName="transport"
           formActive={formActive}
           setSelected={() => setSelestedTransportValues([])}
@@ -159,7 +163,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
                   htmlFor={`name-${idx}`}
                   className="text-sm font-bold text-gray-600"
                 >
-                  Transport №{idx + 1}
+                  {tr("transport")} №{idx + 1}
                 </label>
 
                 <div className="flex gap-2 md:gap-4 items-center">
@@ -197,7 +201,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
               onChange={(e) => handleCheckbox(e)}
             />
             <label htmlFor="twosides" className="text-md ml-2 text-gray-600">
-              include return trip
+              {tr("includeReturnTrip")}
             </label>
           </>
         )}

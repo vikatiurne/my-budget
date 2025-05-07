@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import arrow from "../../../public/images/arrow.svg";
 import { IBudgetUpdate } from "@/types/types";
 import { useIncomeQuery } from "@/hooks/useIncomeQuery";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface IncomesListProps {
   budgetData: IBudgetUpdate;
@@ -26,8 +27,10 @@ const IncomesList: React.FC<IncomesListProps> = ({ budgetData }) => {
 
   const showIncomeListHandler = () => setShowList((prev) => !prev);
 
+  const { tm,tincome } = useAppTranslation();
+
   if (isPending) {
-    return <p>Loading...</p>;
+    return <p>{tm("loading")}</p>;
   }
 
   if (data) {
@@ -38,7 +41,7 @@ const IncomesList: React.FC<IncomesListProps> = ({ budgetData }) => {
             className="flex gap-2 mb-2 cursor-pointer"
             onClick={showIncomeListHandler}
           >
-            <p className="underline">Additional income:</p>
+            <p className="underline">{tincome("additional")}</p>
             <Image
               src={arrow}
               alt="arrow"
@@ -57,7 +60,7 @@ const IncomesList: React.FC<IncomesListProps> = ({ budgetData }) => {
               </li>
             ))}
           </ul>
-          <p>Total income: {totalIncome} ₴</p>
+          <p>{tincome("total")} {totalIncome} ₴</p>
         </div>
       )
     );

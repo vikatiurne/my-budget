@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import InputPrice from "./InputPrice";
 import { TotalValueField } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface ArrayFormProps {
   idx: number;
@@ -47,19 +48,21 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
       });
   }, [localPrice, localQty, splitExp]);
 
+   const { ti,tb } = useAppTranslation();
+
   return (
     <div className="flex flex-wrap gap-2">
       <input
         className="flex-1 p-2 block w-[13rem]  border-gray-300
         outline-none rounded shadow-sm  dark:shadow-amber-50"
         type="text"
-        placeholder="name..."
+        placeholder={ti("name")}
         {...register(fieldName, { required: "field is required" })}
       />
       <div className="flex flex-wrap gap-2">
         <InputPrice
           fieldName={fieldPrice}
-          placeholder="price..."
+          placeholder={ti("price")}
           register={register}
           isRequired={isRequired}
           value={localPrice}
@@ -71,7 +74,7 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
         {splitExp && split && (
           <InputPrice
             fieldName={fieldQty}
-            placeholder="qty"
+            placeholder={ti("qty")}
             typeField=" "
             register={register}
             isRequired={isRequired}
@@ -88,7 +91,7 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
             title="split expenses for people"
             className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
           >
-            {!splitExp ? "split by" : "cancel"}
+            {!splitExp ? tb("splitBy") : tb("cancel")}
           </button>
         )}
       </div>

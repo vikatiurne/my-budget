@@ -27,9 +27,11 @@ import { SiPetsathome } from "react-icons/si";
 import { BiBusSchool, BiSolidDonateHeart } from "react-icons/bi";
 import { IoIosGift } from "react-icons/io";
 import { LuArmchair } from "react-icons/lu";
+import { PiBabyBold } from "react-icons/pi";
 import Icon from "../UI/Icon";
 import AddExpenseForm from "./AddExpenseForm";
 import { IBudgetUpdate } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 const styles = {
   icon: "p-1 w-10 h-10 border rounded",
@@ -62,6 +64,8 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
 
   const categoryValue =
     selectedCategory === "other" ? "other" : selectedCategory;
+  
+    const {te} = useAppTranslation()
 
   return (
     <section>
@@ -70,15 +74,15 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("prodact");
           }}
-          name="prodacts"
+          name={te("prodacts")}
         >
           <MdOutlineShoppingCart className={styles.icon} />
         </Icon>
         <Icon
           onClick={() => {
-            handleAddExpense("eatingout");
+            handleAddExpense("restaurant");
           }}
-          name="eatingout"
+          name={te("restaurant")}
         >
           <MdFastfood className={styles.icon} />
         </Icon>
@@ -86,7 +90,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("connect");
           }}
-          name="connect"
+          name={te("connect")}
         >
           <GiVibratingSmartphone className={styles.icon} />
         </Icon>
@@ -94,15 +98,23 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("education");
           }}
-          name="education"
+          name={te("education")}
         >
           <IoSchool className={styles.icon} />
         </Icon>
         <Icon
           onClick={() => {
+            handleAddExpense("children");
+          }}
+          name={te("children")}
+        >
+          <PiBabyBold className={styles.icon} />
+        </Icon>
+        <Icon
+          onClick={() => {
             handleAddExpense("clothes");
           }}
-          name="clothes"
+          name={te("clothes")}
         >
           <GiClothes className={styles.icon} />
         </Icon>
@@ -110,7 +122,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("car");
           }}
-          name="car"
+          name={te("car")}
         >
           <IoCarSport className={styles.icon} />
         </Icon>
@@ -118,7 +130,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("transport");
           }}
-          name="transport"
+          name={te("transport")}
         >
           <BiBusSchool className={styles.icon} />
         </Icon>
@@ -126,7 +138,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("beauty");
           }}
-          name="beauty"
+          name={te("beauty")}
         >
           <GiLips className={styles.icon} />
         </Icon>
@@ -134,7 +146,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("sport");
           }}
-          name="sport"
+          name={te("sport")}
         >
           <MdOutlineSportsGymnastics className={styles.icon} />
         </Icon>
@@ -142,7 +154,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("alcohol");
           }}
-          name="alcohol"
+          name={te("alcohol")}
         >
           <FaWineBottle className={styles.icon} />
         </Icon>
@@ -150,7 +162,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("cigarettes");
           }}
-          name="cigarettes"
+          name={te("cigarettes")}
         >
           <MdOutlineSmokingRooms className={styles.icon} />
         </Icon>
@@ -159,7 +171,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("health");
           }}
-          name="health"
+          name={te("health")}
         >
           <RiHealthBookFill className={styles.icon} />
         </Icon>
@@ -167,7 +179,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("pills");
           }}
-          name="pills"
+          name={te("pills")}
         >
           <BsCapsulePill className={styles.icon} />
         </Icon>
@@ -175,7 +187,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("pets");
           }}
-          name="pets"
+          name={te("pets")}
         >
           <SiPetsathome className={styles.icon} />
         </Icon>
@@ -183,7 +195,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("repair");
           }}
-          name="repair"
+          name={te("repair")}
         >
           <BsHammer className={styles.icon} />
         </Icon>
@@ -191,7 +203,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("housegoods");
           }}
-          name="housegoods"
+          name={te("housegoods")}
         >
           <HiMiniTv className={styles.icon} />
         </Icon>
@@ -199,7 +211,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("entertainment");
           }}
-          name="entertainment"
+          name={te("entertainment")}
         >
           <GiPartyPopper className={styles.icon} />
         </Icon>
@@ -208,7 +220,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("gifts");
           }}
-          name="gifts"
+          name={te("gifts")}
         >
           <IoIosGift className={styles.icon} />
         </Icon>
@@ -216,7 +228,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("travelling");
           }}
-          name="travelling"
+          name={te("travelling")}
         >
           <BsLuggage className={styles.icon} />
         </Icon>
@@ -224,7 +236,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("furniture");
           }}
-          name="furniture"
+          name={te("furniture")}
         >
           <LuArmchair className={styles.icon} />
         </Icon>
@@ -232,7 +244,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("charity");
           }}
-          name="charity"
+          name={te("charity")}
         >
           <BiSolidDonateHeart className={styles.icon} />
         </Icon>
@@ -240,7 +252,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("savings");
           }}
-          name="savings"
+          name={te("savings")}
         >
           <BsFillPiggyBankFill className={styles.icon} />
         </Icon>
@@ -248,7 +260,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           onClick={() => {
             handleAddExpense("other");
           }}
-          name="other"
+          name={te("other")}
         >
           <BsUbuntu className={styles.icon} />
         </Icon>

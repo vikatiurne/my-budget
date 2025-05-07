@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import InputTravel from "../UI/InputTravel";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
 import { TotalValueField } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface InsuranceFormProps {
   showForm: boolean;
@@ -33,11 +34,13 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
     setTotalValField([...filtered, newTotalVal]);
   };
 
+  const { tinc } = useAppTranslation();
+
   return (
     showForm && (
       <div className="mb-6 ">
         <TitleTravelBlock
-          title={`Insurances - ${total} ₴`}
+          title={`${tinc("insurances")} - ${total} ₴`}
           formActive={formActive}
           setShowDetails={handleShowDetails}
           setSelected={() => setTotalValField([])}
@@ -46,13 +49,13 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
           <>
             <InputTravel
               fieldName="greencard"
-              labelText="Green Card"
+              labelText={tinc("greenCard")}
               split="split"
               onTotalValField={handleBlurField}
             />
             <InputTravel
               fieldName="healthInsurance"
-              labelText="Health Insurance"
+              labelText={tinc("health")}
               onTotalValField={handleBlurField}
             />
           </>

@@ -4,6 +4,7 @@ import CustomSelect from "../UI/CustomSelect";
 import InputPrice from "../UI/InputPrice";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
 import { IActivities } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface SeasonalActivityProps {
   showForm: boolean;
@@ -14,9 +15,11 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
   showForm,
   formActive,
 }) => {
+  const { tt, ti } = useAppTranslation();
+
   const options = [
-    { value: "lift", label: "Ski lift" },
-    { value: "beach", label: "Beach access" },
+    { value: "lift", label: tt("skiLift") },
+    { value: "beach", label: tt("beachAccess") },
   ];
 
   const [selectedActivity, setSelectedActivity] = useState<string>("");
@@ -39,7 +42,6 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
     setLocalPrice("");
     setLocalQty(null);
   };
-
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalPrice(e.target.value);
@@ -70,7 +72,7 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
     showForm && (
       <div className="mb-6">
         <TitleTravelBlock
-          title={`Seasonal activity - ${total} ₴`}
+          title={`${tt("seasonalActivity")} - ${total} ₴`}
           formActive={formActive}
           setSelected={reset}
           setShowDetails={handleShowDetails}
@@ -81,7 +83,7 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
               htmlFor="activity"
               className="text-sm font-bold text-gray-600"
             >
-              Activity:
+              {tt("activities")}:
             </label>
 
             <Controller
@@ -103,7 +105,7 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
                 <>
                   <InputPrice
                     fieldName="price"
-                    placeholder="price..."
+                    placeholder={ti("price")}
                     register={register}
                     value={localPrice}
                     onChange={(e) => handlePriceChange(e)}
@@ -111,9 +113,9 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
                   />
                   <InputPrice
                     fieldName="qty"
-                    placeholder="days"
+                    placeholder={ti("days")}
                     register={register}
-                    typeField="ds."
+                    typeField={ti("days")}
                     value={localQty ?? ""}
                     onChange={(e) => handleQtyChange(e)}
                     onBlur={handleBlurQty}

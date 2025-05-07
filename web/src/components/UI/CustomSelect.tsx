@@ -1,3 +1,4 @@
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 import React from "react";
 
 interface IOption {
@@ -23,7 +24,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   field,
   handleChange,
 }) => {
-  console.log(field.value)
+
+   const { ti } = useAppTranslation();
+
   return (
     <select
       {...field}
@@ -34,7 +37,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       value={field.value || ""}
       className="shadow w-36 appearance-none rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  dark:shadow-amber-50  dark:text-white"
     >
-      <option value="">-- Select --</option>
+      <option value="">-- {ti("select")} --</option>
       {options.map((item, i) => (
         <option key={item.value + i} value={item.value}>
           {item.label}

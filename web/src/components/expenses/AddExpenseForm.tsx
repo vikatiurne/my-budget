@@ -5,6 +5,7 @@ import FormContent from "../UI/FormContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createExpense } from "@/utils/api";
 import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface AddExpenseFormProps {
   budgetId: string;
@@ -24,7 +25,6 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
   const period = defaultDatePeriod();
   const from = new Date(period.start);
   const till = period.end;
-
 
   const addExpenseMutation = useMutation({
     mutationFn: (expensedata: IExpense) => createExpense(expensedata),
@@ -67,13 +67,15 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
     reset();
   };
 
+  const { ti } = useAppTranslation();
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="mb-8 flex flex-col gap-4  items-center"
     >
       <FormContent
-        typeForm="expense"
+        typeForm={ti("expenseSourse")}
         register={register}
         includeField={includeField}
       />

@@ -4,6 +4,7 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import ArrayForm from "../UI/ArrayForm";
 import BtnsFialdsArray from "./BtnsFialdsArray";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface RoadTaxFormProps {
   showForm: boolean;
@@ -51,12 +52,14 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
     setTotalValField(filtered);
   };
 
+   const { tr } = useAppTranslation();
+
   return (
     showForm && (
       <div className="mb-6">
         <TitleTravelBlock
           blockName="payroad"
-          title={`Road Tax - ${total} ₴`}
+          title={`${tr("roadTax")} - ${total} ₴`}
           formActive={formActive}
           setSelected={() => setTotalValField([])}
           setShowDetails={handleShowDetails}
@@ -71,7 +74,7 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
                 htmlFor={`name-${idx}`}
                 className="text-sm font-bold text-gray-600"
               >
-                Country №{idx + 1}:
+                {tr("country")} №{idx + 1}:
               </label>
               <div className="flex gap-2 md:gap-4 items-center">
                 <ArrayForm
