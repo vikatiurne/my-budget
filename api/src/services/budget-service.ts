@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import Budget, { IBudget, IDate } from "../models/Budget";
 import { ExpenseStats, minMaxAvarage } from "../utils/minMaxAvarage";
 
-const { ObjectId } = mongoose.Types;
 
 class BudgetService {
   addBudget = async (
@@ -22,13 +21,10 @@ class BudgetService {
     userId: string,
     date: IDate
   ): Promise<IBudget[] | null | undefined> => {
-    console.log(date);
-    console.log(userId);
     try {
       const budget = await Budget.find({
         user_id: userId,
-        "date.mounth": date.mounth,
-        "date.year": date.year,
+        name: `monthly budget:${date.mounth}_${date.year}`
       });
       return budget;
     } catch (error: any) {

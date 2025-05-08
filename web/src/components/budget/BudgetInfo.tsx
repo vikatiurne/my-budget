@@ -31,6 +31,7 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
     }
   }, [data]);
 
+
   if (error) {
     return (
       <>

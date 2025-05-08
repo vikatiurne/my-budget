@@ -13,7 +13,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL_LOCAL!, process.env.CLIENT_URL_PUBLIC!],
+    origin: [
+      process.env.CLIENT_URL_LOCAL!,
+      process.env.CLIENT_URL_PUBLIC!,
+      process.env.CLIENT_URL_LOCAL_EN!,
+      process.env.CLIENT_URL_LOCAL_UK!,
+      process.env.CLIENT_URL_PUBLIC_EN!,
+      process.env.CLIENT_URL_PUBLIC_UK!,
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Autorization"],
   })

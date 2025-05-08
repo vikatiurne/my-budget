@@ -16,6 +16,8 @@ const MonthlyBudget: React.FC = () => {
 
   const { data, error, isPending } = queryBudget;
 
+  console.log(error)
+
   useEffect(() => {
     const currentdate = currentMonthYear();
     if (data) {

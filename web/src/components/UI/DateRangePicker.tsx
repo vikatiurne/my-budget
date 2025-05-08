@@ -27,6 +27,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             startDate={startDate}
             endDate={endDate}
             showPopperArrow={false}
+            popperClassName="popperStart"
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#daa520] max-w-[12rem] w-full"
             dateFormat="dd/MM/yyyy"
           />
@@ -38,6 +39,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             selectsEnd
             startDate={startDate}
             endDate={endDate}
+            popperClassName="popperEnd"
             showPopperArrow={false}
             minDate={startDate ?? undefined}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#daa520] max-w-[12rem] w-full"

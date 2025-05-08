@@ -15,8 +15,9 @@
     "haveAccount": "Do you have account?"
   } ,
   "Budget":{
-    "monthlyBudget":"Mounthly Budget:",
-    "budgetList":"Your budgets list:"
+    "home":"Home",
+    "monthlyBudget":"Mounthly Budget",
+    "budgetList":"Budgets list"
   },
   "Expense":{
     "prodacts":"prodacts",
@@ -25,6 +26,7 @@
     "education":"education",
     "clothes":"clothes",
     "car":"car",
+    "house":"house",
     "transport":"transport",
     "beauty":"beauty",
     "sport":"sport",
@@ -107,7 +109,7 @@
     "litrs":"litrs",
     "litr/100km":"litr/100km",
     "days":"days",
-    "expenseSourse":"title an expense sourse..",
+    "expenseSourse":"title an expense sourse..(optional)",
     "incomesSourse":"title an incomes sourse..",
     "budgetName":"budget name...",
     "select":"Select",

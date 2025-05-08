@@ -20,22 +20,19 @@ const FormContent: React.FC<FormContentProps> = ({
 
   return (
     <div className="flex gap-4 items-center">
-      {includeField && (
-        <input
-          className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
-          {...register("title", {
-            required: tm("required"),
-          })}
-          type="text"
-          autoComplete="true"
-          name="title"
-          placeholder={typeForm}
-        />
-      )}
       <input
-        className={`p-2 block ${
-          !includeField ? "w-1/2" : "w-1/4"
-        } border-gray-300  outline-none rounded shadow-sm  dark:shadow-amber-50`}
+        className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm  dark:shadow-amber-50"
+        {...register("title", {
+          required: includeField ? tm("required") : false,
+        })}
+        type="text"
+        autoComplete="true"
+        name="title"
+        placeholder={typeForm}
+      />
+
+      <input
+        className={`p-2 block w-1/4 border-gray-300  outline-none rounded shadow-sm  dark:shadow-amber-50`}
         {...register("price", {
           required: tm("required"),
         })}

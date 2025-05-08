@@ -58,8 +58,9 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const title = data.title?`${category} (${data.title})`:category
     addExpenseMutation.mutate({
-      title: category,
+      title: title,
       price: data.price,
       budget_id: budgetId,
       _id: data._id,

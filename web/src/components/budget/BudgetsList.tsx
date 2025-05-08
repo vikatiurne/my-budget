@@ -1,3 +1,4 @@
+"use client"
 import { useAllBudgetQuery } from "@/hooks/useAllBudgetsQuery";
 import React from "react";
 import remove from "../../../public/images/remove.svg";

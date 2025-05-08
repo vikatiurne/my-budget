@@ -9,6 +9,7 @@ const useBudgetQueryOptions = () => {
   const { userId } = useAuthContext();
   const currentdata = currentMonthYear();
 
+
   return {
     queryKey: ["budget", userId, currentdata],
     queryFn: () => getBudget(userId, currentdata.mounth, currentdata.year),

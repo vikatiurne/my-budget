@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   MdOutlineShoppingCart,
   MdFastfood,
@@ -11,6 +11,7 @@ import {
   BsHammer,
   BsLuggage,
   BsUbuntu,
+  BsHouseFill,
 } from "react-icons/bs";
 import {
   GiVibratingSmartphone,
@@ -18,7 +19,6 @@ import {
   GiLips,
   GiPartyPopper,
 } from "react-icons/gi";
-
 import { IoSchool, IoCarSport } from "react-icons/io5";
 import { FaWineBottle } from "react-icons/fa";
 import { HiMiniTv } from "react-icons/hi2";
@@ -45,7 +45,6 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
   const [showAddExpensesForm, setShowAddExpensesForm] =
     useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [includeField, setIncludeField] = useState<boolean>(false);
 
   const handleAddExpense = (categoryname: string) => {
     setSelectedCategory(categoryname);
@@ -54,18 +53,7 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
     );
   };
 
-  useEffect(() => {
-    if (selectedCategory === "other") {
-      setIncludeField(true);
-    } else {
-      setIncludeField(false);
-    }
-  }, [selectedCategory]);
-
-  const categoryValue =
-    selectedCategory === "other" ? "other" : selectedCategory;
-  
-    const {te} = useAppTranslation()
+  const { te } = useAppTranslation();
 
   return (
     <section>
@@ -101,6 +89,14 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
           name={te("education")}
         >
           <IoSchool className={styles.icon} />
+        </Icon>
+        <Icon
+          onClick={() => {
+            handleAddExpense("house");
+          }}
+          name={te("house")}
+        >
+          <BsHouseFill className={styles.icon} />
         </Icon>
         <Icon
           onClick={() => {
@@ -268,8 +264,8 @@ const CategoryExpenses: React.FC<CategoryExpensesProps> = ({ budget }) => {
       {showAddExpensesForm && (
         <AddExpenseForm
           budgetId={budget._id}
-          includeField={includeField}
-          category={categoryValue}
+          includeField={false}
+          category={selectedCategory}
         />
       )}
     </section>

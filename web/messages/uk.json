@@ -15,8 +15,9 @@
     "haveAccount": "Вже зареєстровані?"
   } ,
   "Budget":{
-    "monthlyBudget":"Бюджет на місяць:",
-    "budgetList":"Список бюджетів:"
+    "home":"Головна",
+    "monthlyBudget":"Бюджет на місяць",
+    "budgetList":"Список бюджетів"
   },
   "Expense":{
     "prodacts":"продукти",
@@ -25,6 +26,7 @@
     "education":"освіта",
     "clothes":"одяг",
     "car":"авто",
+    "house":"житло",
     "transport":"транспорт",
     "beauty":"краса",
     "sport":"спорт",
@@ -107,7 +109,7 @@
     "litrs":"літрів",
     "litr/100km":"літрів/100км",
     "days":"днів",
-    "expenseSourse":"назва джерела витрат..",
+    "expenseSourse":"назва джерела витрат..(опційно)",
     "incomesSourse":"назва джерела доходу..",
     "budgetName":"назва бюждету...",
     "select":"Оберіть",
