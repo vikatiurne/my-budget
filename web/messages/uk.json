@@ -60,8 +60,9 @@
     "calculate":"Розрахувати",
     "unaccountedExpenses":"Невраховані витрати",
     "food":"їжа",
+    "foodPlaces":"Заклади харчування",
     "inside":"вдома",
-    "outside":"у закладах",
+    "outside":"не вдома",
     "placeForEatting":"Місце харчування",
     "calculateFuel":"Розрахувати витрати палива",
     "CalculateTripBudget":"Розрахувати бюджет подорожі",
@@ -83,7 +84,7 @@
 
 "Insurances":{
     "insurances":"Страхування",
-    "greenCard":"Зелена Карта",
+    "greenCard":"Green Card",
     "health":"Стахування Життя"
 },
 "Road":{
@@ -128,7 +129,7 @@
     "cancel": "Відміна",  
     "delete": "Видалити"  ,
     "removeTitle":"видалити блок",
-    "splitBy":"поділити на",
+    "splitBy":"поділити",
     "calculate":"Розрахувати",
     "incomes":"Доходи",
     "expenses":"Витрати",

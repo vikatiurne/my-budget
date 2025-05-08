@@ -38,7 +38,7 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
 
   return (
     showForm && (
-      <div className="mb-6 ">
+      <div >
         <TitleTravelBlock
           title={`${tinc("insurances")} - ${total} ₴`}
           formActive={formActive}
@@ -46,7 +46,7 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
           setSelected={() => setTotalValField([])}
         />
         {showDetail && (
-          <>
+          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
             <InputTravel
               fieldName="greencard"
               labelText={tinc("greenCard")}
@@ -58,7 +58,7 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
               labelText={tinc("health")}
               onTotalValField={handleBlurField}
             />
-          </>
+          </div>
         )}
       </div>
     )

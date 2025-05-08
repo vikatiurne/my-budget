@@ -53,11 +53,11 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
 
   const handleShowDetails = () => setShowDetail((prev) => !prev);
 
-   const { tt } = useAppTranslation();
+  const { tt } = useAppTranslation();
 
   return (
     showForm && (
-      <div className="mb-6">
+      <div>
         <TitleTravelBlock
           title={`${tt("sightseeing")} - ${total} ₴`}
           blockName="sightseeing"
@@ -66,33 +66,36 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
           setShowDetails={handleShowDetails}
         />
 
-        {showDetail &&
-          fields.map((item, idx) => (
-            <div
-              key={item.id}
-              className="flex gap-4 mb-4 flex-wrap items-center"
-            >
-              <label
-                htmlFor={`name-${idx}`}
-                className="text-sm font-bold text-gray-600 capitalize"
+        {showDetail && (
+          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+            {fields.map((item, idx) => (
+              <div
+                key={item.id}
+                className="flex gap-4 mb-4 flex-wrap items-center"
               >
-                {tt("landmark")} №{idx + 1}:
-              </label>
-              <div className="flex gap-2 md:gap-4 items-center">
-                <ArrayForm
-                  idx={idx}
-                  fieldName={`sightseeing.${idx}.landmark`}
-                  fieldPrice={`sightseeing.${idx}.price`}
-                  onTotalValField={handleBlurField}
-                />
-                <BtnsFialdsArray
-                  idx={idx}
-                  append={() => append({ landmark: "", price: null })}
-                  remove={() => handleRemove(idx)}
-                />
+                <label
+                  htmlFor={`name-${idx}`}
+                  className="text-sm font-bold text-gray-600 capitalize"
+                >
+                  {tt("landmark")} №{idx + 1}:
+                </label>
+                <div className="flex gap-2 md:gap-4 items-center">
+                  <ArrayForm
+                    idx={idx}
+                    fieldName={`sightseeing.${idx}.landmark`}
+                    fieldPrice={`sightseeing.${idx}.price`}
+                    onTotalValField={handleBlurField}
+                  />
+                  <BtnsFialdsArray
+                    idx={idx}
+                    append={() => append({ landmark: "", price: null })}
+                    remove={() => handleRemove(idx)}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        )}
       </div>
     )
   );

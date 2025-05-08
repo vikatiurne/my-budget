@@ -236,7 +236,7 @@ const FullCostsTravel = () => {
               <button
                 onClick={() => setActivePopap(true)}
                 type="button"
-                className=" block py-2 px-4 shadow-md rounded bg-green-500 text-white uppercase text-sm cursor-pointer"
+                className=" block py-2 px-4 shadow-md rounded bg-teal-700 text-white uppercase text-sm cursor-pointer"
               >
                 {tb("saveBudget")}
               </button>
@@ -258,7 +258,7 @@ const FullCostsTravel = () => {
                   {tt("writeBudgetName")}
                 </h6>
                 <input
-                  className="mx-auto mb-4 p-2 block w-56 border-gray-300 outline-none rounded shadow-sm bg-amber-50 dark:shadow-amber-50"
+                  className="mx-auto mb-4 p-2 block w-56 border-gray-300 outline-none rounded shadow-sm bg-amber-50"
                   type="text"
                   autoComplete="true"
                   placeholder={ti("budgetName")}

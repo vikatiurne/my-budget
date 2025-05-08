@@ -78,7 +78,7 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
           setShowDetails={handleShowDetails}
         />
         {showDetail && (
-          <div className="flex gap-4 mb-4 flex-wrap items-center">
+          <div className="flex gap-4 mb-4 flex-wrap items-center shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
             <label
               htmlFor="activity"
               className="text-sm font-bold text-gray-600"

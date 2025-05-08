@@ -19,8 +19,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
   showForm,
   formActive,
 }) => {
-
-   const { tr,ti } = useAppTranslation();
+  const { tr, ti } = useAppTranslation();
 
   const options = [
     { value: "car", label: tr("car") },
@@ -125,7 +124,6 @@ const RoadForm: React.FC<RoadFormProps> = ({
         </button>
       );
 
-
     components.unshift(
       <InputPrice
         key={`${tr("transport")}-${idx}-price`}
@@ -143,7 +141,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
 
   return (
     showForm && (
-      <div className="mb-6 ">
+      <div>
         <TitleTravelBlock
           title={`${tr("modesTransportation")} - ${total} ₴`}
           blockName="transport"
@@ -153,7 +151,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
         />
 
         {showDetail && (
-          <>
+          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
             {fields.map((item, idx) => (
               <div
                 key={item.id}
@@ -203,7 +201,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
             <label htmlFor="twosides" className="text-md ml-2 text-gray-600">
               {tr("includeReturnTrip")}
             </label>
-          </>
+          </div>
         )}
       </div>
     )

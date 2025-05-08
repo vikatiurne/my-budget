@@ -56,7 +56,7 @@ const AuthBtn: React.FC<AuthBtnProps> = ({ locale }) => {
     return (
       <button
         onClick={handleClick}
-        className="text-left mt-6 text-amber-100 md:px-4 md:py-1 md:border-amber-50 md:rounded md:shadow md:bg-amber-50 cursor-pointer md:hover:bg-amber-100 md:active:bg-amber-50 md:text-[#856a25] dark:text-black"
+        className="text-left md:mt-0 mt-6 text-amber-100 md:px-4 md:py-1 md:border-amber-50 md:rounded md:shadow md:bg-amber-50 cursor-pointer md:hover:bg-amber-100 md:active:bg-amber-50 md:text-[#856a25]"
       >
         {tb(`${btn}`)}
       </button>

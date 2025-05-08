@@ -73,16 +73,16 @@ const CarInfo: React.FC<CarInfoProps> = ({ active, setActive }) => {
 
           <button
             type="submit"
-            className="mb-4 block mx-auto py-2 px-2.5 shadow text-sm lg:text-lg rounded cursor-pointer bg-yellow-200 text-[#6e5514] hover:bg-yellow-300 hover:text-white active:border-none"
+            className="mt-8 block mx-auto py-2 px-2.5 shadow text-sm lg:text-lg rounded cursor-pointer bg-amber-50 text-[#6e5514] hover:bg-amber-100 active:border-none"
           >
            {tb("calculate")}
           </button>
         </form>
 
         {!!fuelPrice && (
-          <h6 className="font-bold">
+          <h6 className="pt-4 font-bold text-black">
             {tt("fuelPrice")}{" "}
-            <span className="font-bold text-black">{fuelPrice} ₴</span>
+            <span >{fuelPrice} ₴</span>
           </h6>
         )}
       </div>

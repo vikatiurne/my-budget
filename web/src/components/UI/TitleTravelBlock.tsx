@@ -40,7 +40,7 @@ const TitleTravelBlock: React.FC<TitleTravelBlockProps> = ({
 
   return (
     <button
-      className="w-full relative mb-6 flex justify-between gap-4 items-center border-b border-gray-200 cursor-pointer"
+      className="w-full relative mb-2 flex justify-between gap-4 items-center border-b border-gray-200 cursor-pointer"
       onClick={handleClickTitleBlock}
       title="show detail"
     >

@@ -25,7 +25,7 @@ const Header = ({ locale }: { locale: string }) => {
   const router = useRouter();
 
   return (
-    <div className="bg-teal-800 mb-4 md:mb-10">
+    <div className="bg-teal-800 mb-2 md:mb-10">
       <Container style="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Link href={`/${locale}`} className="uppercase text-white font-bold">

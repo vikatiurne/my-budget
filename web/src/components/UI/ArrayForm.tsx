@@ -48,13 +48,13 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
       });
   }, [localPrice, localQty, splitExp]);
 
-   const { ti,tb } = useAppTranslation();
+  const { ti, tb } = useAppTranslation();
 
   return (
     <div className="flex flex-wrap gap-2">
       <input
-        className="flex-1 p-2 block w-[13rem]  border-gray-300
-        outline-none rounded shadow-sm  dark:shadow-amber-50"
+        className="flex-1 p-2 block w-[13rem]  border-gray-300 text-sm
+        outline-none rounded shadow-sm "
         type="text"
         placeholder={ti("name")}
         {...register(fieldName, { required: "field is required" })}
@@ -89,7 +89,7 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
           <button
             onClick={toggleSplit}
             title="split expenses for people"
-            className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+            className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white text-sm cursor-pointer"
           >
             {!splitExp ? tb("splitBy") : tb("cancel")}
           </button>

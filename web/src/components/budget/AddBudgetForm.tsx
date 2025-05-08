@@ -57,14 +57,14 @@ const AddBudgetForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mb-8 flex gap-6 justify-center items-end"
+      className="mb-8 flex flex-col md:flex-row gap-6 justify-center items-center"
     >
       <div className="flex gap-6 items-end">
         <label className="underline" htmlFor="budget">
           {tbg("monthlyBudget")}
         </label>
         <input
-          className="flex-1 w-full block p-2 border-gray-300 outline-none rounded shadow-sm dark:shadow-amber-50"
+          className="flex-1 w-full block p-2 border-gray-300 outline-none rounded shadow-sm"
           {...register("budget", { required: tm("required") })}
           type="number"
           name="budget"
@@ -72,7 +72,7 @@ const AddBudgetForm: React.FC = () => {
         />
       </div>
       <button
-        className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+        className="py-2.5 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
         type="submit"
       >
         {tb("apply")}

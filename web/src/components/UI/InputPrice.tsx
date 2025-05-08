@@ -26,9 +26,9 @@ const InputPrice = <T extends FieldValues>({
   return (
     <div className="flex gap-2 items-center">
       <input
-        className={`p-2 block ${
+        className={`p-2 block text-sm bg-[#f5f3f2] text-gray-800 ${
           !typeField ? "w-20" : "max-w-32"
-        } "border-gray-300" outline-none rounded shadow-sm  dark:shadow-amber-50 bg-white text-black`}
+        } "border-gray-300" outline-none rounded shadow-sm `}
         type="number"
         step="0.01"
         placeholder={placeholder}

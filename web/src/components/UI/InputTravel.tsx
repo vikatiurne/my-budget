@@ -31,7 +31,6 @@ const InputTravel: React.FC<InputTravelProps> = ({
       });
   }, [localPrice, localQty, splitExp]);
 
-
   const toggleSplit = () => {
     if (splitExp) {
       setLocalQty("1");
@@ -52,11 +51,11 @@ const InputTravel: React.FC<InputTravelProps> = ({
   const handleBlurQty = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue("qtypeople", e.target.value);
 
-   const { ti,tb } = useAppTranslation();
+  const { ti, tb } = useAppTranslation();
 
   return (
-    <div className="flex gap-4 items-center mb-4">
-      <label className="text-sm font-bold w-36" htmlFor={fieldName}>
+    <div className="flex gap-3 items-center mb-4">
+      <label className="text-sm font-bold w-30 md:w-50" htmlFor={fieldName}>
         {labelText}
       </label>
       <InputPrice
@@ -81,7 +80,7 @@ const InputTravel: React.FC<InputTravelProps> = ({
       {split && (
         <button
           onClick={toggleSplit}
-          className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+          className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white text-sm cursor-pointer"
         >
           {!splitExp ? tb("splitBy") : tb("cancel")}
         </button>

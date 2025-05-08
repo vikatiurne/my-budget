@@ -36,7 +36,6 @@ const BudgetInfo: React.FC<BudgetInfoProps> = ({ data, error }) => {
     return (
       <>
         <p className="mb-8 text-center">{tm("noBudget")}</p>
-        {/* <p className="mb-8 text-center">{error?.response?.data?.message}</p> */}
         <AddBudgetForm />
       </>
     );

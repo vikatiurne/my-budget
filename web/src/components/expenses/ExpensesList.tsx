@@ -32,9 +32,10 @@ const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
 
   const showExpensesListHandler = () => setShowList((prev) => !prev);
 
-    const {tm,tb} = useAppTranslation()
+  const { tm, tb } = useAppTranslation();
 
-  if (isPending) return <p className="pt-8 text-center text-xl">{tm("loading")}</p>;
+  if (isPending)
+    return <p className="pt-8 text-center text-xl">{tm("loading")}</p>;
 
   return (
     <div>
@@ -60,12 +61,15 @@ const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
             handleDateStart={handleDateStart}
             handleDateEnd={handleDateEnd}
           />
-          <button
-            onClick={handleResetDate}
-            className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
-          >
-            {tb("resetPeriod")}
-          </button>
+          {(startDate?.getTime() !== new Date(period.start).getTime() ||
+            endDate?.getTime() !== new Date(period.end).getTime()) && (
+            <button
+              onClick={handleResetDate}
+              className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+            >
+              {tb("resetPeriod")}
+            </button>
+          )}
         </div>
       </div>
 
@@ -74,7 +78,7 @@ const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
           {data.map((exp) => (
             <li
               key={exp._id}
-              className={`mb-2 p-2 flex items-center justify-between shadow  dark:shadow-amber-50 ${
+              className={`mb-2 p-2 flex items-center justify-between shadow  ${
                 showList ? "block" : "hidden"
               }`}
             >

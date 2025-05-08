@@ -45,7 +45,7 @@ const IncomesList: React.FC<IncomesListProps> = ({ budgetData }) => {
             <Image
               src={arrow}
               alt="arrow"
-              className={`transition-rotate duration-300 ease-in-out  dark:fill-amber-50 ${
+              className={`transition-rotate duration-300 ease-in-out  ${
                 showList ? "transform rotate-180 " : ""
               }`}
             />
