@@ -131,12 +131,12 @@ const RoadForm: React.FC<RoadFormProps> = ({
         placeholder={ti("price")}
         register={register}
         isRequired={true}
-        value={currentTransport.totalField ? currentTransport.totalField : "0"}
+        value={currentTransport.totalField ? currentTransport.totalField : ""}
         onChange={(e) => handlePriceChange(e, idx)}
         onBlur={() => handleBlurPrice(idx)}
       />
     );
-    return <>{components}</>;
+    return components;
   };
 
   return (
@@ -155,40 +155,41 @@ const RoadForm: React.FC<RoadFormProps> = ({
             {fields.map((item, idx) => (
               <div
                 key={item.id}
-                className="flex gap-4 mb-4 flex-wrap items-center"
+                className="flex gap-4 mb-4 items-center"
               >
-                <label
-                  htmlFor={`name-${idx}`}
-                  className="text-sm font-bold text-gray-600"
-                >
-                  {tr("transport")} №{idx + 1}
-                </label>
+                <div>
+                  <label
+                    htmlFor={`name-${idx}`}
+                    className="text-sm font-bold text-gray-600"
+                  >
+                    {tr("transport")} №{idx + 1}
+                  </label>
 
-                <div className="flex gap-2 md:gap-4 items-center">
-                  <Controller
-                    name={`transport.${idx}.typeofTransport`}
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <CustomSelect
-                        field={field}
-                        options={options}
-                        handleChange={(e) => handleTransportChange(idx, e)}
-                      />
-                    )}
-                  />
-
-                  {getContentForSelectedTransport(idx)}
-
-                  <div className="flex gap-2 items-center ">
-                    <BtnsFialdsArray
-                      idx={idx}
-                      append={() =>
-                        append({ typeofTransport: "", price: null })
-                      }
-                      remove={() => handleRemote(idx)}
+                  <div className="flex flex-wrap gap-2 md:gap-4 items-center">
+                    <Controller
+                      name={`transport.${idx}.typeofTransport`}
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <CustomSelect
+                          field={field}
+                          options={options}
+                          handleChange={(e) => handleTransportChange(idx, e)}
+                        />
+                      )}
                     />
+                    <div className="flex">
+                      {getContentForSelectedTransport(idx)}
+                    </div>
                   </div>
+                </div>
+
+                <div className="flex gap-2 items-center ">
+                  <BtnsFialdsArray
+                    idx={idx}
+                    append={() => append({ typeofTransport: "", price: null })}
+                    remove={() => handleRemote(idx)}
+                  />
                 </div>
               </div>
             ))}

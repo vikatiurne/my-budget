@@ -20,19 +20,34 @@ const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
 
   const handleBlurPrice = () => setValue("extra", localPrice);
 
-   const { ti,tt } = useAppTranslation();
+  const { ti, tt } = useAppTranslation();
 
+  console.log(localPrice);
   return (
-    showForm && (
-      <div className="mb-6">
+    <div className="mb-6">
+      {showForm ? (
         <TitleTravelBlock
-          title={`${tt("unaccountedExpenses")} - ${!localPrice ? 0 : localPrice} ₴`}
+          title={`${tt("unaccountedExpenses")} - ${
+            !localPrice ? 0 : localPrice
+          } ₴`}
           formActive={formActive}
           setShowDetails={handleShowDetails}
           setSelected={() => setValue("extra", "")}
         />
-        {showDetail && (
-          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+      ) : (
+        localPrice !== "" && (
+          <TitleTravelBlock
+            title={`${tt("unaccountedExpenses")} - ${
+              !localPrice ? 0 : localPrice
+            } ₴`}
+            formActive={formActive}
+            setShowDetails={handleShowDetails}
+            setSelected={() => setValue("extra", "")}
+          />
+        )
+      )}
+      {showForm && showDetail && (
+        <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           <InputPrice
             fieldName="extra"
             placeholder={ti("price")}
@@ -42,11 +57,10 @@ const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setLocalPrice(e.target.value)
             }
-            />
-            </div>
-        )}
-      </div>
-    )
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

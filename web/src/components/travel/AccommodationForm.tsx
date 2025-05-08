@@ -59,8 +59,8 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
   const { tt } = useAppTranslation();
 
   return (
-    showForm && (
-      <div>
+    <div>
+      {showForm ? (
         <TitleTravelBlock
           title={`${tt("accomodation")} - ${total} ₴`}
           blockName="accommodation"
@@ -68,46 +68,56 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
           setShowDetails={handleShowDetails}
           setSelected={() => setTotalValField([])}
         />
+      ) : (
+        total !== "0" && (
+          <TitleTravelBlock
+            title={`${tt("accomodation")} - ${total} ₴`}
+            blockName="accommodation"
+            formActive={formActive}
+            setShowDetails={handleShowDetails}
+            setSelected={() => setTotalValField([])}
+          />
+        )
+      )}
 
-        {showDetail && (
-          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
-            {fields.map((item, idx) => (
-              <div
-                key={item.id}
-                className="flex gap-4 mb-4 flex-wrap items-center"
+      {showForm && showDetail && (
+        <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+          {fields.map((item, idx) => (
+            <div
+              key={item.id}
+              className="flex gap-4 mb-4 flex-wrap items-center"
+            >
+              <label
+                htmlFor={`name-${idx}`}
+                className="text-sm font-bold text-gray-600"
               >
-                <label
-                  htmlFor={`name-${idx}`}
-                  className="text-sm font-bold text-gray-600"
-                >
-                  {tt("accomodation")} №{idx + 1}:
-                </label>
-                <div className="flex gap-2 md:gap-4 items-center">
-                  <ArrayForm
+                {tt("accomodation")} №{idx + 1}:
+              </label>
+              <div className="flex gap-2 md:gap-4 items-center">
+                <ArrayForm
+                  idx={idx}
+                  fieldName={`accommodation.${idx}.nameHotel`}
+                  fieldPrice={`accommodation.${idx}.price`}
+                  fieldQty={`accommodation.${idx}.qtypeople`}
+                  split="split"
+                  isRequired={true}
+                  onTotalValField={handleBlurField}
+                />
+                <div className="flex gap-2 items-center ">
+                  <BtnsFialdsArray
                     idx={idx}
-                    fieldName={`accommodation.${idx}.nameHotel`}
-                    fieldPrice={`accommodation.${idx}.price`}
-                    fieldQty={`accommodation.${idx}.qtypeople`}
-                    split="split"
-                    isRequired={true}
-                    onTotalValField={handleBlurField}
+                    append={() =>
+                      append({ nameHotel: "", price: null, qtypeople: "1" })
+                    }
+                    remove={() => handleRemove(idx)}
                   />
-                  <div className="flex gap-2 items-center ">
-                    <BtnsFialdsArray
-                      idx={idx}
-                      append={() =>
-                        append({ nameHotel: "", price: null, qtypeople: "1" })
-                      }
-                      remove={() => handleRemove(idx)}
-                    />
-                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    )
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

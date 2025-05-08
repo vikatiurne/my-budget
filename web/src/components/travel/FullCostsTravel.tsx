@@ -162,30 +162,51 @@ const FullCostsTravel = () => {
       </h1>
       <div className="mb-6 flex flex-wrap gap-6 justify-center">
         <Icon
-          onClick={() => setShowAccomondationForm(true)}
+          onClick={() => setShowAccomondationForm((prev) => !prev)}
           name={tt("hotels")}
         >
           <FaHotel className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowRoadForm(true)} name={tt("transport")}>
+        <Icon
+          onClick={() => setShowRoadForm((prev) => !prev)}
+          name={tt("transport")}
+        >
           <MdDirectionsTransit className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowInsuranceForm(true)} name={tt("insurance")}>
+        <Icon
+          onClick={() => setShowInsuranceForm((prev) => !prev)}
+          name={tt("insurance")}
+        >
           <AiOutlineInsurance className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowRoadTaxForm(true)} name={tt("roadTax")}>
+        <Icon
+          onClick={() => setShowRoadTaxForm((prev) => !prev)}
+          name={tt("roadTax")}
+        >
           <FaRoad className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowSightseeingForm(true)} name={tt("landmark")}>
+        <Icon
+          onClick={() => setShowSightseeingForm((prev) => !prev)}
+          name={tt("landmark")}
+        >
           <FaLandmarkDome className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowFoodForm(true)} name={tt("food")}>
+        <Icon
+          onClick={() => setShowFoodForm((prev) => !prev)}
+          name={tt("food")}
+        >
           <IoFastFoodOutline className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowActivitiesForm(true)} name={tt("activities")}>
+        <Icon
+          onClick={() => setShowActivitiesForm((prev) => !prev)}
+          name={tt("activities")}
+        >
           <MdOutlineSportsHandball className={styles.icon} />
         </Icon>
-        <Icon onClick={() => setShowExtraForm(true)} name={tt("other")}>
+        <Icon
+          onClick={() => setShowExtraForm((prev) => !prev)}
+          name={tt("other")}
+        >
           <LuListPlus className={styles.icon} />
         </Icon>
       </div>
@@ -236,7 +257,7 @@ const FullCostsTravel = () => {
               <button
                 onClick={() => setActivePopap(true)}
                 type="button"
-                className=" block py-2 px-4 shadow-md rounded bg-teal-700 text-white uppercase text-sm cursor-pointer"
+                className=" block py-2 px-4 shadow-md rounded bg-teal-700 text-white md:uppercase text-sm cursor-pointer"
               >
                 {tb("saveBudget")}
               </button>
@@ -245,7 +266,7 @@ const FullCostsTravel = () => {
               <button
                 type="button"
                 onClick={methods.handleSubmit(onBudgetCalculate)}
-                className=" block  py-2 px-4 shadow-md rounded bg-blue-400 text-white uppercase text-sm cursor-pointer"
+                className=" block  py-2 px-4 shadow-md rounded bg-blue-400 text-white md:uppercase text-sm cursor-pointer"
               >
                 {tt("calculate")}
               </button>
