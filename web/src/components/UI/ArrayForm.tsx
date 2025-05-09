@@ -12,6 +12,7 @@ interface ArrayFormProps {
   split?: string;
   isRequired?: boolean;
   onTotalValField: (val: TotalValueField) => void;
+  value?: { price?: string; qty?: string };
 }
 
 const ArrayForm: React.FC<ArrayFormProps> = ({
@@ -20,13 +21,17 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
   isRequired = false,
   fieldQty = "",
   split,
+  value,
   onTotalValField,
 }) => {
   const { register, setValue } = useFormContext();
 
   const [splitExp, setSplitExp] = useState<boolean | undefined>(!split);
-  const [localQty, setLocalQty] = useState<string>("1");
-  const [localPrice, setLocalPrice] = useState<string | undefined>("");
+  const [localQty, setLocalQty] = useState<string | undefined>(value?.qty);
+  const [localPrice, setLocalPrice] = useState<string | undefined>(
+    value?.price
+  );
+  const [isSightseeing, setIsSightseeing] = useState<boolean>(false);
 
   const toggleSplit = () => {
     if (splitExp) {
@@ -41,20 +46,33 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
   const handleBlurQty = () => setValue(fieldQty, localQty);
 
   useEffect(() => {
-    if (localPrice && localQty)
+    if (localPrice && localQty) {
       onTotalValField({
         field: fieldName,
         totalField: (+localPrice / +localQty).toString(),
       });
+    } else if (localPrice && !localQty) {
+      onTotalValField({
+        field: fieldName,
+        totalField: (+localPrice).toString(),
+      });
+    }
   }, [localPrice, localQty, splitExp]);
 
   const { ti, tb } = useAppTranslation();
 
+  useEffect(() => {
+    const fieldNameArr = fieldName.split(".");
+    if (fieldNameArr.includes("sightseeing")) setIsSightseeing(true);
+  }, [fieldName]);
+
   return (
     <div className="flex flex-wrap gap-2">
       <input
-        className="flex-1 p-2 block w-[13rem]  border-gray-300 text-sm
-        outline-none rounded shadow-sm "
+        className={`flex-1 p-2 block ${
+          !isSightseeing ? "w-[13rem]" : "w-16"
+        }   border-gray-300 text-sm
+        outline-none rounded shadow-sm`}
         type="text"
         placeholder={ti("name")}
         {...register(fieldName, { required: "field is required" })}

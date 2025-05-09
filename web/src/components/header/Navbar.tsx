@@ -79,7 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
             <Link
               href={`/${locale}`}
               onClick={() => setIsMenuOpen(false)}
-              className="mb-1"
+              className="mb-2"
             >
               {tbg("home")}
             </Link>
@@ -87,14 +87,14 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
             {isAuth && (
               <>
                 <Link
-                  className="mb-1"
+                  className="mb-2"
                   href={`/${locale}/budgetlist`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {tbg("budgetList")}
                 </Link>
                 <Link
-                  className="mb-1"
+                  className="mb-2"
                   href={`/${locale}/budget`}
                   onClick={() => setIsMenuOpen(false)}
                 >

@@ -12,7 +12,7 @@ interface RoadTaxFormProps {
 }
 
 const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
-  const { control } = useFormContext<{ payroad: IRoadTax[] }>();
+  const { control, watch } = useFormContext<{ payroad: IRoadTax[] }>();
 
   const [showDetail, setShowDetail] = useState<boolean>(true);
   const [totalValField, setTotalValField] = useState<TotalValueField[]>([]);
@@ -26,10 +26,10 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
   });
 
   useEffect(() => {
-    if (showForm) {
-      append({ country: "", price: null, qtypeople: "1" });
+    if (showForm && !fields.length) {
+      append({ country: "", price: "", qtypeople: "" });
     }
-  }, [append, showForm]);
+  }, [append, showForm, fields.length]);
 
   useEffect(() => {
     const sumforfield = totalValField.reduce(
@@ -55,8 +55,8 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
   const { tr } = useAppTranslation();
 
   return (
-    showForm && (
-      <div>
+    <div>
+      {showForm ? (
         <TitleTravelBlock
           blockName="payroad"
           title={`${tr("roadTax")} - ${total} ₴`}
@@ -64,42 +64,58 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
           setSelected={() => setTotalValField([])}
           setShowDetails={handleShowDetails}
         />
-        {showDetail && (
-          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
-            {fields.map((item, idx) => (
-              <div
-                key={item.id}
-                className="flex gap-4 mb-4 flex-wrap items-center"
+      ) : (
+        total !== "0" && (
+          <TitleTravelBlock
+            blockName="payroad"
+            title={`${tr("roadTax")} - ${total} ₴`}
+            formActive={formActive}
+            setSelected={() => setTotalValField([])}
+            setShowDetails={handleShowDetails}
+          />
+        )
+      )}
+      {showForm && showDetail && (
+        <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+          {fields.map((item, idx) => (
+            <div
+              key={item.id}
+              className="flex gap-4 mb-4 flex-wrap items-center"
+            >
+              <label
+                htmlFor={`name-${idx}`}
+                className="text-sm font-bold text-gray-600"
               >
-                <label
-                  htmlFor={`name-${idx}`}
-                  className="text-sm font-bold text-gray-600"
-                >
-                  {tr("country")} №{idx + 1}:
-                </label>
-                <div className="flex gap-2 md:gap-4 items-center">
-                  <ArrayForm
-                    idx={idx}
-                    fieldName={`payroad.${idx}.country`}
-                    fieldPrice={`payroad.${idx}.price`}
-                    fieldQty={`payroad.${idx}.qtypeople`}
-                    split="split"
-                    onTotalValField={handleBlurField}
-                  />
-                  <BtnsFialdsArray
-                    idx={idx}
-                    append={() =>
-                      append({ country: "", price: null, qtypeople: "1" })
-                    }
-                    remove={() => handleRemove(idx)}
-                  />
-                </div>
+                {tr("country")} №{idx + 1}:
+              </label>
+              <div className="flex gap-2 md:gap-4 items-center">
+                <ArrayForm
+                  idx={idx}
+                  fieldName={`payroad.${idx}.country`}
+                  fieldPrice={`payroad.${idx}.price`}
+                  fieldQty={`payroad.${idx}.qtypeople`}
+                  split="split"
+                  onTotalValField={handleBlurField}
+                  value={{
+                    price: watch(`payroad.${idx}.price`) as string | undefined,
+                    qty: watch(`payroad.${idx}.qtypeople`) as
+                      | string
+                      | undefined,
+                  }}
+                />
+                <BtnsFialdsArray
+                  idx={idx}
+                  append={() =>
+                    append({ country: "", price: "", qtypeople: "" })
+                  }
+                  remove={() => handleRemove(idx)}
+                />
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    )
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -34,13 +34,10 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
   });
 
   useEffect(() => {
-    if (fields.length === 0) {
+    if (showForm && !fields.length) {
       append({ eateries: "", price: null });
-      setSelectedPlaces([]);
-    } else {
-      setSelectedPlaces([...selectedPlaces]);
     }
-  }, [append, fields.length]);
+  }, [append, showForm, fields.length]);
 
   useEffect(() => {
     const sumforfield = selectedPlaces
@@ -86,8 +83,8 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
   };
 
   return (
-    showForm && (
-      <div>
+    <div>
+      {showForm ? (
         <TitleTravelBlock
           blockName="foodOptions"
           title={`${tt("foodPlaces")} - ${total} ₴`}
@@ -95,57 +92,64 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
           setSelected={() => setSelectedPlaces([])}
           setShowDetails={handleShowDetails}
         />
-        {showDetail && (
-          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
-            {fields.map((item, idx) => (
-              <div
-                key={item.id}
-                className="flex gap-4 flex-wrap items-center"
+      ) : (
+        total !== "0" && (
+          <TitleTravelBlock
+            blockName="foodOptions"
+            title={`${tt("foodPlaces")} - ${total} ₴`}
+            formActive={formActive}
+            setSelected={() => setSelectedPlaces([])}
+            setShowDetails={handleShowDetails}
+          />
+        )
+      )}
+      {showForm && showDetail && (
+        <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+          {fields.map((item, idx) => (
+            <div key={item.id} className="flex gap-4 flex-wrap items-center">
+              <label
+                htmlFor={`name-${idx}`}
+                className="text-sm font-bold text-gray-600"
               >
-                <label
-                  htmlFor={`name-${idx}`}
-                  className="text-sm font-bold text-gray-600"
-                >
-                  {tt("placeForEatting")} №{idx + 1}
-                </label>
-                <div className="flex gap-2 md:gap-4 items-center">
-                  <Controller
-                    name={`foodOptions.${idx}.eateries`}
-                    control={control}
-                    defaultValue=""
-                    render={({ field }) => (
-                      <CustomSelect
-                        options={options}
-                        field={field}
-                        handleChange={(e) => {
-                          handleChangeEattingPlace(e, idx);
-                        }}
-                      />
-                    )}
-                  />
-                  {selectedPlaces[idx] && selectedPlaces[idx].field !== "" && (
-                    <InputPrice
-                      fieldName={`foodOptions.${idx}.price`}
-                      placeholder={ti("price")}
-                      register={register}
-                      onBlur={() => handleBlurPrice(idx)}
-                      value={selectedPlaces[idx].totalField}
-                      onChange={(e) => handlePriceChange(e, idx)}
+                {tt("placeForEatting")} №{idx + 1}
+              </label>
+              <div className="flex gap-2 md:gap-4 items-center">
+                <Controller
+                  name={`foodOptions.${idx}.eateries`}
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <CustomSelect
+                      options={options}
+                      field={field}
+                      handleChange={(e) => {
+                        handleChangeEattingPlace(e, idx);
+                      }}
                     />
                   )}
-
-                  <BtnsFialdsArray
-                    idx={idx}
-                    append={() => append({ eateries: "", price: null })}
-                    remove={() => handleRemoveEattingPlace(idx)}
+                />
+                {selectedPlaces[idx] && selectedPlaces[idx].field !== "" && (
+                  <InputPrice
+                    fieldName={`foodOptions.${idx}.price`}
+                    placeholder={ti("price")}
+                    register={register}
+                    onBlur={() => handleBlurPrice(idx)}
+                    value={selectedPlaces[idx].totalField}
+                    onChange={(e) => handlePriceChange(e, idx)}
                   />
-                </div>
+                )}
+
+                <BtnsFialdsArray
+                  idx={idx}
+                  append={() => append({ eateries: "", price: null })}
+                  remove={() => handleRemoveEattingPlace(idx)}
+                />
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    )
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

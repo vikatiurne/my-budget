@@ -19,7 +19,7 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
   const [totalValField, setTotalValField] = useState<TotalValueField[]>([]);
   const [total, setTotal] = useState<string>("");
 
-  const { control } = useFormContext<{ sightseeing: ISightseeing[] }>();
+  const { control, watch } = useFormContext<{ sightseeing: ISightseeing[] }>();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -27,8 +27,8 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
   });
 
   useEffect(() => {
-    if (fields.length === 0) append({ landmark: "", price: null });
-  }, [append, fields.length]);
+    if (showForm && !fields.length) append({ landmark: "", price: "" });
+  }, [append, showForm, fields.length]);
 
   useEffect(() => {
     const sumforfield = totalValField.reduce(
@@ -56,8 +56,8 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
   const { tt } = useAppTranslation();
 
   return (
-    showForm && (
-      <div>
+    <div>
+      {showForm ? (
         <TitleTravelBlock
           title={`${tt("sightseeing")} - ${total} ₴`}
           blockName="sightseeing"
@@ -65,39 +65,54 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
           setSelected={() => setTotalValField([])}
           setShowDetails={handleShowDetails}
         />
+      ) : (
+        total !== "0" && (
+          <TitleTravelBlock
+            title={`${tt("sightseeing")} - ${total} ₴`}
+            blockName="sightseeing"
+            formActive={formActive}
+            setSelected={() => setTotalValField([])}
+            setShowDetails={handleShowDetails}
+          />
+        )
+      )}
 
-        {showDetail && (
-          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
-            {fields.map((item, idx) => (
-              <div
-                key={item.id}
-                className="flex gap-4 mb-4 flex-wrap items-center"
+      {showForm && showDetail && (
+        <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+          {fields.map((item, idx) => (
+            <div
+              key={item.id}
+              className="flex gap-4 mb-4 flex-wrap items-center"
+            >
+              <label
+                htmlFor={`name-${idx}`}
+                className="text-sm font-bold text-gray-600 capitalize"
               >
-                <label
-                  htmlFor={`name-${idx}`}
-                  className="text-sm font-bold text-gray-600 capitalize"
-                >
-                  {tt("landmark")} №{idx + 1}:
-                </label>
-                <div className="flex gap-2 md:gap-4 items-center">
-                  <ArrayForm
-                    idx={idx}
-                    fieldName={`sightseeing.${idx}.landmark`}
-                    fieldPrice={`sightseeing.${idx}.price`}
-                    onTotalValField={handleBlurField}
-                  />
-                  <BtnsFialdsArray
-                    idx={idx}
-                    append={() => append({ landmark: "", price: null })}
-                    remove={() => handleRemove(idx)}
-                  />
-                </div>
+                {tt("landmark")} №{idx + 1}:
+              </label>
+              <div className="flex gap-2 md:gap-4 items-center">
+                <ArrayForm
+                  idx={idx}
+                  fieldName={`sightseeing.${idx}.landmark`}
+                  fieldPrice={`sightseeing.${idx}.price`}
+                  onTotalValField={handleBlurField}
+                  value={{
+                    price: watch(`sightseeing.${idx}.price`) as
+                      | string
+                      | undefined,
+                  }}
+                />
+                <BtnsFialdsArray
+                  idx={idx}
+                  append={() => append({ landmark: "", price: "" })}
+                  remove={() => handleRemove(idx)}
+                />
               </div>
-            ))}
-          </div>
-        )}
-      </div>
-    )
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

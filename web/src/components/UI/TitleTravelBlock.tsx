@@ -44,7 +44,7 @@ const TitleTravelBlock: React.FC<TitleTravelBlockProps> = ({
       onClick={handleClickTitleBlock}
       title="show detail"
     >
-      <h4 className="text-xl text-[#daa520]">{title}</h4>
+      <h4 className="text-lg md:text-xl text-[#daa520]">{title}</h4>
       <CiCircleRemove
         className="w-6 h-6 cursor-pointer"
         onClick={(e) => handleClick(e)}

@@ -45,7 +45,7 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalPrice(e.target.value);
-    setLocalQty("1");
+    setLocalQty("");
   };
   const handleBlurPrice = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue("price", e.target.value);
@@ -69,64 +69,70 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
   };
 
   return (
-    showForm && (
-      <div className="mb-6">
+    <div>
+      {showForm ? (
         <TitleTravelBlock
           title={`${tt("seasonalActivity")} - ${total} ₴`}
           formActive={formActive}
           setSelected={reset}
           setShowDetails={handleShowDetails}
         />
-        {showDetail && (
-          <div className="flex gap-4 mb-4 flex-wrap items-center shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
-            <label
-              htmlFor="activity"
-              className="text-sm font-bold text-gray-600"
-            >
-              {tt("activities")}:
-            </label>
+      ) : (
+        total !== "0" && (
+          <TitleTravelBlock
+            title={`${tt("seasonalActivity")} - ${total} ₴`}
+            formActive={formActive}
+            setSelected={reset}
+            setShowDetails={handleShowDetails}
+          />
+        )
+      )}
+      {showForm && showDetail && (
+        <div className="flex gap-4 mb-4 flex-wrap items-center shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+          <label htmlFor="activity" className="text-sm font-bold text-gray-600">
+            {tt("activities")}:
+          </label>
 
-            <Controller
-              name="typeofActivities"
-              defaultValue=""
-              control={control}
-              render={({ field }) => (
-                <CustomSelect
-                  options={options}
-                  field={field}
-                  handleChange={(e) => {
-                    handleChangeActivity(e);
-                  }}
+          <Controller
+            name="typeofActivities"
+            defaultValue=""
+            control={control}
+            render={({ field }) => (
+              <CustomSelect
+                options={options}
+                field={field}
+                handleChange={(e) => {
+                  handleChangeActivity(e);
+                }}
+              />
+            )}
+          />
+          <div className="flex gap-2 md:gap-4 items-center">
+            {selectedActivity !== "" && selectedActivity !== null && (
+              <>
+                <InputPrice
+                  fieldName="price"
+                  placeholder={ti("price")}
+                  register={register}
+                  value={localPrice}
+                  onChange={(e) => handlePriceChange(e)}
+                  onBlur={handleBlurPrice}
                 />
-              )}
-            />
-            <div className="flex gap-2 md:gap-4 items-center">
-              {selectedActivity !== "" && selectedActivity !== null && (
-                <>
-                  <InputPrice
-                    fieldName="price"
-                    placeholder={ti("price")}
-                    register={register}
-                    value={localPrice}
-                    onChange={(e) => handlePriceChange(e)}
-                    onBlur={handleBlurPrice}
-                  />
-                  <InputPrice
-                    fieldName="qty"
-                    placeholder={ti("days")}
-                    register={register}
-                    typeField={ti("days")}
-                    value={localQty ?? ""}
-                    onChange={(e) => handleQtyChange(e)}
-                    onBlur={handleBlurQty}
-                  />
-                </>
-              )}
-            </div>
+                <InputPrice
+                  fieldName="qty"
+                  placeholder={ti("days")}
+                  register={register}
+                  typeField={ti("days")}
+                  value={localQty ?? ""}
+                  onChange={(e) => handleQtyChange(e)}
+                  onBlur={handleBlurQty}
+                />
+              </>
+            )}
           </div>
-        )}
-      </div>
-    )
+        </div>
+      )}
+    </div>
   );
 };
 

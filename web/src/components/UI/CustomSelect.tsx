@@ -24,8 +24,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   field,
   handleChange,
 }) => {
-
-   const { ti } = useAppTranslation();
+  const { ti } = useAppTranslation();
 
   return (
     <select
@@ -35,7 +34,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
         handleChange(e);
       }}
       value={field.value || ""}
-      className="shadow w-full md:w-36 text-sm appearance-none rounded py-2.5 px-3 leading-tight focus:outline-none focus:shadow-outline "
+      className={`shadow ${
+        field.value !== "car" ? "w-36" : "w-full"
+      }  md:w-36 text-sm appearance-none rounded py-2.5 px-3 leading-tight focus:outline-none focus:shadow-outline`}
     >
       <option value="">-- {ti("select")} --</option>
       {options.map((item, i) => (

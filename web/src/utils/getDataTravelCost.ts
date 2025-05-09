@@ -22,8 +22,10 @@ const calculateTotalCost = <T extends NeedsProps>(
     return needs as NeedsProps;
   });
   return propsArr.reduce((acc: number, item: NeedsProps): number => {
-    if (item.price !== null) {
+    if (item.price !== null && item.qtypeople) {
       return acc + parseInt(item.price) / parseInt(item.qtypeople);
+    } else if (item.price !== null && !item.qtypeople) {
+      return acc + parseInt(item.price);
     }
 
     return acc;
@@ -31,8 +33,8 @@ const calculateTotalCost = <T extends NeedsProps>(
 };
 
 const getCostFromArrWithoutPeple = <T extends ArrWithoutPeople>(data: T[]) => {
-  const price = data.reduce((acc, item) => {
-    if (item.price !== null && item.price !== undefined) {
+  const price = data.reduce((acc: number, item: T) => {
+    if (item.price !== null) {
       return acc + parseInt(item.price);
     }
     return acc;
@@ -64,7 +66,7 @@ export const getDataTravelCost = (data: ITravelCosts): ITravel => {
 
   const roadTaxCost = data.payroad ? calculateTotalCost(data.payroad) : 0;
 
-  const sightseeingCost = data.sightseeing
+  const sightseeingCost = data?.sightseeing
     ? getCostFromArrWithoutPeple(data.sightseeing)
     : 0;
 
@@ -73,7 +75,7 @@ export const getDataTravelCost = (data: ITravelCosts): ITravel => {
     : 0;
 
   const activitiesCost =
-    data.activities && data?.price
+    data.typeofActivities && data?.price
       ? data.qty
         ? parseInt(data.price) * parseInt(data.qty)
         : parseInt(data.price)
@@ -87,9 +89,12 @@ export const getDataTravelCost = (data: ITravelCosts): ITravel => {
     greencardCost +
     healthInsuranceCost +
     roadTaxCost +
+    sightseeingCost +
     foodCost +
     activitiesCost +
     extra;
+
+  console.log(accommodationCost);
 
   const travelCostObj = {
     title: data.title,

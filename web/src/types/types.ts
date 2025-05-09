@@ -81,7 +81,7 @@ export interface ITravelCosts {
   payroad?: IRoadTax[];
   sightseeing?: ISightseeing[];
   foodOptions?: IFoodOptions[];
-  activities?: string;
+  typeofActivities?: string;
   price?: string;
   qty?: string;
   twosides: boolean;

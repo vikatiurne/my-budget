@@ -22,7 +22,11 @@ const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
 
   const { ti, tt } = useAppTranslation();
 
-  console.log(localPrice);
+  const resetExtraValue = () => {
+    setValue("extra", "");
+    setLocalPrice("");
+  };
+
   return (
     <div className="mb-6">
       {showForm ? (
@@ -32,7 +36,7 @@ const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
           } ₴`}
           formActive={formActive}
           setShowDetails={handleShowDetails}
-          setSelected={() => setValue("extra", "")}
+          setSelected={resetExtraValue}
         />
       ) : (
         localPrice !== "" && (
@@ -42,7 +46,7 @@ const ExtraForm: React.FC<ExtraFormProps> = ({ showForm, formActive }) => {
             } ₴`}
             formActive={formActive}
             setShowDetails={handleShowDetails}
-            setSelected={() => setValue("extra", "")}
+            setSelected={resetExtraValue}
           />
         )
       )}

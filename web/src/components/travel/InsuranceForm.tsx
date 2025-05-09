@@ -3,6 +3,7 @@ import InputTravel from "../UI/InputTravel";
 import TitleTravelBlock from "../UI/TitleTravelBlock";
 import { TotalValueField } from "@/types/types";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
+import { useFormContext } from "react-hook-form";
 
 interface InsuranceFormProps {
   showForm: boolean;
@@ -34,34 +35,53 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
     setTotalValField([...filtered, newTotalVal]);
   };
 
+  const { setValue, watch } = useFormContext();
+
   const { tinc } = useAppTranslation();
 
+  const resetInsuranceValues = () => {
+    setTotalValField([]);
+    setValue("greencard", "");
+    setValue("healthInsurance", "");
+  };
+
   return (
-    showForm && (
-      <div >
+    <div>
+      {showForm ? (
         <TitleTravelBlock
           title={`${tinc("insurances")} - ${total} ₴`}
           formActive={formActive}
           setShowDetails={handleShowDetails}
-          setSelected={() => setTotalValField([])}
+          setSelected={resetInsuranceValues}
         />
-        {showDetail && (
-          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
-            <InputTravel
-              fieldName="greencard"
-              labelText={tinc("greenCard")}
-              split="split"
-              onTotalValField={handleBlurField}
-            />
-            <InputTravel
-              fieldName="healthInsurance"
-              labelText={tinc("health")}
-              onTotalValField={handleBlurField}
-            />
-          </div>
-        )}
-      </div>
-    )
+      ) : (
+        total !== "0" && (
+          <TitleTravelBlock
+            title={`${tinc("insurances")} - ${total} ₴`}
+            formActive={formActive}
+            setShowDetails={handleShowDetails}
+            setSelected={resetInsuranceValues}
+          />
+        )
+      )}
+      {showForm && showDetail && (
+        <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+          <InputTravel
+            fieldName="greencard"
+            labelText={tinc("greenCard")}
+            split="split"
+            onTotalValField={handleBlurField}
+            value={watch("greencard")}
+          />
+          <InputTravel
+            fieldName="healthInsurance"
+            labelText={tinc("health")}
+            onTotalValField={handleBlurField}
+            value={watch("healthInsurance")}
+          />
+        </div>
+      )}
+    </div>
   );
 };
 

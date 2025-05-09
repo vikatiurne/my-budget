@@ -49,10 +49,10 @@ const RoadForm: React.FC<RoadFormProps> = ({
   });
 
   useEffect(() => {
-    if (showForm) {
+    if (showForm && !fields.length) {
       append({ typeofTransport: "", price: null });
     }
-  }, [append, showForm]);
+  }, [append, showForm, fields.length]);
 
   useEffect(() => {
     const sumforfield = selestedTransportValues
@@ -140,8 +140,8 @@ const RoadForm: React.FC<RoadFormProps> = ({
   };
 
   return (
-    showForm && (
-      <div>
+    <div>
+      {showForm ? (
         <TitleTravelBlock
           title={`${tr("modesTransportation")} - ${total} ₴`}
           blockName="transport"
@@ -149,63 +149,70 @@ const RoadForm: React.FC<RoadFormProps> = ({
           setSelected={() => setSelestedTransportValues([])}
           setShowDetails={handleShowDetails}
         />
+      ) : (
+        total !== "0" && (
+          <TitleTravelBlock
+            title={`${tr("modesTransportation")} - ${total} ₴`}
+            blockName="transport"
+            formActive={formActive}
+            setSelected={() => setSelestedTransportValues([])}
+            setShowDetails={handleShowDetails}
+          />
+        )
+      )}
 
-        {showDetail && (
-          <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
-            {fields.map((item, idx) => (
-              <div
-                key={item.id}
-                className="flex gap-4 mb-4 items-center"
-              >
-                <div>
-                  <label
-                    htmlFor={`name-${idx}`}
-                    className="text-sm font-bold text-gray-600"
-                  >
-                    {tr("transport")} №{idx + 1}
-                  </label>
+      {showForm && showDetail && (
+        <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
+          {fields.map((item, idx) => (
+            <div key={item.id} className="flex gap-4 mb-4 items-center">
+              <div>
+                <label
+                  htmlFor={`name-${idx}`}
+                  className="text-sm font-bold text-gray-600"
+                >
+                  {tr("transport")} №{idx + 1}
+                </label>
 
-                  <div className="flex flex-wrap gap-2 md:gap-4 items-center">
-                    <Controller
-                      name={`transport.${idx}.typeofTransport`}
-                      control={control}
-                      defaultValue=""
-                      render={({ field }) => (
-                        <CustomSelect
-                          field={field}
-                          options={options}
-                          handleChange={(e) => handleTransportChange(idx, e)}
-                        />
-                      )}
-                    />
-                    <div className="flex">
-                      {getContentForSelectedTransport(idx)}
-                    </div>
+                <div className="flex flex-wrap gap-2 md:gap-4 items-center">
+                  <Controller
+                    name={`transport.${idx}.typeofTransport`}
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <CustomSelect
+                        field={field}
+                        options={options}
+                        handleChange={(e) => handleTransportChange(idx, e)}
+                      />
+                    )}
+                  />
+                  <div className="flex">
+                    {getContentForSelectedTransport(idx)}
                   </div>
                 </div>
-
-                <div className="flex gap-2 items-center ">
-                  <BtnsFialdsArray
-                    idx={idx}
-                    append={() => append({ typeofTransport: "", price: null })}
-                    remove={() => handleRemote(idx)}
-                  />
-                </div>
               </div>
-            ))}
-            <input
-              type="checkbox"
-              {...trMethods.register("twosides")}
-              checked={isToSides}
-              onChange={(e) => handleCheckbox(e)}
-            />
-            <label htmlFor="twosides" className="text-md ml-2 text-gray-600">
-              {tr("includeReturnTrip")}
-            </label>
-          </div>
-        )}
-      </div>
-    )
+
+              <div className="flex gap-2 items-center ">
+                <BtnsFialdsArray
+                  idx={idx}
+                  append={() => append({ typeofTransport: "", price: null })}
+                  remove={() => handleRemote(idx)}
+                />
+              </div>
+            </div>
+          ))}
+          <input
+            type="checkbox"
+            {...trMethods.register("twosides")}
+            checked={isToSides}
+            onChange={(e) => handleCheckbox(e)}
+          />
+          <label htmlFor="twosides" className="text-md ml-2 text-gray-600">
+            {tr("includeReturnTrip")}
+          </label>
+        </div>
+      )}
+    </div>
   );
 };
 

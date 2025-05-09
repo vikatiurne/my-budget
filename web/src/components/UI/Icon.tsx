@@ -11,7 +11,7 @@ const Icon: React.FC<IconProps> = ({ children, name, onClick }) => {
     <button onClick={onClick} className="flex flex-col items-center cursor-pointer">
       {children}
 
-      <p className="text-sm">{name}</p>
+      <p className="text-sm lowercase">{name}</p>
     </button>
   );
 };

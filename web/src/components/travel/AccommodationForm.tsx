@@ -28,10 +28,10 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
   });
 
   useEffect(() => {
-    if (showForm) {
-      append({ nameHotel: "", price: null, qtypeople: "1" });
+    if (showForm && !fields.length) {
+      append({ nameHotel: "", price: "", qtypeople: "" });
     }
-  }, [append, showForm]);
+  }, [append, showForm, fields.length]);
 
   const handleBlurField = (newTotalVal: TotalValueField) => {
     const filtered = totalValField.filter(
@@ -102,12 +102,20 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
                   split="split"
                   isRequired={true}
                   onTotalValField={handleBlurField}
+                  value={{
+                    price: methods.watch(`accommodation.${idx}.price`) as
+                      | string
+                      | undefined,
+                    qty: methods.watch(`accommodation.${idx}.qtypeople`) as
+                      | string
+                      | undefined,
+                  }}
                 />
                 <div className="flex gap-2 items-center ">
                   <BtnsFialdsArray
                     idx={idx}
                     append={() =>
-                      append({ nameHotel: "", price: null, qtypeople: "1" })
+                      append({ nameHotel: "", price: "", qtypeople: "" })
                     }
                     remove={() => handleRemove(idx)}
                   />

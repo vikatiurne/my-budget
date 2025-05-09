@@ -9,32 +9,40 @@ interface InputTravelProps {
   fieldName: string;
   split?: string;
   onTotalValField: (val: TotalValueField) => void;
+  value: string;
 }
 
 const InputTravel: React.FC<InputTravelProps> = ({
   labelText,
   fieldName,
   split,
+  value,
   onTotalValField,
 }) => {
   const [splitExp, setSplitExp] = useState<boolean | undefined>(!split);
-  const [localPrice, setLocalPrice] = useState<string | undefined>("");
-  const [localQty, setLocalQty] = useState<string>("1");
+  const [localPrice, setLocalPrice] = useState<string | undefined>(value || "");
+  const [localQty, setLocalQty] = useState<string>("");
 
   const { register, setValue } = useFormContext();
 
   useEffect(() => {
-    if (localPrice && localQty)
+    if (localPrice && localQty) {
       onTotalValField({
         field: fieldName,
         totalField: (+localPrice / +localQty).toString(),
       });
+    } else if (localPrice && !localQty) {
+      onTotalValField({
+        field: fieldName,
+        totalField: (+localPrice).toString(),
+      });
+    }
   }, [localPrice, localQty, splitExp]);
 
   const toggleSplit = () => {
     if (splitExp) {
-      setLocalQty("1");
-      setValue("qtypeople", "1");
+      setLocalQty("");
+      setValue("qtypeople", "");
     }
     setSplitExp((prev) => !prev);
   };
@@ -54,29 +62,36 @@ const InputTravel: React.FC<InputTravelProps> = ({
   const { ti, tb } = useAppTranslation();
 
   return (
-    <div className="flex gap-3 items-center mb-4">
-      <label className="text-sm font-bold w-30 md:w-50" htmlFor={fieldName}>
+    <div className="flex flex-wrap gap-3 items-center mb-4">
+      <label
+        className={`text-sm font-bold ${
+          fieldName === "greencard" ? "w-50" : "w-30"
+        }  md:w-50`}
+        htmlFor={fieldName}
+      >
         {labelText}
       </label>
-      <InputPrice
-        fieldName={fieldName}
-        placeholder={ti("price")}
-        register={register}
-        value={localPrice}
-        onChange={(e) => handlePriceChange(e)}
-        onBlur={handleBlurPrice}
-      />
-      {splitExp && split && (
+      <div className="flex">
         <InputPrice
-          fieldName="qtypeople"
-          placeholder={ti("qty")}
-          typeField=" "
+          fieldName={fieldName}
+          placeholder={ti("price")}
           register={register}
-          value={localQty ?? ""}
-          onChange={(e) => handleQtyChange(e)}
-          onBlur={handleBlurQty}
+          value={localPrice}
+          onChange={(e) => handlePriceChange(e)}
+          onBlur={handleBlurPrice}
         />
-      )}
+        {splitExp && split && (
+          <InputPrice
+            fieldName="qtypeople"
+            placeholder={ti("qty")}
+            typeField=" "
+            register={register}
+            value={localQty ?? ""}
+            onChange={(e) => handleQtyChange(e)}
+            onBlur={handleBlurQty}
+          />
+        )}
+      </div>
       {split && (
         <button
           onClick={toggleSplit}
