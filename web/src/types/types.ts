@@ -70,17 +70,20 @@ export interface IActivities {
   qty: string;
 }
 
-export interface ITravelCosts {
-  _id?: string;
-  title: string;
+export interface ITravelFields {
   accommodation: IAccommodation[];
   transport: ITransport[];
-  greencard?: string;
-  qtypeople?: string;
-  healthInsurance?: string;
   payroad?: IRoadTax[];
   sightseeing?: ISightseeing[];
   foodOptions?: IFoodOptions[];
+}
+
+export interface ITravelCosts extends ITravelFields {
+  _id?: string;
+  title: string;
+  greencard?: string;
+  qtypeople?: string;
+  healthInsurance?: string;
   typeofActivities?: string;
   price?: string;
   qty?: string;

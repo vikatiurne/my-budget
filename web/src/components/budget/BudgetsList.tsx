@@ -25,7 +25,6 @@ const BudgetsList = () => {
 
       const prevBudget =
         queryClient.getQueryData<IBudgetUpdate[]>(["budgets"]) ?? [];
-      console.log(prevBudget);
       const optimisticBudget = prevBudget.filter((item) => item._id !== id);
 
       queryClient.setQueryData(["budgets"], optimisticBudget);
@@ -58,7 +57,7 @@ const BudgetsList = () => {
             key={item._id}
             className="text-center"
           >
-            <li className="w-[21rem] sm:w-[35rem] mx-auto pl-4 flex items-center justify-between  p-2 bordeb-b-gray-100 hover:bg-gray-100 cursor-pointer">
+            <li className="w-[21rem] sm:w-[35rem] mx-auto pl-4 flex items-center justify-between  p-2 bordeb-b-gray-100  hover:bg-[#d5e2df] hover:rounded cursor-pointer">
               <div className="flex gap-2">
                 <p className="list-item">{item.name}</p>
                 <p>-</p>

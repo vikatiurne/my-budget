@@ -1,4 +1,3 @@
-
 interface NeedsProps {
   price: string | null;
   qtypeople: string;
@@ -14,7 +13,6 @@ export const calculateTotalCost = <T extends NeedsProps>(
       for (const k of needsProps) {
         if (item.hasOwnProperty(k)) needs[k] = item[k] !== null ? item[k] : "";
       }
-      console.log(needs);
 
       return needs as NeedsProps;
     });

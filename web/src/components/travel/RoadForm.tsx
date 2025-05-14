@@ -12,12 +12,14 @@ interface RoadFormProps {
   fuelPrice: () => void;
   showForm: boolean;
   formActive: () => void;
+  onUpdateTotal?: (payload: { transport: string }) => void;
 }
 
 const RoadForm: React.FC<RoadFormProps> = ({
   fuelPrice,
   showForm,
   formActive,
+  onUpdateTotal,
 }) => {
   const { tr, ti } = useAppTranslation();
 
@@ -39,8 +41,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
     TotalValueField[]
   >([]);
   const [selestedNames, setSelestedNames] = useState<string[]>([]);
-  const [total, setTotal] = useState<string>("");
-  const [showDetail, setShowDetail] = useState<boolean>(true);
+  const [total, setTotal] = useState<string>("0");
   const [isToSides, setIsToSides] = useState<boolean>(true);
 
   const { fields, append, remove } = useFieldArray({
@@ -66,6 +67,12 @@ const RoadForm: React.FC<RoadFormProps> = ({
     setTotal(sumtosideds.toString());
   }, [selestedTransportValues, isToSides]);
 
+  useEffect(() => {
+    if (onUpdateTotal) {
+      onUpdateTotal({ transport: total });
+    }
+  }, [total]);
+
   const handleRemote = (idx: number) => {
     remove(idx);
     const fileted = selestedTransportValues.filter((_, i) => i !== idx);
@@ -84,8 +91,6 @@ const RoadForm: React.FC<RoadFormProps> = ({
     updatedName[idx] = e.target.value;
     setSelestedNames(updatedName);
   };
-
-  const handleShowDetails = () => setShowDetail((prev) => !prev);
 
   const handlePriceChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -147,7 +152,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
           blockName="transport"
           formActive={formActive}
           setSelected={() => setSelestedTransportValues([])}
-          setShowDetails={handleShowDetails}
+          // setShowDetails={handleShowDetails}
         />
       ) : (
         total !== "0" && (
@@ -156,12 +161,12 @@ const RoadForm: React.FC<RoadFormProps> = ({
             blockName="transport"
             formActive={formActive}
             setSelected={() => setSelestedTransportValues([])}
-            setShowDetails={handleShowDetails}
+            // setShowDetails={handleShowDetails}
           />
         )
       )}
 
-      {showForm && showDetail && (
+      {showForm  && (
         <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           {fields.map((item, idx) => (
             <div key={item.id} className="flex gap-4 mb-4 items-center">

@@ -36,6 +36,11 @@ const InputTravel: React.FC<InputTravelProps> = ({
         field: fieldName,
         totalField: (+localPrice).toString(),
       });
+    } else {
+      onTotalValField({
+        field: fieldName,
+        totalField: "0",
+      });
     }
   }, [localPrice, localQty, splitExp]);
 

@@ -9,11 +9,13 @@ import { useAppTranslation } from "@/hooks/useAppTranslation";
 interface SeasonalActivityProps {
   showForm: boolean;
   formActive: () => void;
+  onUpdateTotal?: (payload: { activities: string }) => void;
 }
 
 const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
   showForm,
   formActive,
+  onUpdateTotal,
 }) => {
   const { tt, ti } = useAppTranslation();
 
@@ -26,7 +28,6 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
   const [localPrice, setLocalPrice] = useState<string | undefined>("");
   const [localQty, setLocalQty] = useState<string | null>(null);
   const [total, setTotal] = useState<string>("0");
-  const [showDetail, setShowDetail] = useState<boolean>(true);
 
   const { control, register, setValue } = useFormContext<IActivities>();
 
@@ -37,6 +38,12 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
     }
   }, [localPrice, localQty]);
 
+  useEffect(() => {
+    if (onUpdateTotal) {
+      onUpdateTotal({ activities: total });
+    }
+  }, [total]);
+
   const handleChangeActivity = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedActivity(e.target.value);
     setLocalPrice("");
@@ -45,7 +52,6 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalPrice(e.target.value);
-    setLocalQty("");
   };
   const handleBlurPrice = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue("price", e.target.value);
@@ -56,7 +62,9 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
   const handleBlurQty = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue("qty", e.target.value);
 
-  const handleShowDetails = () => setShowDetail((prev) => !prev);
+  useEffect(() => {
+    if (!localPrice || !localQty) setTotal("0");
+  }, [localPrice, localQty]);
 
   const reset = () => {
     setTotal("0");
@@ -75,7 +83,7 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
           title={`${tt("seasonalActivity")} - ${total} ₴`}
           formActive={formActive}
           setSelected={reset}
-          setShowDetails={handleShowDetails}
+          // setShowDetails={handleShowDetails}
         />
       ) : (
         total !== "0" && (
@@ -83,11 +91,11 @@ const SeasonalActivity: React.FC<SeasonalActivityProps> = ({
             title={`${tt("seasonalActivity")} - ${total} ₴`}
             formActive={formActive}
             setSelected={reset}
-            setShowDetails={handleShowDetails}
+            // setShowDetails={handleShowDetails}
           />
         )
       )}
-      {showForm && showDetail && (
+      {showForm && (
         <div className="flex gap-4 mb-4 flex-wrap items-center shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           <label htmlFor="activity" className="text-sm font-bold text-gray-600">
             {tt("activities")}:

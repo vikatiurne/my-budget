@@ -94,7 +94,6 @@ export const getDataTravelCost = (data: ITravelCosts): ITravel => {
     activitiesCost +
     extra;
 
-  console.log(accommodationCost);
 
   const travelCostObj = {
     title: data.title,

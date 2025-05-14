@@ -10,9 +10,14 @@ import { useAppTranslation } from "@/hooks/useAppTranslation";
 interface FoodFormProps {
   showForm: boolean;
   formActive: () => void;
+  onUpdateTotal?: (payload: { food: string }) => void;
 }
 
-const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
+const FoodForm: React.FC<FoodFormProps> = ({
+  showForm,
+  formActive,
+  onUpdateTotal,
+}) => {
   const { tt, ti } = useAppTranslation();
 
   const options = [
@@ -20,9 +25,8 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
     { value: "outside", label: tt("outside") },
   ];
 
-  const [showDetail, setShowDetail] = useState<boolean>(true);
   const [selectedPlaces, setSelectedPlaces] = useState<TotalValueField[]>([]);
-  const [total, setTotal] = useState<string>("");
+  const [total, setTotal] = useState<string>("0");
 
   const { control, register, setValue } = useFormContext<{
     foodOptions: IFoodOptions[];
@@ -35,13 +39,13 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
 
   useEffect(() => {
     if (showForm && !fields.length) {
-      append({ eateries: "", price: null });
+      append({ eateries: "", price: "" });
     }
   }, [append, showForm, fields.length]);
 
   useEffect(() => {
     const sumforfield = selectedPlaces
-      .filter((item) => item.totalField !== null && item.totalField !== "")
+      .filter((item) => item.totalField !== "")
       .reduce(
         (acc: number, item: TotalValueField) => acc + parseInt(item.totalField),
 
@@ -49,6 +53,12 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
       );
     setTotal(sumforfield.toString());
   }, [selectedPlaces]);
+
+  useEffect(() => {
+    if (onUpdateTotal) {
+      onUpdateTotal({ food: total });
+    }
+  }, [total]);
 
   const handleChangeEattingPlace = (
     e: React.ChangeEvent<HTMLSelectElement>,
@@ -76,8 +86,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
     setSelectedPlaces(filtered);
   };
 
-  const handleShowDetails = () => setShowDetail((prev) => !prev);
-
   const handleBlurPrice = (idx: number) => {
     setValue(`foodOptions.${idx}.price`, selectedPlaces[idx].totalField);
   };
@@ -90,7 +98,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
           title={`${tt("foodPlaces")} - ${total} ₴`}
           formActive={formActive}
           setSelected={() => setSelectedPlaces([])}
-          setShowDetails={handleShowDetails}
+          // setShowDetails={handleShowDetails}
         />
       ) : (
         total !== "0" && (
@@ -99,11 +107,11 @@ const FoodForm: React.FC<FoodFormProps> = ({ showForm, formActive }) => {
             title={`${tt("foodPlaces")} - ${total} ₴`}
             formActive={formActive}
             setSelected={() => setSelectedPlaces([])}
-            setShowDetails={handleShowDetails}
+            // setShowDetails={handleShowDetails}
           />
         )
       )}
-      {showForm && showDetail && (
+      {showForm && (
         <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           {fields.map((item, idx) => (
             <div key={item.id} className="flex gap-4 flex-wrap items-center">

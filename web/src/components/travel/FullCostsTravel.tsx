@@ -46,42 +46,18 @@ const FullCostsTravel = () => {
     useState<boolean>(false);
   const [showExtraForm, setShowExtraForm] = useState<boolean>(false);
 
-  const [isSelectFields, setIsSelectFields] = useState<boolean>(false);
   const [activePopap, setActivePopap] = useState<boolean>(false);
 
   const [totalPrice, setTotalPrice] = useState<number | null>(null);
 
-  useEffect(() => {
-    const arr = [
-      showAccomondationForm,
-      showActivitiesForm,
-      showExtraForm,
-      showFoodForm,
-      showInsuranceForm,
-      showRoadForm,
-      showRoadTaxForm,
-      showSightseeingForm,
-    ];
-    const isSelect = arr.filter((item) => item);
-    setIsSelectFields(!!isSelect.length);
-
-    setTotalPrice(null);
-  }, [
-    showAccomondationForm,
-    showActivitiesForm,
-    showExtraForm,
-    showFoodForm,
-    showInsuranceForm,
-    showRoadForm,
-    showRoadTaxForm,
-    showSightseeingForm,
-  ]);
+  const [totalValue, setTotalValue] = useState<{ [key: string]: string }[]>([]);
 
   const { isAuth } = useAuthContext();
 
-  const methods = useForm<ITravelCosts>();
+  const methods = useForm<ITravelCosts>({ mode: "onChange" });
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, formState } = methods;
+  const { isValid, isDirty } = formState;
 
   const queryClient = useQueryClient();
 
@@ -137,17 +113,47 @@ const FullCostsTravel = () => {
     setShowActivitiesForm(false);
     setShowSightseeingForm(false);
     setShowExtraForm(false);
+    setTotalPrice(null);
     reset();
   };
 
-  const onBudgetCalculate = (data: ITravelCosts) => {
-    const obj = getDataTravelCost(data);
-    setTotalPrice(obj.total);
+  const toggleForm = (
+    setter: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    setter((prev) => !prev);
   };
 
   const showFuelPriceForm = () => setIsFuelPriceForm(true);
 
   const { tt, tm, ti, tb } = useAppTranslation();
+
+  const handleUpdateTotal = (payload: { [key: string]: string }) => {
+    const key = Object.keys(payload)[0];
+    const value = Object.values(payload)[0];
+    let foundKey = false;
+
+    const newTotalValue = totalValue.map((item) => {
+      if (Object.keys(item)[0] === key) {
+        foundKey = true;
+        return { [key]: value };
+      } else {
+        return item;
+      }
+    });
+
+    if (!foundKey) newTotalValue.push(payload);
+    setTotalValue(newTotalValue);
+  };
+
+  useEffect(() => {
+    const updateTotal = totalValue.reduce(
+      (acc: number, item: { [key: string]: string }) => {
+        return acc + parseInt(Object.values(item)[0]);
+      },
+      0
+    );
+    setTotalPrice(updateTotal);
+  }, [totalValue]);
 
   return (
     <div className="mb-8 mx-auto p-4 shadow rounded max-w-[49rem]">
@@ -162,51 +168,45 @@ const FullCostsTravel = () => {
       </h1>
       <div className="mb-6 flex flex-wrap gap-6 justify-center">
         <Icon
-          onClick={() => setShowAccomondationForm((prev) => !prev)}
+          onClick={() => toggleForm(setShowAccomondationForm)}
           name={tt("hotels")}
         >
           <FaHotel className={styles.icon} />
         </Icon>
         <Icon
-          onClick={() => setShowRoadForm((prev) => !prev)}
+          onClick={() => toggleForm(setShowRoadForm)}
           name={tt("transport")}
         >
           <MdDirectionsTransit className={styles.icon} />
         </Icon>
         <Icon
-          onClick={() => setShowInsuranceForm((prev) => !prev)}
+          onClick={() => toggleForm(setShowInsuranceForm)}
           name={tt("insurance")}
         >
           <AiOutlineInsurance className={styles.icon} />
         </Icon>
         <Icon
-          onClick={() => setShowRoadTaxForm((prev) => !prev)}
+          onClick={() => toggleForm(setShowRoadTaxForm)}
           name={tt("roadTax")}
         >
           <FaRoad className={styles.icon} />
         </Icon>
         <Icon
-          onClick={() => setShowSightseeingForm((prev) => !prev)}
+          onClick={() => toggleForm(setShowSightseeingForm)}
           name={tt("landmark")}
         >
           <FaLandmarkDome className={styles.icon} />
         </Icon>
-        <Icon
-          onClick={() => setShowFoodForm((prev) => !prev)}
-          name={tt("food")}
-        >
+        <Icon onClick={() => toggleForm(setShowFoodForm)} name={tt("food")}>
           <IoFastFoodOutline className={styles.icon} />
         </Icon>
         <Icon
-          onClick={() => setShowActivitiesForm((prev) => !prev)}
+          onClick={() => toggleForm(setShowActivitiesForm)}
           name={tt("activities")}
         >
           <MdOutlineSportsHandball className={styles.icon} />
         </Icon>
-        <Icon
-          onClick={() => setShowExtraForm((prev) => !prev)}
-          name={tt("other")}
-        >
+        <Icon onClick={() => toggleForm(setShowExtraForm)} name={tt("other")}>
           <LuListPlus className={styles.icon} />
         </Icon>
       </div>
@@ -215,35 +215,43 @@ const FullCostsTravel = () => {
           <AccommodationForm
             showForm={showAccomondationForm}
             formActive={() => setShowAccomondationForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
           <RoadForm
             fuelPrice={showFuelPriceForm}
             showForm={showRoadForm}
             formActive={() => setShowRoadForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
           <InsuranceForm
             showForm={showInsuranceForm}
             formActive={() => setShowInsuranceForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
           <RoadTaxForm
             showForm={showRoadTaxForm}
             formActive={() => setShowRoadTaxForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
           <SightseeingForm
             showForm={showSightseeingForm}
             formActive={() => setShowSightseeingForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
           <FoodForm
             showForm={showFoodForm}
             formActive={() => setShowFoodForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
           <SeasonalActivities
             showForm={showActivitiesForm}
             formActive={() => setShowActivitiesForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
           <ExtraForm
             showForm={showExtraForm}
             formActive={() => setShowExtraForm(false)}
+            onUpdateTotal={handleUpdateTotal}
           />
 
           {!!totalPrice && (
@@ -252,26 +260,17 @@ const FullCostsTravel = () => {
             </p>
           )}
 
-          <div className="flex flex-wrap items-center justify-between ">
-            {!!isAuth && isSelectFields && (
-              <button
-                onClick={() => setActivePopap(true)}
-                type="button"
-                className=" block py-2 px-4 shadow-md rounded bg-teal-700 text-white md:uppercase text-sm cursor-pointer"
-              >
-                {tb("saveBudget")}
-              </button>
-            )}
-            {isSelectFields && (
-              <button
-                type="button"
-                onClick={methods.handleSubmit(onBudgetCalculate)}
-                className=" block  py-2 px-4 shadow-md rounded bg-blue-400 text-white md:uppercase text-sm cursor-pointer"
-              >
-                {tt("calculate")}
-              </button>
-            )}
-          </div>
+          {!!isAuth && !!totalPrice && (
+            <button
+              onClick={() => setActivePopap(true)}
+              disabled={!isValid || !isDirty}
+              type="button"
+              className=" block py-2 px-4 shadow-md rounded bg-teal-700 text-white md:uppercase text-sm cursor-pointer disabled:bg-gray-300"
+            >
+              {tb("saveBudget")}
+            </button>
+          )}
+
           {activePopap && (
             <Popap active={activePopap} setActive={() => setActivePopap(false)}>
               <div>

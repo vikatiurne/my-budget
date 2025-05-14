@@ -9,15 +9,16 @@ import { useAppTranslation } from "@/hooks/useAppTranslation";
 interface SightseeingFormProps {
   showForm: boolean;
   formActive: () => void;
+  onUpdateTotal?: (payload: { sightseeing: string }) => void;
 }
 
 const SightseeingForm: React.FC<SightseeingFormProps> = ({
   showForm,
   formActive,
+  onUpdateTotal,
 }) => {
-  const [showDetail, setShowDetail] = useState<boolean>(true);
   const [totalValField, setTotalValField] = useState<TotalValueField[]>([]);
-  const [total, setTotal] = useState<string>("");
+  const [total, setTotal] = useState<string>("0");
 
   const { control, watch } = useFormContext<{ sightseeing: ISightseeing[] }>();
 
@@ -38,6 +39,12 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
     setTotal(sumforfield.toString());
   }, [totalValField]);
 
+  useEffect(() => {
+    if (onUpdateTotal) {
+      onUpdateTotal({ sightseeing: total });
+    }
+  }, [total]);
+
   const handleBlurField = (newTotalVal: TotalValueField) => {
     const filtered = totalValField.filter(
       (item) => item.field !== newTotalVal.field
@@ -51,8 +58,6 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
     setTotalValField(filtered);
   };
 
-  const handleShowDetails = () => setShowDetail((prev) => !prev);
-
   const { tt } = useAppTranslation();
 
   return (
@@ -63,7 +68,7 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
           blockName="sightseeing"
           formActive={formActive}
           setSelected={() => setTotalValField([])}
-          setShowDetails={handleShowDetails}
+          // setShowDetails={handleShowDetails}
         />
       ) : (
         total !== "0" && (
@@ -72,12 +77,12 @@ const SightseeingForm: React.FC<SightseeingFormProps> = ({
             blockName="sightseeing"
             formActive={formActive}
             setSelected={() => setTotalValField([])}
-            setShowDetails={handleShowDetails}
+            // setShowDetails={handleShowDetails}
           />
         )
       )}
 
-      {showForm && showDetail && (
+      {showForm && (
         <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           {fields.map((item, idx) => (
             <div

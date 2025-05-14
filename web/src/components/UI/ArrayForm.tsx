@@ -56,6 +56,11 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
         field: fieldName,
         totalField: (+localPrice).toString(),
       });
+    } else {
+      onTotalValField({
+        field: fieldName,
+        totalField: "0",
+      });
     }
   }, [localPrice, localQty, splitExp]);
 
@@ -84,9 +89,10 @@ const ArrayForm: React.FC<ArrayFormProps> = ({
           register={register}
           isRequired={isRequired}
           value={localPrice}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setLocalPrice(e.target.value)
-          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setLocalPrice(e.target.value);
+            setValue(fieldPrice, e.target.value);
+          }}
           onBlur={handleBlurPrice}
         />
         {splitExp && split && (

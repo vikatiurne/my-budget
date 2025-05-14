@@ -4,7 +4,6 @@ import Link from "next/link";
 import AuthBtn from "./AuthBtn";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
-import { usePathname } from "next/navigation";
 
 interface NavbarProps {
   locale: string;
@@ -14,9 +13,6 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const context = useAuthContext();
-
-  const pathname = usePathname()
-  console.log(pathname)
 
   const { tbg } = useAppTranslation();
 

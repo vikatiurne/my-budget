@@ -9,16 +9,18 @@ import { useAppTranslation } from "@/hooks/useAppTranslation";
 interface RoadTaxFormProps {
   showForm: boolean;
   formActive: () => void;
+  onUpdateTotal?: (payload: { payroad: string }) => void;
 }
 
-const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
+const RoadTaxForm: React.FC<RoadTaxFormProps> = ({
+  showForm,
+  formActive,
+  onUpdateTotal,
+}) => {
   const { control, watch } = useFormContext<{ payroad: IRoadTax[] }>();
 
-  const [showDetail, setShowDetail] = useState<boolean>(true);
   const [totalValField, setTotalValField] = useState<TotalValueField[]>([]);
-  const [total, setTotal] = useState<string>("");
-
-  const handleShowDetails = () => setShowDetail((prev) => !prev);
+  const [total, setTotal] = useState<string>("0");
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -38,6 +40,12 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
     );
     setTotal(sumforfield.toString());
   }, [totalValField]);
+
+  useEffect(() => {
+    if (onUpdateTotal) {
+      onUpdateTotal({ payroad: total });
+    }
+  }, [total]);
 
   const handleBlurField = (newTotalVal: TotalValueField) => {
     const filtered = totalValField.filter(
@@ -62,7 +70,7 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
           title={`${tr("roadTax")} - ${total} ₴`}
           formActive={formActive}
           setSelected={() => setTotalValField([])}
-          setShowDetails={handleShowDetails}
+          // setShowDetails={handleShowDetails}
         />
       ) : (
         total !== "0" && (
@@ -71,11 +79,11 @@ const RoadTaxForm: React.FC<RoadTaxFormProps> = ({ showForm, formActive }) => {
             title={`${tr("roadTax")} - ${total} ₴`}
             formActive={formActive}
             setSelected={() => setTotalValField([])}
-            setShowDetails={handleShowDetails}
+            // setShowDetails={handleShowDetails}
           />
         )
       )}
-      {showForm && showDetail && (
+      {showForm && (
         <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           {fields.map((item, idx) => (
             <div

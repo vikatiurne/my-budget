@@ -9,15 +9,16 @@ import { useAppTranslation } from "@/hooks/useAppTranslation";
 interface AccommodationFormProps {
   showForm: boolean;
   formActive: () => void;
+  onUpdateTotal?: (payload: { accommodation: string }) => void;
 }
 
 const AccommodationForm: React.FC<AccommodationFormProps> = ({
   showForm,
   formActive,
+  onUpdateTotal,
 }) => {
   const [totalValField, setTotalValField] = useState<TotalValueField[]>([]);
-  const [total, setTotal] = useState<string>("");
-  const [showDetail, setShowDetail] = useState<boolean>(true);
+  const [total, setTotal] = useState<string>("0");
 
   const methods = useFormContext<{ accommodation: IAccommodation[] }>();
   const { control } = methods;
@@ -32,6 +33,12 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
       append({ nameHotel: "", price: "", qtypeople: "" });
     }
   }, [append, showForm, fields.length]);
+
+  useEffect(() => {
+    if (onUpdateTotal) {
+      onUpdateTotal({ accommodation: total });
+    }
+  }, [total]);
 
   const handleBlurField = (newTotalVal: TotalValueField) => {
     const filtered = totalValField.filter(
@@ -54,8 +61,6 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
     setTotal(sumforfield.toString());
   }, [totalValField]);
 
-  const handleShowDetails = () => setShowDetail((prev) => !prev);
-
   const { tt } = useAppTranslation();
 
   return (
@@ -65,7 +70,7 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
           title={`${tt("accomodation")} - ${total} ₴`}
           blockName="accommodation"
           formActive={formActive}
-          setShowDetails={handleShowDetails}
+          // setShowDetails={handleShowDetails}
           setSelected={() => setTotalValField([])}
         />
       ) : (
@@ -74,13 +79,13 @@ const AccommodationForm: React.FC<AccommodationFormProps> = ({
             title={`${tt("accomodation")} - ${total} ₴`}
             blockName="accommodation"
             formActive={formActive}
-            setShowDetails={handleShowDetails}
+            // setShowDetails={handleShowDetails}
             setSelected={() => setTotalValField([])}
           />
         )
       )}
 
-      {showForm && showDetail && (
+      {showForm && (
         <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           {fields.map((item, idx) => (
             <div

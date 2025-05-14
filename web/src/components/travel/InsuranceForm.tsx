@@ -8,15 +8,17 @@ import { useFormContext } from "react-hook-form";
 interface InsuranceFormProps {
   showForm: boolean;
   formActive: () => void;
+  onUpdateTotal?: (payload: { insurances: string }) => void;
 }
 
 const InsuranceForm: React.FC<InsuranceFormProps> = ({
   showForm,
   formActive,
+  onUpdateTotal,
 }) => {
-  const [showDetail, setShowDetail] = useState<boolean>(true);
+
   const [totalValField, setTotalValField] = useState<TotalValueField[]>([]);
-  const [total, setTotal] = useState<string>("");
+  const [total, setTotal] = useState<string>("0");
 
   useEffect(() => {
     const sumforfield = totalValField.reduce(
@@ -26,7 +28,13 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
     setTotal(sumforfield.toString());
   }, [totalValField]);
 
-  const handleShowDetails = () => setShowDetail((prev) => !prev);
+
+  useEffect(() => {
+    if (onUpdateTotal) {
+      onUpdateTotal({ insurances: total });
+    }
+  }, [total]);
+
 
   const handleBlurField = (newTotalVal: TotalValueField) => {
     const filtered = totalValField.filter(
@@ -51,7 +59,7 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
         <TitleTravelBlock
           title={`${tinc("insurances")} - ${total} ₴`}
           formActive={formActive}
-          setShowDetails={handleShowDetails}
+          // setShowDetails={handleShowDetails}
           setSelected={resetInsuranceValues}
         />
       ) : (
@@ -59,12 +67,12 @@ const InsuranceForm: React.FC<InsuranceFormProps> = ({
           <TitleTravelBlock
             title={`${tinc("insurances")} - ${total} ₴`}
             formActive={formActive}
-            setShowDetails={handleShowDetails}
+            // setShowDetails={handleShowDetails}
             setSelected={resetInsuranceValues}
           />
         )
       )}
-      {showForm && showDetail && (
+      {showForm  && (
         <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           <InputTravel
             fieldName="greencard"
