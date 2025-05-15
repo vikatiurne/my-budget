@@ -98,7 +98,6 @@ const FoodForm: React.FC<FoodFormProps> = ({
           title={`${tt("foodPlaces")} - ${total} ₴`}
           formActive={formActive}
           setSelected={() => setSelectedPlaces([])}
-          // setShowDetails={handleShowDetails}
         />
       ) : (
         total !== "0" && (
@@ -107,7 +106,6 @@ const FoodForm: React.FC<FoodFormProps> = ({
             title={`${tt("foodPlaces")} - ${total} ₴`}
             formActive={formActive}
             setSelected={() => setSelectedPlaces([])}
-            // setShowDetails={handleShowDetails}
           />
         )
       )}

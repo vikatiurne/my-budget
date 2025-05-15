@@ -253,13 +253,11 @@ const FullCostsTravel = () => {
             formActive={() => setShowExtraForm(false)}
             onUpdateTotal={handleUpdateTotal}
           />
-
           {!!totalPrice && (
             <p className="mb-4 text-end text-xl font-black">
               {tt("totalPrice")} <span>{totalPrice} ₴</span>
             </p>
           )}
-
           {!!isAuth && !!totalPrice && (
             <button
               onClick={() => setActivePopap(true)}

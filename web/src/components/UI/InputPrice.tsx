@@ -22,18 +22,17 @@ const InputPrice = <T extends FieldValues>({
   onChange,
   onBlur,
 }: InputPriceProps<T>) => {
-
   return (
     <div className="flex gap-2 items-center">
       <input
         className={`p-2 block text-sm bg-[#f5f3f2] text-gray-800 ${
-          typeField===" " ? "w-14 md:w-20" : "max-w-17 md:max-w-32"
+          typeField === " " ? "w-14 md:w-20" : "max-w-17 md:max-w-32"
         } "border-gray-300" outline-none rounded shadow-sm `}
         type="number"
         step="0.01"
         placeholder={placeholder}
         {...register(fieldName, {
-          required: isRequired ? "this field is required" : false,
+          required: isRequired ? "this field is required" : undefined,
         })}
         {...(value !== undefined ? { value } : {})}
         {...(onChange ? { onChange } : {})}

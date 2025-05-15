@@ -32,9 +32,17 @@ const RoadForm: React.FC<RoadFormProps> = ({
     { value: "rent", label: tr("rentCar") },
   ];
 
-  const { control, register, setValue } = useFormContext<{
+  const { control, register, setValue, formState, trigger } = useFormContext<{
     transport: ITransport[];
   }>();
+
+  const { errors } = formState;
+
+  useEffect(() => {
+    console.log("Form State:", formState);
+    console.log("Errors:", errors);
+  }, [formState, errors]);
+
   const trMethods = useFormContext<ITravelCosts>();
 
   const [selestedTransportValues, setSelestedTransportValues] = useState<
@@ -90,6 +98,8 @@ const RoadForm: React.FC<RoadFormProps> = ({
     const updatedName = [...selestedNames];
     updatedName[idx] = e.target.value;
     setSelestedNames(updatedName);
+    setValue(`transport.${idx}.typeofTransport`, e.target.value);
+    trigger(`transport.${idx}.typeofTransport`);
   };
 
   const handlePriceChange = (
@@ -100,7 +110,9 @@ const RoadForm: React.FC<RoadFormProps> = ({
     if (updatedValues[idx]) {
       updatedValues[idx].totalField = e.target.value;
       setSelestedTransportValues(updatedValues);
+      setValue(`transport.${idx}.price`, e.target.value);
     }
+    trigger(`transport.${idx}.price`);
   };
 
   const handleBlurPrice = (idx: number) => {
@@ -152,7 +164,6 @@ const RoadForm: React.FC<RoadFormProps> = ({
           blockName="transport"
           formActive={formActive}
           setSelected={() => setSelestedTransportValues([])}
-          // setShowDetails={handleShowDetails}
         />
       ) : (
         total !== "0" && (
@@ -161,12 +172,11 @@ const RoadForm: React.FC<RoadFormProps> = ({
             blockName="transport"
             formActive={formActive}
             setSelected={() => setSelestedTransportValues([])}
-            // setShowDetails={handleShowDetails}
           />
         )
       )}
 
-      {showForm  && (
+      {showForm && (
         <div className="mb-4 shadow pt-4 pb-1 px-2 bg-[#f5f3f2]">
           {fields.map((item, idx) => (
             <div key={item.id} className="flex gap-4 mb-4 items-center">
@@ -183,6 +193,7 @@ const RoadForm: React.FC<RoadFormProps> = ({
                     name={`transport.${idx}.typeofTransport`}
                     control={control}
                     defaultValue=""
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <CustomSelect
                         field={field}

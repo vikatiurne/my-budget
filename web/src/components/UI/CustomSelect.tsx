@@ -36,7 +36,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       value={field.value || ""}
       className={`shadow ${
         field.value !== "car" ? "w-36" : "w-full"
-      }  md:w-36 text-sm appearance-none rounded py-2.5 px-3 leading-tight focus:outline-none focus:shadow-outline`}
+      }  md:w-36 text-sm appearance-none rounded py-2.5 px-3 leading-tight focus:outline-none focus:shadow-outline `}
     >
       <option value="">-- {ti("select")} --</option>
       {options.map((item, i) => (
