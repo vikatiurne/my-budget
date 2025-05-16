@@ -32,16 +32,9 @@ const RoadForm: React.FC<RoadFormProps> = ({
     { value: "rent", label: tr("rentCar") },
   ];
 
-  const { control, register, setValue, formState, trigger } = useFormContext<{
+  const { control, register, setValue, trigger } = useFormContext<{
     transport: ITransport[];
   }>();
-
-  const { errors } = formState;
-
-  useEffect(() => {
-    console.log("Form State:", formState);
-    console.log("Errors:", errors);
-  }, [formState, errors]);
 
   const trMethods = useFormContext<ITravelCosts>();
 

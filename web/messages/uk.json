@@ -13,11 +13,19 @@
     "enterEmail":"Введіть ваш e-mail",
     "enterPass":"Введіть ваш пароль",
     "haveAccount": "Вже зареєстровані?"
+   
   } ,
   "Budget":{
     "home":"Головна",
     "monthlyBudget":"Бюджет на місяць",
-    "budgetList":"Список бюджетів"
+    "budgetList":"Список бюджетів",
+    "addBudget":"Додайте бюджет",
+    "forMonth":"цей місяць",
+    "forTrip": "подорожі",
+    "messageBudget":"Бюджет на цей місяць все існує.",
+    "goBudget":"Перейти?",
+     "checkMonthlyBudget":"перевіряю наявність бюджету"
+   
   },
   "Expense":{
     "prodacts":"продукти",
@@ -112,7 +120,8 @@
     "days":"днів",
     "expenseSourse":"назва джерела витрат..(опційно)",
     "incomesSourse":"назва джерела доходу..",
-    "budgetName":"назва бюждету...",
+    "budgetName":"назва бюждету",
+    "budget": "Бюджет",
     "select":"Оберіть",
     "title":"назва",
        "type":"введіть",

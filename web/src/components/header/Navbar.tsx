@@ -4,6 +4,7 @@ import Link from "next/link";
 import AuthBtn from "./AuthBtn";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
+import { usePathname } from "next/navigation";
 
 interface NavbarProps {
   locale: string;
@@ -12,11 +13,24 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ locale }) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const context = useAuthContext();
-
   const { tbg } = useAppTranslation();
 
+  const links = [
+    { href: `/${locale}`, label: tbg("home") },
+    { href: `/${locale}/budgetlist`, label: tbg("budgetList") },
+    { href: `/${locale}/budget`, label: tbg("monthlyBudget") },
+  ];
+
+  const context = useAuthContext();
+
   const { isAuth } = context;
+
+  const pathname = usePathname();
+
+  const getLinkClass = (href: string) =>
+    pathname === href
+      ? "text-[#daa520] font-bold underline"
+      : "text-white hover:text-gray-300";
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -45,19 +59,16 @@ const Navbar: React.FC<NavbarProps> = ({ locale }) => {
           </button>
         </div>
         <div className={`hidden md:flex  space-x-4`}>
-          {isAuth && (
-            <>
-              <Link href={`/${locale}`} className="py-1">
-                {tbg("home")}
-              </Link>
-              <Link href={`/${locale}/budgetlist`} className="py-1 capitalize">
-                {tbg("budgetList")}
-              </Link>
-              <Link href={`/${locale}/monthly`} className="py-1">
-                {tbg("monthlyBudget")}
-              </Link>
-            </>
-          )}
+          {isAuth &&
+            links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`py-1 ${getLinkClass(link.href)}`}
+              >
+                {link.label}
+              </a>
+            ))}
 
           <AuthBtn locale={locale} />
         </div>

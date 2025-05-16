@@ -17,7 +17,13 @@
   "Budget":{
     "home":"Home",
     "monthlyBudget":"Mounthly Budget",
-    "budgetList":"Budgets list"
+    "budgetList":"Budgets list",
+    "addBudget":"Create budget",
+    "forMonth":"for month",
+    "forTrip": "for trip",
+    "messageBudget":"Budget for this month was set.",
+    "goBudgetList":"Go to the budget?",
+     "checkMonthlyBudget":"checking the budget availability"
   },
   "Expense":{
     "prodacts":"prodacts",
@@ -113,6 +119,7 @@
     "expenseSourse":"title an expense sourse..(optional)",
     "incomesSourse":"title an incomes sourse..",
     "budgetName":"budget name...",
+    "budget":"budget",
     "select":"Select",
     "title":"title"
 },
