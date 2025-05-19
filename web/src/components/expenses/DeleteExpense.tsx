@@ -2,7 +2,7 @@ import { IExpense } from "@/types/types";
 import { deleteExpense } from "@/utils/api";
 import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import remove from "../../../public/remove.svg";
+import remove from "../../../public/images/remove.svg";
 import Image from "next/image";
 import React from "react";
 
@@ -26,7 +26,6 @@ const DeleteExpense: React.FC<DeleteExpenseProps> = ({ expense }) => {
       const prevExpense =
         queryClient.getQueryData<IExpense[]>([
           "expense",
-          expense.user_id,
           expense.budget_id,
           from,
           till,

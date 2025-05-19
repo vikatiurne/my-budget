@@ -4,14 +4,20 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import FormContent from "../UI/FormContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createExpense } from "@/utils/api";
-import { useAuthContext } from "@/hooks/useAuthContext";
 import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface AddExpenseFormProps {
   budgetId: string;
+  includeField: boolean;
+  category: string;
 }
 
-const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
+const AddExpenseForm: React.FC<AddExpenseFormProps> = ({
+  budgetId,
+  includeField,
+  category,
+}) => {
   const { register, handleSubmit, reset } = useForm<IExpense | Income>();
 
   const queryClient = useQueryClient();
@@ -19,8 +25,6 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
   const period = defaultDatePeriod();
   const from = new Date(period.start);
   const till = period.end;
-
-  const { userId } = useAuthContext();
 
   const addExpenseMutation = useMutation({
     mutationFn: (expensedata: IExpense) => createExpense(expensedata),
@@ -30,8 +34,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
       });
 
       const prevExpenses: IExpense[] =
-        queryClient.getQueryData(["expense", userId, budgetId, from, till]) ??
-        [];
+        queryClient.getQueryData(["expense", budgetId, from, till]) ?? [];
 
       const optimisticExpense: IExpense[] = [
         ...prevExpenses,
@@ -39,7 +42,7 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
       ];
 
       queryClient.setQueryData(
-        ["expense", userId, budgetId, from, till],
+        ["expense", budgetId, from, till],
         optimisticExpense
       );
 
@@ -49,28 +52,34 @@ const AddExpenseForm: React.FC<AddExpenseFormProps> = ({ budgetId }) => {
       queryClient.setQueryData(["expense"], context?.prevExpenses);
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(["expense", userId, budgetId, from, till], data);
+      queryClient.setQueryData(["expense", budgetId, from, till], data);
       queryClient.invalidateQueries({ queryKey: ["budget"] });
     },
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const title = data.title?`${category} (${data.title})`:category
     addExpenseMutation.mutate({
-      title: data.title,
+      title: title,
       price: data.price,
       budget_id: budgetId,
-      user_id: userId,
       _id: data._id,
     });
     reset();
   };
+
+  const { ti } = useAppTranslation();
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="mb-8 flex flex-col gap-4  items-center"
     >
-      <FormContent typeForm="title" register={register} />
+      <FormContent
+        typeForm={ti("expenseSourse")}
+        register={register}
+        includeField={includeField}
+      />
     </form>
   );
 };

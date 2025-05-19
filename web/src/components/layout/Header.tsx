@@ -1,72 +1,44 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Container from "../containers/Container";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuthQuery } from "@/hooks/useAuthQuery";
-import { useAuthContext } from "@/hooks/useAuthContext";
+import Image from "next/image";
+import budget from "../../../public/images/budgetlogo.png";
+import LanguageSwitcher from "../header/LanguageSwitcher";
+import Navbar from "../header/Navbar";
 
-const Header: React.FC = () => {
+const Header = ({ locale }: { locale: string }) => {
   const params = usePathname();
 
-  const context = useAuthContext();
+  const [language, setLanguage] = useState<string>(locale);
 
-  const { isAuth, isLogout, userId, logout } = context;
-
-  const [btnName, setBtnName] = useState<string>("");
-
-  const { data } = useAuthQuery(userId);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isAuth) {
-      setBtnName("Sign Up");
-    } else {
-      setBtnName(isLogout ? "Sign In" : "Log out");
-    }
-  }, [isAuth, isLogout]);
-
-  useEffect(() => {
-    if (!isAuth) {
-      setBtnName("Sign Up");
-    } else {
-      setBtnName(isLogout ? "Sign In" : "Log out");
-    }
-  }, [isAuth, isLogout]);
-
-  const handleClick = () => {
-    if (isAuth) {
-      logout();
-    } else {
-      router.push(btnName === "Sign Up" ? `/signup` : `/signin`);
+  const handleLanguageChange = (newLanguage: "en" | "uk") => {
+    if (language !== newLanguage) {
+      setLanguage(newLanguage);
+      const pathParts = params.split("/");
+      const pathWithoutLocale = pathParts.slice(2).join("/");
+      router.push(`/${newLanguage}/${pathWithoutLocale}`);
     }
   };
 
-  return (
-    <div className="bg-[#daa520] mb-10">
-      <Container style="flex justify-between items-center">
-        <Link href={"/"} className="uppercase text-white font-bold">
-          My budget
-        </Link>
-        {isAuth ? (
-          <p className="uppercase text-white font-bold">{data?.name}</p>
-        ) : null}
+  const router = useRouter();
 
-        {params === "/" && (
-          <button
-            onClick={handleClick}
-            className="px-4 py-1 border-amber-50 rounded shadow bg-amber-50 cursor-pointer hover:bg-amber-100 active:bg-amber-50"
-          >
-            {btnName}
-          </button>
-        )}
-        {params === "/signup" && (
-          <p className="uppercase text-white font-bold">Pegistration Form</p>
-        )}
-        {params === "/signin" && (
-          <p className="uppercase text-white font-bold">Login Form</p>
-        )}
+  return (
+    <div className="bg-teal-800 mb-2 md:mb-10">
+      <Container style="flex justify-between items-center">
+        <div className="flex gap-2 items-center">
+          <Link href={`/${locale}`} className="uppercase text-white font-bold">
+            <Image
+              src={budget}
+              alt="budgetlogo"
+              className="w-10 cursor-pointer"
+              title="home"
+            />
+          </Link>
+          <LanguageSwitcher onchange={handleLanguageChange} locale={locale} />
+        </div>
+        <Navbar locale={locale} />
       </Container>
     </div>
   );

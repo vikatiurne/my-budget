@@ -1,10 +1,10 @@
+import mongoose from "mongoose";
 import Budget from "../models/Budget";
 import Expense, { IExpense } from "../models/Expenses";
 import { ExpenseStats, minMaxAvarage } from "../utils/minMaxAvarage";
 
 class ExpenseService {
   getExpenses = async (
-    userId: string,
     budgetId: string,
     page: number,
     limit: number,
@@ -14,8 +14,7 @@ class ExpenseService {
     try {
       const skip = page - 1;
       const expenses = await Expense.find({
-        user_id: userId,
-        budget_id: budgetId,
+        budget_id: new mongoose.Types.ObjectId(budgetId),
         createdAt: {
           $gte: new Date(from),
           $lt: new Date(till),
@@ -25,6 +24,7 @@ class ExpenseService {
         .skip(skip)
         .limit(limit)
         .exec();
+
       return expenses;
     } catch (error: any) {
       throw new Error(`Error getting expenses: ${error.message}`);

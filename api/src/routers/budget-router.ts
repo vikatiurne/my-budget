@@ -5,8 +5,11 @@ const { Router } = require("express");
 const router = new Router();
 
 router.get("/getBudget/:userId", budgetController.getBudget);
+router.get("/getBudgetById/:budgetId", budgetController.getBudgetById);
+router.get("/getAllBudgets/:userId", budgetController.getAllBudgets);
 router.get("/getStatsBudget/:userId", budgetController.getStatsForPeriod);
 router.post("/createBudget", budgetController.addBudget);
-router.put("/updateBudget/:userId", budgetController.updateBudget);
+router.put("/updateBudget/:budgetId", budgetController.updateBudget);
+router.delete("/deleteBudget/:budgetId", budgetController.deleteBudget);
 
 export default router;

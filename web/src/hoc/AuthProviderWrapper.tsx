@@ -16,7 +16,8 @@ const AuthProviderWrapper: React.FC<AuthProviderWrapperProps> = ({
   const params = usePathname();
 
   useEffect(() => {
-    const pathName = params.replace("/", "") as "signup" | "signin";
+    const pathNameArr = params.split("/");
+    const pathName = pathNameArr[pathNameArr.length - 1];
     if (pathName === "signup" || pathName === "signin") setPath(pathName);
   }, [params]);
 

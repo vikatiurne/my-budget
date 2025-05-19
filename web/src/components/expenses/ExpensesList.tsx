@@ -1,13 +1,18 @@
-import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 import { useExpenseQuery } from "@/hooks/useExpenseQuery";
-import arrow from "../../../public/arrow.svg";
+import arrow from "../../../public/images/arrow.svg";
 import Image from "next/image";
 import React, { useState } from "react";
 import ExpenseItem from "./ExpenseItem";
 import DateRangePicker from "../UI/DateRangePicker";
 import { defaultDatePeriod } from "@/utils/defaultDatePeriod";
+import { IBudgetUpdate } from "@/types/types";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
-const ExpensesList = () => {
+interface ExpensesListProps {
+  budget: IBudgetUpdate;
+}
+
+const ExpensesList: React.FC<ExpensesListProps> = ({ budget }) => {
   const [showList, setShowList] = useState<boolean>(true);
 
   const period = defaultDatePeriod();
@@ -23,24 +28,23 @@ const ExpensesList = () => {
     setEndDate(period.end);
   };
 
-  const queryBudget = useBudgetQuery();
-  const budgetId = queryBudget.data ? queryBudget.data[0]._id : "";
-
-  const { data, isPending } = useExpenseQuery(budgetId, startDate, endDate);
-
+  const { data, isPending } = useExpenseQuery(budget._id, startDate, endDate);
 
   const showExpensesListHandler = () => setShowList((prev) => !prev);
 
-  if (isPending) return <p className="pt-8 text-center text-xl">Loading...</p>;
+  const { tm, tb } = useAppTranslation();
+
+  if (isPending)
+    return <p className="pt-8 text-center text-xl">{tm("loading")}</p>;
 
   return (
     <div>
-      <div className="flex items-center gap-4 flex-wrap-reverse">
+      <div className="flex items-center gap-4 flex-wrap-reverse mb-6">
         <button
           className="flex gap-2 mb-2 cursor-pointer"
           onClick={showExpensesListHandler}
         >
-          <p className="underline">Your expenses for the period:</p>
+          <p className="underline">{tb("yuorExpensesForPeriod")}</p>
           <Image
             src={arrow}
             alt="arrow"
@@ -50,18 +54,23 @@ const ExpensesList = () => {
           />
         </button>
 
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          handleDateStart={handleDateStart}
-          handleDateEnd={handleDateEnd}
-        />
-        <button
-          onClick={handleResetDate}
-          className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
-        >
-          Reset
-        </button>
+        <div className="flex flex-wrap justify-center items-center gap-4">
+          <DateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            handleDateStart={handleDateStart}
+            handleDateEnd={handleDateEnd}
+          />
+          {(startDate?.getTime() !== new Date(period.start).getTime() ||
+            endDate?.getTime() !== new Date(period.end).getTime()) && (
+            <button
+              onClick={handleResetDate}
+              className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+            >
+              {tb("resetPeriod")}
+            </button>
+          )}
+        </div>
       </div>
 
       {data?.length && data.length > 0 ? (
@@ -69,11 +78,11 @@ const ExpensesList = () => {
           {data.map((exp) => (
             <li
               key={exp._id}
-              className={`mb-2 p-2 flex items-center justify-between shadow ${
+              className={`mb-2 p-2 flex items-center justify-between shadow  ${
                 showList ? "block" : "hidden"
               }`}
             >
-              <ExpenseItem exp={exp} />{" "}
+              <ExpenseItem exp={exp} />
             </li>
           ))}
         </ul>

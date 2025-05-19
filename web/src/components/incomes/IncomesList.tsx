@@ -1,32 +1,36 @@
 "use client";
-import { useBudgetQuery } from "@/hooks/useBudgetQuery";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import arrow from "../../../public/arrow.svg";
+import arrow from "../../../public/images/arrow.svg";
+import { IBudgetUpdate } from "@/types/types";
+import { useIncomeQuery } from "@/hooks/useIncomeQuery";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
-const IncomesList = () => {
+interface IncomesListProps {
+  budgetData: IBudgetUpdate;
+}
+
+const IncomesList: React.FC<IncomesListProps> = ({ budgetData }) => {
   const [totalIncome, setTotalIncome] = useState<number>(0);
-  const [showList, setShowList] = useState<boolean>(false);
+  const [showList, setShowList] = useState<boolean>(true);
 
-  const query = useBudgetQuery();
+  const query = useIncomeQuery(budgetData._id);
 
   const { data, isPending } = query;
 
   useEffect(() => {
     if (data) {
-      const total = data[0].income.reduce((acc, item) => {
-        acc = item.sum + acc;
-        return acc;
-      }, 0);
-
+      const total = data?.reduce((acc, item) => acc + item.price, 0);
       setTotalIncome(total);
     }
   }, [data]);
 
   const showIncomeListHandler = () => setShowList((prev) => !prev);
 
+  const { tm,tincome } = useAppTranslation();
+
   if (isPending) {
-    return <p>Loading...</p>;
+    return <p>{tm("loading")}</p>;
   }
 
   if (data) {
@@ -37,11 +41,11 @@ const IncomesList = () => {
             className="flex gap-2 mb-2 cursor-pointer"
             onClick={showIncomeListHandler}
           >
-            <p className="underline">Additional income:</p>
+            <p className="underline">{tincome("additional")}</p>
             <Image
               src={arrow}
               alt="arrow"
-              className={`transition-rotate duration-300 ease-in-out ${
+              className={`transition-rotate duration-300 ease-in-out  ${
                 showList ? "transform rotate-180 " : ""
               }`}
             />
@@ -49,19 +53,14 @@ const IncomesList = () => {
           <ul
             className={`list-disc pl-5 mb-2 ${showList ? "block" : "hidden"}`}
           >
-            {data[0].income.map((item) => (
+            {data.map((item) => (
               <li className="list-disc flex gap-4 text-gray-500" key={item._id}>
-                <p>{item.incomename}</p>
-                <p>{item.sum}₴</p>
+                <p>{item.title}</p>
+                <p>{item.price}₴</p>
               </li>
             ))}
           </ul>
-          <p>
-            Total income: {totalIncome} ₴{" "}
-            <span className="text-gray-300">
-              (start budget: {data[0].budget - totalIncome} ₴)
-            </span>
-          </p>
+          <p>{tincome("total")} {totalIncome} ₴</p>
         </div>
       )
     );

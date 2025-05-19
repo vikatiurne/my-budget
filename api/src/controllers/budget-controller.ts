@@ -10,12 +10,27 @@ class BudgetController {
   ): Promise<Response | void> => {
     try {
       const { budgetdata } = req.body;
-      const budget = await budgetService.addBudget(budgetdata);
-      return res.status(201).json(budget);
+      const budgets = await budgetService.addBudget(budgetdata);
+      return res.status(201).json(budgets);
     } catch (error) {
       next(error);
     }
   };
+
+  getAllBudgets = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      const { userId } = req.params;
+      const budgets = await budgetService.getAllBudgets(userId);
+      return res.status(200).json(budgets);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   getBudget = async (
     req: Request,
     res: Response,
@@ -24,6 +39,7 @@ class BudgetController {
     try {
       const { userId } = req.params;
       const { mounth, year } = req.query;
+
       if (mounth && year) {
         const budget = await budgetService.getBudget(userId, {
           mounth: mounth,
@@ -41,6 +57,21 @@ class BudgetController {
       next(error);
     }
   };
+
+  getBudgetById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      const { budgetId } = req.params;
+      const budget = await budgetService.getBudgetById(budgetId);
+      return res.status(200).json(budget);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   getStatsForPeriod = async (
     req: Request,
     res: Response,
@@ -67,15 +98,24 @@ class BudgetController {
     next: NextFunction
   ): Promise<Response | void> => {
     try {
-      const { userId } = req.params;
-      const { date, income, budget } = req.body;
-      const updatedbudget = await budgetService.updateBudget(
-        userId,
-        date,
-        income,
-        budget
-      );
+      const { budgetId } = req.params;
+      const { income } = req.body;
+      const updatedbudget = await budgetService.updateBudget(budgetId, income);
       return res.status(200).json(updatedbudget);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  deleteBudget = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response | void> => {
+    try {
+      const { budgetId } = req.params;
+      const deleted = await budgetService.deleteBudget(budgetId);
+      return res.status(204).json(deleted);
     } catch (error) {
       next(error);
     }

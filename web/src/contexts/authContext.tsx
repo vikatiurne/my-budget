@@ -60,7 +60,7 @@ export const AuthProvirer: React.FC<AuthProvirerProps> = ({
         : await login(userdata.email, userdata.password),
     onError: (err: AxiosError<ErrorResponse>) => {
       const errPlace = typeAuth === "signup" ? "registration" : "login";
-      err.response
+      return err.response
         ? setTextErr(`Error ${errPlace}: ${err.response.data.message}`)
         : setTextErr(`Unknown error ${errPlace}`);
     },
@@ -93,7 +93,7 @@ export const AuthProvirer: React.FC<AuthProvirerProps> = ({
       logout,
       setErr,
     }),
-    [isAuth, userId, textErr]
+    [isAuth, userId, textErr, isLogout, auth]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

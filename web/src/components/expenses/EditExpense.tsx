@@ -1,11 +1,12 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import edit from "../../../public/edit.svg";
+import edit from "../../../public/images/edit.svg";
 import { IExpense } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateExpense } from "@/utils/api";
 import { useForm } from "react-hook-form";
 import Popap from "../UI/Popap";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface EditExpenseProps {
   expense: IExpense;
@@ -40,6 +41,8 @@ const EditExpense: React.FC<EditExpenseProps> = ({ expense }) => {
     setShowPopap(false);
   };
 
+  const { te, tm, ti, tb } = useAppTranslation();
+
   return (
     <>
       <Image
@@ -51,21 +54,21 @@ const EditExpense: React.FC<EditExpenseProps> = ({ expense }) => {
       {showPopap && (
         <Popap active={showPopap} setActive={() => setShowPopap(false)}>
           <h6 className="text-white text-center mb-4 uppercase">
-            Edit Expense
+            {te("editExpense")}
           </h6>
           <form onSubmit={handleSubmit(onSubmit)} className="">
             <div className="flex gap-4 items-center mb-4">
               <input
-                className=" p-2 block w-1/2  border-gray-300 outline-none rounded shadow-sm  bg-yellow-50"
-                placeholder="title an expense sourse.."
+                className=" p-2 block w-1/2  border-gray-300 outline-none rounded shadow-sm  bg-yellow-50 text-black"
+                placeholder={ti("expenseSourse")}
                 type="text"
-                {...register("title", { required: "this field is required" })}
+                {...register("title", { required: tm("required") })}
               />
               <input
-                className=" p-2 block w-1/2 border-gray-300 outline-none rounded shadow-sm bg-yellow-50"
+                className=" p-2 block w-1/2 border-gray-300 outline-none rounded shadow-sm bg-yellow-50 text-black"
                 type="number"
-                placeholder="type a sum..."
-                {...register("price", { required: "this field is required" })}
+                placeholder={ti("sum")}
+                {...register("price", { required: tm("required") })}
               />
             </div>
             <div className="flex gap-4 items-center justify-center">
@@ -73,14 +76,14 @@ const EditExpense: React.FC<EditExpenseProps> = ({ expense }) => {
                 type="submit"
                 className="py-2 px-4 shadow rounded cursor-pointer bg-blue-200 text-[#6e5514] hover:bg-blue-300 hover:text-white"
               >
-                Save
+                {tb("save")}
               </button>
               <button
                 type="button"
                 onClick={() => setShowPopap(false)}
                 className="py-2 px-2.5 shadow rounded cursor-pointer bg-yellow-200 text-[#6e5514] hover:bg-yellow-300 hover:text-white"
               >
-                Cancel
+                {tb("cancel")}
               </button>
             </div>
           </form>

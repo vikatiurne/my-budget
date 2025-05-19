@@ -4,10 +4,7 @@ const { Router } = require("express");
 
 const router = new Router();
 
-router.get(
-  "/getExpenses/:userId/budget/:budgetId",
-  expenseController.getExpenses
-);
+router.get("/getExpenses/:budgetId", expenseController.getExpenses);
 router.get("/getDayStatsExpenses/:userId", expenseController.getStatsForDay);
 router.get(
   "/getPeriodStatsExpenses/:userId",

@@ -1,23 +1,19 @@
 import { getExpenses } from "@/utils/api";
-import { useAuthContext } from "./useAuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { ErrorResponse, IExpense } from "@/types/types";
 import { AxiosError } from "axios";
 
-const expenseQueryOptions = (
+const useExpenseQueryOptions = (
   budgetId: string,
   fromDate: Date,
   tillDate: Date
 ) => {
-  const { userId } = useAuthContext();
   const from = fromDate.toISOString();
   const till = tillDate.toISOString();
 
-
-
   return {
-    queryKey: ["expense", userId, budgetId, from, till],
-    queryFn: () => getExpenses(userId, budgetId, from, till),
+    queryKey: ["expense",  budgetId, from, till],
+    queryFn: () => getExpenses( budgetId, from, till),
   };
 };
 
@@ -27,5 +23,5 @@ export const useExpenseQuery = (
   tillDate: Date
 ) =>
   useQuery<IExpense[], AxiosError<ErrorResponse>>(
-    expenseQueryOptions(budget_id, fromDate, tillDate)
+    useExpenseQueryOptions(budget_id, fromDate, tillDate)
   );

@@ -2,45 +2,51 @@
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
 import { IExpense, Income } from "@/types/types";
+import { FaCheck } from "react-icons/fa";
+import { useAppTranslation } from "@/hooks/useAppTranslation";
 
 interface FormContentProps {
-  typeForm: "title" | "incomename";
+  typeForm: string;
+  includeField?: boolean;
   register: UseFormRegister<Income | IExpense>;
 }
 
-const FormContent: React.FC<FormContentProps> = ({ typeForm, register }) => {
+const FormContent: React.FC<FormContentProps> = ({
+  typeForm,
+  register,
+  includeField = true,
+}) => {
+  const { ti, tm } = useAppTranslation();
+
   return (
-    <>
-      <div className="flex gap-4 items-center">
-        <input
-          className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm "
-          {...register(typeForm === "title" ? "title" : "incomename", {
-            required: "This field is required",
-          })}
-          type="text"
-          autoComplete="true"
-          name={typeForm}
-          placeholder={`type  ${
-            typeForm === "title" ? "an expense" : "a income"
-          } source...`}
-        />
-        <input
-          className=" p-2 block w-1/4 border-gray-300 outline-none rounded shadow-sm "
-          {...register(typeForm === "title" ? "price" : "sum", {
-            required: "this field is required",
-          })}
-          type="number"
-          name={typeForm === "title" ? "price" : "sum"}
-          placeholder="type a sum..."
-        />
-      </div>
+    <div className="flex gap-4 items-center">
+      <input
+        className="flex-1 p-2 block w-full border-gray-300 outline-none rounded shadow-sm "
+        {...register("title", {
+          required: includeField ? tm("required") : false,
+        })}
+        type="text"
+        autoComplete="true"
+        name="title"
+        placeholder={typeForm}
+      />
+
+      <input
+        className={`p-2 block w-1/4 border-gray-300  outline-none rounded shadow-sm `}
+        {...register("price", {
+          required: tm("required"),
+        })}
+        type="number"
+        name="price"
+        placeholder={ti("sum")}
+      />
       <button
-        className="py-2 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
+        className="py-3 px-4 shadow-md rounded bg-[#daa520] text-white uppercase text-sm cursor-pointer"
         type="submit"
       >
-        {typeForm === "title" ? "Add Expense" : "Add income"}
+        <FaCheck />
       </button>
-    </>
+    </div>
   );
 };
 
